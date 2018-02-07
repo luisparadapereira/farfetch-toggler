@@ -1,10 +1,11 @@
 ﻿using System;
 using AutoMapper;
+using Farfetch.APIHandler.Authorization.DTO;
 using Farfetch.Models;
 using Farfetch.ServiceFactory;
 using Farfetch.UserAccounts.Service;
 
-namespace Farfetch.APIHandler.Authorization.DTO
+namespace Farfetch.APIHandler.Authorization
 {
     /// <inheritdoc />
     /// <summary>

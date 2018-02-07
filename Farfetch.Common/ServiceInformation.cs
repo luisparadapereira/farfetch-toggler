@@ -7,7 +7,7 @@ namespace Farfetch.AppCommon
     /// <summary>
     /// Defines application information such as assembly name and version
     /// </summary>
-    public class ApplicationInformation
+    public class ServiceInformation
     {
         /// <summary>
         /// The assembly that has called this class

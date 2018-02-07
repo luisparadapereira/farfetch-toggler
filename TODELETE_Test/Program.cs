@@ -13,8 +13,8 @@ namespace TODELETE_Test
     {
         static void Main(string[] args)
         {
-            //Number plusApp = new Number();
-            //int feh = plusApp.CalcNumber(4);
+            Number plusApp = new Number();
+            int feh = plusApp.CalcNumber(4);
             //int a = 2;
 
             //Factory factory = new Factory();
@@ -95,16 +95,16 @@ namespace TODELETE_Test
 
             //Console.ReadLine();
 
-            User publicUser = new User
-            {
-                Id = Guid.Empty,
-                Password = "user",
-                Username = "common",
-                Profile = "Public"
-            };
+            //User publicUser = new User
+            //{
+            //    Id = Guid.Empty,
+            //    Password = "user",
+            //    Username = "common",
+            //    Profile = "Public"
+            //};
 
-            CoreUnit<User> core = new CoreUnit<User>();
-            core.Repository.Insert(publicUser);
+            //CoreUnit<User> core = new CoreUnit<User>();
+            //core.Repository.Insert(publicUser);
 
         }
     }

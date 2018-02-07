@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Farfetch.CoreUnitOfWork\Farfetch.CoreUnitOfWork.csproj" />
     <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
     <ProjectReference Include="..\Farfetch.Service.Interface\Farfetch.ServiceManager.csproj" />

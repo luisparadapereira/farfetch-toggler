@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Farfetch.RestAPI.Controllers
 {
+    /// <inheritdoc cref="ITogglerApi" />
     [Route("[controller]")]
     public class TogglerController : Controller, ITogglerApi
     {
@@ -17,9 +18,6 @@ namespace Farfetch.RestAPI.Controllers
         [Authorize]
         public TogglerMessage<IEnumerable<ToggleDto>> GetAll()
         {
-            //var currentUser = HttpContext.User;
-
-            //string userType = currentUser.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
             return togglerPublic.GetAll();
 
@@ -27,7 +25,7 @@ namespace Farfetch.RestAPI.Controllers
 
         /// <inheritdoc/>
         [HttpGet("{toggleName}/{toggleValue}/{serviceName}/{serviceVersion}")]
-        [Authorize]
+        [Authorize()]
         public TogglerMessage<bool> GetForService(string toggleName, bool toggleValue, string serviceName, string serviceVersion)
         {
             if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));

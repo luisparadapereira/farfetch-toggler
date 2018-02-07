@@ -44,7 +44,7 @@ namespace Farfetch.APIHandler.TogglerAPI
         /// <param name="applicationName">The name of the application/service</param>
         /// <param name="applicationVersion">The version of the application/service</param>
         /// <returns>Boolean specifying if the operation should be executed or not</returns>
-        public bool CheckToggle(string toggleName, bool toggleValue, string applicationName, string applicationVersion)
+        public bool CheckToggle(string toggleName, bool toggleValue, string applicationName, string applicationVersion, string apiKey)
         {
             if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));
             if (string.IsNullOrEmpty(applicationName)) throw new ArgumentNullException(nameof(applicationName));
@@ -54,7 +54,7 @@ namespace Farfetch.APIHandler.TogglerAPI
             string urlQuery = serverLocation + "Toggler/" + toggleName + "/" + toggleValue + "/" + applicationName + "/" + applicationVersion;
 
             if (_apiCommunication == null) throw new NullReferenceException("API Communication isn't defined");
-            TogglerMessage<bool> response = _apiCommunication.ApiGet<TogglerMessage<bool>>(urlQuery).Result;
+            TogglerMessage<bool> response = _apiCommunication.ApiGet<TogglerMessage<bool>>(urlQuery, apiKey).Result;
 
             return response != null && response.Result;
         }

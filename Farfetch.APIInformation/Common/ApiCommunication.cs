@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -29,9 +30,14 @@ namespace Farfetch.APIHandler.Common
         /// <typeparam name="T">The type of output we're expecting</typeparam>
         /// <param name="url">The URL to query</param>
         /// <returns>A result of type T</returns>
-        internal async Task<T> ApiGet<T>(string url) where T : class
+        internal async Task<T> ApiGet<T>(string url, string apiKey = null) where T : class
         {
             if (_client == null) throw new NullReferenceException("HttpClient hasn't been initialized");
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            }
+
             HttpResponseMessage response = await _client.GetAsync(url);
             if (!response.IsSuccessStatusCode) return null;
 
@@ -48,11 +54,15 @@ namespace Farfetch.APIHandler.Common
         /// <param name="url">The post Url</param>
         /// <param name="entity">The entity to post</param>
         /// <returns>A result of type TO</returns>
-        internal async Task<TO> ApiPost<TO, T>(string url, T entity) where T: class, TO
+        internal async Task<TO> ApiPost<TO, T>(string url, T entity, string apiKey = null) where T: class, TO
         {
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(entity));
-
             if (_client == null) throw new NullReferenceException("HttpClient hasn't been initialized");
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            }
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(entity));
             HttpResponseMessage response = await _client.PostAsync(url, content);
             if (!response.IsSuccessStatusCode) return default(TO);
 
@@ -69,11 +79,15 @@ namespace Farfetch.APIHandler.Common
         /// <param name="url">The put Url</param>
         /// <param name="entity">The entity to put</param>
         /// <returns>A result of type TO</returns>
-        internal async Task<TO> ApiPut<TO, T>(string url, T entity) where T : class, TO
+        internal async Task<TO> ApiPut<TO, T>(string url, T entity, string apiKey = null) where T : class, TO
         {
-            HttpContent content = new StringContent(JsonConvert.SerializeObject(entity));
-
             if (_client == null) throw new NullReferenceException("HttpClient hasn't been initialized");
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            }
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(entity));
             HttpResponseMessage response = await _client.PutAsync(url, content);
             if (!response.IsSuccessStatusCode) return default(TO);
 
@@ -88,9 +102,14 @@ namespace Farfetch.APIHandler.Common
         /// <typeparam name="T">The type of output we're expecting</typeparam>
         /// <param name="url">The URL to delete</param>
         /// <returns>A result of type T</returns>
-        internal async Task<T> ApiDelete<T>(string url) where T : class
+        internal async Task<T> ApiDelete<T>(string url, string apiKey = null) where T : class
         {
             if (_client == null) throw new NullReferenceException("HttpClient hasn't been initialized");
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            }
+
             HttpResponseMessage response = await _client.DeleteAsync(url);
             if (!response.IsSuccessStatusCode) return null;
 

@@ -1,17 +1,21 @@
 ﻿using Farfetch.AppCommon;
+using Farfetch.APIHandler.Common;
 using Farfetch.APIHandler.TogglerAPI;
+using Farfetch.Common;
 
 namespace Farfetch.PlusApp
 {
     /// <summary>
     /// Example service application where a toggle is used
     /// </summary>
-    public class Number: ApplicationInformation
+    public class Number: ApiService
     {
         /// <summary>
         /// The value to add to the input number
         /// </summary>
         private const int VALUE_TO_ADD = 2;
+
+       
 
         /// <summary>
         /// The Toggler API Communication
@@ -25,6 +29,7 @@ namespace Farfetch.PlusApp
         public Number()
         {
             GetApplicationInformation(typeof(Number));
+            GetApiKey(CallingAssemblyName, CallingAssemblyVersion);
             _togglerApiInternal = new TogglerApiInternal();
         }
 
@@ -40,7 +45,7 @@ namespace Farfetch.PlusApp
         {
             int valueToReturn = number;
 
-            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion))
+            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
             {
                 valueToReturn = number + VALUE_TO_ADD;
             }
