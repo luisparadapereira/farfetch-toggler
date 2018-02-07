@@ -1,0 +1,8 @@
+﻿{
+  "Database": "MongoDB",
+  "Server": "localhost",
+  "Port": 27017,
+  "Username": "",
+  "Password": "",
+  "DatabaseName": "FarfetchAssignment_v1" 
+}
