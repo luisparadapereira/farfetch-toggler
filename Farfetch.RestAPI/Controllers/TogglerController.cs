@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using Farfetch.APIHandler.TogglerAPI;
 using Farfetch.APIHandler.TogglerAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Farfetch.RestAPI.Controllers
@@ -11,14 +14,20 @@ namespace Farfetch.RestAPI.Controllers
     {
         /// <inheritdoc />
         [HttpGet]
+        [Authorize]
         public TogglerMessage<IEnumerable<ToggleDto>> GetAll()
         {
+            //var currentUser = HttpContext.User;
+
+            //string userType = currentUser.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
             return togglerPublic.GetAll();
+
         }
 
         /// <inheritdoc/>
         [HttpGet("{toggleName}/{toggleValue}/{serviceName}/{serviceVersion}")]
+        [Authorize]
         public TogglerMessage<bool> GetForService(string toggleName, bool toggleValue, string serviceName, string serviceVersion)
         {
             if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));
@@ -31,6 +40,7 @@ namespace Farfetch.RestAPI.Controllers
 
         /// <inheritdoc />
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public TogglerMessage<bool> Insert([FromBody] ToggleDto toggleDto)
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
@@ -39,6 +49,7 @@ namespace Farfetch.RestAPI.Controllers
 
         /// <inheritdoc />
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public TogglerMessage<bool> Update([FromBody] ToggleDto toggleDto)
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
@@ -47,6 +58,7 @@ namespace Farfetch.RestAPI.Controllers
 
         /// <inheritdoc />
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public TogglerMessage<bool> Delete([FromBody] ToggleDto toggleDto)
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();

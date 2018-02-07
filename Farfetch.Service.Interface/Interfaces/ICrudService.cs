@@ -19,12 +19,19 @@ namespace Farfetch.ServiceManager.Interfaces
         /// <returns>An IEnumerable. Null if none</returns>
         IEnumerable<T> GetBy(Expression<Func<T, bool>> expression);
 
-            /// <summary>
+        /// <summary>
         /// Gets the item of type T that has the same Id has the input
         /// </summary>
         /// <param name="id">A Guid holding the Id to match</param>
         /// <returns>The matching item retrived from the database or null in case it doesn't find it</returns>
         T GetById(Guid id);
+
+        /// <summary>
+        /// Gets the item of type T that fulfills the expression
+        /// </summary>
+        /// <param name="expression">The predicate to test</param>
+        /// <returns>The matching item retrived from the database or null in case it doesn't find it</returns>
+        T GetByExpression(Expression<Func<T, bool>> expression);
 
         /// <summary>
         /// Inserts a new value into the database

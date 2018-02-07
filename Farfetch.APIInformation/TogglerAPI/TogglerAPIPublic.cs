@@ -8,6 +8,7 @@ using Farfetch.Toggler.Service;
 
 namespace Farfetch.APIHandler.TogglerAPI
 {
+    /// <inheritdoc />
     /// <summary>
     /// Method that handles all the calls from the client application and translates them into service language
     /// This class know about two types of models:

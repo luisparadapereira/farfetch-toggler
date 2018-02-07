@@ -41,6 +41,17 @@ namespace Farfetch.ServiceManager
         }
 
         /// <inheritdoc />
+        public T GetByExpression(Expression<Func<T, bool>> expression)
+        {
+            if (expression == null) throw new ArgumentNullException(nameof(expression));
+            if (CoreUnit == null) throw new NullReferenceException("CoreUnit wasn't initialized");
+            if (CoreUnit.Repository == null) throw new NullReferenceException("Repository wasn't initialized");
+
+            var result = CoreUnit.Repository.GetSingle(expression);
+            return result;
+        }
+
+        /// <inheritdoc />
         public void Insert(T value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
