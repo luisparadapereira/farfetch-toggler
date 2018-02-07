@@ -1,4 +1,6 @@
 ﻿using System;
+using Farfetch.Common;
+using Farfetch.DB;
 using Farfetch.DB.MongoDB;
 using Farfetch.Models;
 using Farfetch.Repositories;
@@ -9,25 +11,33 @@ namespace Farfetch.CoreUnitOfWork
 {
     public class CoreUnit<T> where T : DbT
     {
-        private Settings _settings;
+        private const string SETTINGS_FILEPATH = @"dbsettings.json";
 
-        public IRepository<T> Repository { get; set; }
+        private readonly DbSettings _dbSettings;
 
+        public IRepository<T> Repository { get; private set; }
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public CoreUnit()
         {
-            _settings = Settings.Instance;
+            SettingsReader<DbSettings> reader = new SettingsReader<DbSettings>();
+            _dbSettings = reader.Read(SETTINGS_FILEPATH);
             InitDatabase();
         }
 
-        public void InitDatabase()
+        /// <summary>
+        /// Initializes the database
+        /// </summary>
+        private void InitDatabase()
         {
-            if(_settings == null) throw new NullReferenceException("Settings haven't been defined");
-            if(_settings.DbSettings == null) throw new NullReferenceException("DbSettings haven't been defined");
-            switch (_settings.DbSettings.Database)
+            if(_dbSettings == null) throw new NullReferenceException("DbSettings haven't been defined");
+            switch (_dbSettings.Database)
             {
                 case "MongoDB":
-                    MongoDatabase<IMongoDatabase> database = new MongoDatabase<IMongoDatabase>();
-                    database.Init(_settings.DbSettings);
+                    IDatabase<IMongoDatabase> database = new MongoDatabase<IMongoDatabase>();
+                    database.Init(_dbSettings);
                     Repository = new MongoRepository<T>(database);
                     break;
                 default:

@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Farfetch.Common\Farfetch.Common.csproj" />
     <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
     <ProjectReference Include="..\Farfetch.Repositories\Farfetch.Repositories.csproj" />
   </ItemGroup>

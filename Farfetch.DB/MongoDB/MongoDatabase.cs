@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MongoDB.Driver;
 
 namespace Farfetch.DB.MongoDB
 {
-    public class MongoDatabase<T>: BaseDatabase, IDatabase<T>
+    public class MongoDatabase<T>: IDatabase<T>
     {
         private MongoClient _client;
         private DbSettings _settings;
+        private string _connectionString;
 
         /// <inheritdoc />
         public void Init(DbSettings settings)
         {
             _settings = settings;
-            string connectionString = BuildConnectionString(settings);
-            _client = new MongoClient(connectionString);
+            BuildConnectionString();
+            _client = new MongoClient(_connectionString);
         }
 
         /// <inheritdoc />
@@ -26,23 +26,23 @@ namespace Farfetch.DB.MongoDB
         }
 
         /// <inheritdoc />
-        internal override string BuildConnectionString(DbSettings settings)
+        /// <remarks>
+        /// Mongo Specific Connection String: mongodb://[username:password@]hostname[:port][/[database][?options]]
+        /// </remarks>
+        public void BuildConnectionString()
         {
-            if (settings == null) throw new ArgumentNullException(nameof(settings));
-            if (string.IsNullOrEmpty(settings.Database)) throw new NullReferenceException("Database not defined");
-            if (string.IsNullOrEmpty(settings.Server)) throw new NullReferenceException("Server not defined");
-            if (string.IsNullOrEmpty(settings.Port)) throw new NullReferenceException("Port not defined");
+            if (_settings == null) throw new NullReferenceException("Settings are not defined");
+            if (string.IsNullOrEmpty(_settings.Database)) throw new NullReferenceException("Database not defined");
+            if (string.IsNullOrEmpty(_settings.Server)) throw new NullReferenceException("Server not defined");
+            if (string.IsNullOrEmpty(_settings.Port)) throw new NullReferenceException("Port not defined");
 
-            // mongodb://[username:password@]hostname[:port][/[database][?options]]
-            string connectionString = settings.Server + ":" + settings.Port;
-            if (!string.IsNullOrEmpty(settings.Username) && !string.IsNullOrEmpty(settings.Password))
+            _connectionString = _settings.Server + ":" + _settings.Port;
+            if (!string.IsNullOrEmpty(_settings.Username) && !string.IsNullOrEmpty(_settings.Password))
             {
-                connectionString = settings.Username + ":" + settings.Password + "@";
+                _connectionString = _settings.Username + ":" + _settings.Password + "@";
             }
 
-            connectionString = "mongodb://" + connectionString;
-
-            return connectionString;
+            _connectionString = "mongodb://" + _connectionString;
         }
     }
 }

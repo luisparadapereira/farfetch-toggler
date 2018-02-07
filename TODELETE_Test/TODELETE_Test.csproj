@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Farfetch.CoreUnitOfWork\Farfetch.CoreUnitOfWork.csproj" />
     <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
     <ProjectReference Include="..\Farfetch.PlusApp\Farfetch.PlusApp.csproj" />

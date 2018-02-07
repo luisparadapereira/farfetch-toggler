@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Farfetch.Models;
+using Farfetch.ServiceManager.BaseServices;
 using Farfetch.ServiceManager.Interfaces;
 
 namespace Farfetch.ServiceManager
 {
-    public class BaseCrudService<T>: BaseService<T>, ICrudService<T> where T: DbT
+    public class DbCrudService<T>: DbService<T>, ICrudService<T> where T: DbT
     {
         /// <inheritdoc />
         public IEnumerable<T> GetAll()
@@ -29,7 +30,6 @@ namespace Farfetch.ServiceManager
             return allResults?.Count > 0 ? allResults : null;
         }
 
-
         /// <inheritdoc />
         public T GetById(Guid id)
         {
@@ -46,6 +46,8 @@ namespace Farfetch.ServiceManager
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (CoreUnit == null) throw new NullReferenceException("CoreUnit wasn't initialized");
             if (CoreUnit.Repository == null) throw new NullReferenceException("Repository wasn't initialized");
+
+            value.Id = Guid.NewGuid();
 
             CoreUnit.Repository.Insert(value);
         }

@@ -5,8 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Farfetch.APIInformation\Farfetch.APIHandler.csproj" />
-    <ProjectReference Include="..\Farfetch.Toggler\Farfetch.Toggler.csproj" />
+    <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
   </ItemGroup>
 
 </Project>

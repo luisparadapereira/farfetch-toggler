@@ -1,36 +1,48 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
-using Farfetch.Toggler.AppManager;
+﻿using Farfetch.AppCommon;
+using Farfetch.APIHandler.TogglerAPI;
 
 namespace Farfetch.PlusApp
 {
-    public class Number
+    /// <summary>
+    /// Example service application where a toggle is used
+    /// </summary>
+    public class Number: ApplicationInformation
     {
-        private int valueToAdd = 2;
+        /// <summary>
+        /// The value to add to the input number
+        /// </summary>
+        private const int VALUE_TO_ADD = 2;
 
-        private bool Check(string toggleName, bool toggleValue)
+        /// <summary>
+        /// The Toggler API Communication
+        /// </summary>
+        private readonly TogglerApiInternal _togglerApiInternal;
+
+        /// <summary>
+        /// Default constructor gathers application information and the initializes
+        /// the toggle API communication
+        /// </summary>
+        public Number()
         {
-            if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));
-            string executingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            string version = fvi.FileVersion;
-
-            return CheckToggle.ShouldExec(toggleName, toggleValue, "service1", "1.0.0");
-
-            // Call via http to localhost blah
-
+            GetApplicationInformation(typeof(Number));
+            _togglerApiInternal = new TogglerApiInternal();
         }
 
+        /// <summary>
+        /// Given a number x will return number y.
+        /// Depending if the togle is active or not:
+        /// y = x -> toggle not active
+        /// y = x + VALUE_TO_ADD -> toggle active
+        /// </summary>
+        /// <param name="number">The number to calculate</param>
+        /// <returns>the input number with a possible operation on it</returns>
         public int CalcNumber(int number)
         {
             int valueToReturn = number;
 
-            if (Check("toggle55", true))
+            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion))
             {
-                valueToReturn = number + valueToAdd;
+                valueToReturn = number + VALUE_TO_ADD;
             }
 
             return valueToReturn;

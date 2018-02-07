@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Farfetch.Common\Farfetch.Common.csproj" />
+    <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
+    <ProjectReference Include="..\Farfetch.Service.Interface\Farfetch.ServiceManager.csproj" />
+    <ProjectReference Include="..\Farfetch.ServiceFactory\Farfetch.ServiceFactory.csproj" />
+    <ProjectReference Include="..\Farfetch.Toggler\Farfetch.Toggler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\..\..\.nuget\packages\automapper\6.2.2\lib\netstandard1.3\AutoMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TogglerAPI\restSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

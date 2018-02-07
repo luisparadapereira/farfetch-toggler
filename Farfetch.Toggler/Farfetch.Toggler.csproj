@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Farfetch.Service.Interface\Farfetch.ServiceManager.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
-
 </Project>

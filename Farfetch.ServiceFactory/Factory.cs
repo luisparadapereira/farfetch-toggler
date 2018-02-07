@@ -5,18 +5,26 @@ using Farfetch.UserAccounts.Service;
 
 namespace Farfetch.ServiceFactory
 {
+    /// <summary>
+    /// Centralized location to retrieve services.
+    /// </summary>
     public class Factory
     {
-        public IService GetService(string serviceName)
+        /// <summary>
+        /// Factory returns the service associated to the FactoryService enum
+        /// </summary>
+        /// <param name="service">The type of service</param>
+        /// <returns>An IService</returns>
+        public IService GetDbService(FactoryService service)
         {
-            switch (serviceName)
+            switch (service)
             {
-                case "togglerService":
+                case FactoryService.Toggler:
                     return new TogglerService();
-                case "userAccountService":
+                case FactoryService.UserAccounts:
                     return new UserAccountService();
                 default:
-                    throw new OperationCanceledException("Service name not found. <<" + serviceName + ">>");
+                    throw new OperationCanceledException("Service name not found.");
             }
         }
     }

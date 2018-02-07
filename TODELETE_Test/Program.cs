@@ -16,7 +16,7 @@ namespace TODELETE_Test
             int a = 2;
 
             //Factory factory = new Factory();
-            //TogglerService service = factory.GetService("togglerService") as TogglerService;
+            //TogglerService service = factory.GetDbService("togglerService") as TogglerService;
 
             //Toggle toggle = new Toggle()
             //{

@@ -7,7 +7,7 @@ using Farfetch.ServiceManager.Interfaces;
 
 namespace Farfetch.UserAccounts.Service
 {
-    public class UserAccountService: BaseCrudService<User>
+    public class UserAccountService: DbCrudService<User>, IService
     {
        
     }
