@@ -1,0 +1,43 @@
+<div class="slds-grid slds-wrap">
+  <div class="slds-col slds-size_12-of-12">
+    <div class="slds-context-bar">
+      <div class="slds-context-bar__primary">
+        <div class="slds-context-bar__item slds-context-bar__dropdown-trigger slds-dropdown-trigger slds-dropdown-trigger_click slds-no-hover">
+          <span class="slds-context-bar__label-action slds-context-bar__app-name">
+            <a href="/"><img class="site-logo slds-align_absolute-center" src="assets/images/Logo.png"></a>
+          </span>
+        </div>
+      </div>
+      <nav class="slds-context-bar__secondary" role="navigation">
+        <ul class="slds-grid">
+          <li class="slds-context-bar__item" [ngClass]="getClass('user')">
+            <a href="javascript:void(0);" class="slds-context-bar__label-action" title="User Management" (click)=goToManageUsers()>
+              <span class="slds-truncate" title="User Management">Manage Users</span>
+            </a>
+          </li>
+          <li class="slds-context-bar__item" [ngClass]="getClass('toggle')">
+            <a href="javascript:void(0);" class="slds-context-bar__label-action" title="Manage Toggles" (click)=goToManageToggle()>
+              <span class="slds-assistive-text">Current Page:</span>
+              <span class="slds-truncate" title="Manage Toggles">Manage Toggles</span>
+            </a>
+          </li>
+          <li class="slds-context-bar__item" [ngClass]="getClass('service')">
+            <a href="javascript:void(0);" class="slds-context-bar__label-action" title="Register Service" (click)=goToManageService()>
+              <span class="slds-truncate" title="Register Service">Manage Services</span>
+            </a>
+          </li>
+          <li class="slds-context-bar__item">
+            <a href="javascript:void(0);" class="slds-context-bar__label-action" title="Logout" (click)=goToManageLogout()>
+              <span class="slds-truncate" title="Logout">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+  <div class="slds-col slds-size_12-of-12">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

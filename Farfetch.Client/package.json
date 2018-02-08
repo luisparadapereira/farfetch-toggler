@@ -1,0 +1,43 @@
+{
+  "name": "farfetch.client",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^5.0.2",
+    "@angular/common": "^5.0.2",
+    "@angular/compiler": "^5.0.2",
+    "@angular/core": "^5.0.2",
+    "@angular/forms": "^5.0.2",
+    "@angular/http": "^5.0.2",
+    "@angular/platform-browser": "^5.0.2",
+    "@angular/platform-browser-dynamic": "^5.0.2",
+    "@angular/router": "^5.0.2",
+    "angular2-jwt": "*",
+    "classlist.js": "^1.1.20150312",
+    "core-js": "*",
+    "ng-lightning": "*",
+    "rxjs": "5.5.2",
+    "typescript": "^2.6.1",
+    "zone.js": "*"
+  },
+  "devDependencies": {
+    "@angular/cli": "*",
+    "@angular/compiler-cli": "^5.0.2",
+    "@angular/language-service": "*",
+    "@types/node": "*",
+    "codelyzer": "*",
+    "ts-node": "*",
+    "tslint": "*",
+    "typescript": "^2.4.2",
+    "webpack-bundle-analyzer": "^2.9.1"
+  }
+}

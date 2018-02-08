@@ -23,6 +23,8 @@ namespace Farfetch.ServiceFactory
                     return new TogglerService();
                 case FactoryService.UserAccounts:
                     return new UserAccountService();
+                case FactoryService.TogglerApplication:
+                    return new ApplicationService();
                 default:
                     throw new OperationCanceledException("Service name not found.");
             }

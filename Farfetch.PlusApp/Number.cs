@@ -2,6 +2,7 @@
 using Farfetch.APIHandler.Common;
 using Farfetch.APIHandler.TogglerAPI;
 using Farfetch.Common;
+using MongoDB.Driver.Core.Events;
 
 namespace Farfetch.PlusApp
 {
@@ -14,8 +15,6 @@ namespace Farfetch.PlusApp
         /// The value to add to the input number
         /// </summary>
         private const int VALUE_TO_ADD = 2;
-
-       
 
         /// <summary>
         /// The Toggler API Communication

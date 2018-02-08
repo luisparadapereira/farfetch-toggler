@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Farfetch.APIHandler.TogglerAPI.DTO;
 using Farfetch.Models;
@@ -15,12 +16,13 @@ namespace Farfetch.APIHandler.TogglerAPI
     /// - The ones in the client which this class expects to receive and transmit
     /// - The ones in the service which this class will convert from and into client models
     /// </summary>
-    public class TogglerApiPublic: ITogglerApi
+    public class TogglerApiPublic : ITogglerApi
     {
         /// <summary>
         /// The Toggler service that is defined on the constructor
         /// </summary>
         private readonly TogglerService _togglerService;
+        private readonly ApplicationService _applicationService;
 
         /// <summary>
         /// Default constructor defines the service
@@ -29,22 +31,40 @@ namespace Farfetch.APIHandler.TogglerAPI
         {
             Factory factory = new Factory();
             _togglerService = factory.GetDbService(FactoryService.Toggler) as TogglerService;
+            _applicationService = factory.GetDbService(FactoryService.TogglerApplication) as ApplicationService;
+
         }
 
         /// <inheritdoc />
-        public TogglerMessage<IEnumerable<ToggleDto>> GetAll()
+        public TogglerMessage<IEnumerable<ToggleListDto>> GetAll()
         {
             if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
             IEnumerable<Toggle> toggleList = _togglerService.GetAll();
-            IEnumerable<ToggleDto> toggleDtoList = Mapper.Map<IEnumerable<Toggle>, IEnumerable<ToggleDto>>(toggleList);
-            if (toggleDtoList == null) throw new AutoMapperMappingException("Error mapping types");
-
-            return new TogglerMessage<IEnumerable<ToggleDto>>
+            IEnumerable<ToggleListDto> toggleDtoList = new List<ToggleListDto>();
+            if (toggleList != null && toggleList.Count() != 0)
             {
-                Result = toggleDtoList,
-                Message = "Not Implemented Yet"
+                toggleDtoList = Mapper.Map<IEnumerable<Toggle>, IEnumerable<ToggleListDto>>(toggleList);
+                if (toggleDtoList == null) throw new AutoMapperMappingException("Error mapping types");
+            }
+            return new TogglerMessage<IEnumerable<ToggleListDto>>
+            {
+                Result = toggleDtoList
             };
 
+        }
+
+        /// <inheritdoc />
+        public TogglerMessage<ToggleDto> Get(Guid id)
+        {
+            if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
+            Toggle toggle = _togglerService.GetById(id);
+            ToggleDto toggleDto = Mapper.Map<Toggle, ToggleDto>(toggle);
+            if (toggleDto == null) throw new AutoMapperMappingException("Error mapping types");
+
+            return new TogglerMessage<ToggleDto>
+            {
+                Result = toggleDto
+            };
         }
 
         /// <inheritdoc />
@@ -79,35 +99,109 @@ namespace Farfetch.APIHandler.TogglerAPI
         }
 
         /// <inheritdoc />
-        public TogglerMessage<bool> Insert(ToggleDto toggleDto)
+        public TogglerMessage<ToggleDto> Insert(ToggleDto toggleDto)
         {
             if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
 
             Toggle toggle = Mapper.Map<ToggleDto, Toggle>(toggleDto);
             if (toggle == null) throw new AutoMapperMappingException("Error mapping types");
             _togglerService.Insert(toggle);
-            return new TogglerMessage<bool>();
+            toggle = _togglerService.GetByExpression(x => x.Value == toggleDto.Value && x.Overrides == toggleDto.Overrides && x.Name == toggleDto.Name);
+            toggleDto = Mapper.Map<Toggle, ToggleDto>(toggle);
+            if (toggle == null) throw new AutoMapperMappingException("Error mapping types");
+            return new TogglerMessage<ToggleDto>
+            {
+                Result = toggleDto,
+            };
         }
 
         /// <inheritdoc />
-        public TogglerMessage<bool> Update(ToggleDto toggleDto)
+        public TogglerMessage<ToggleDto> Update(ToggleDto toggleDto)
         {
             if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
 
             Toggle toggle = Mapper.Map<ToggleDto, Toggle>(toggleDto);
             if (toggle == null) throw new AutoMapperMappingException("Error mapping types");
             _togglerService.Update(toggle);
+            toggle = _togglerService.GetById(toggle.Id);
+
+            toggleDto = Mapper.Map<Toggle, ToggleDto>(toggle);
+            if (toggle == null) throw new AutoMapperMappingException("Error mapping types");
+            return new TogglerMessage<ToggleDto>
+            {
+                Result = toggleDto,
+            };
+        }
+
+        /// <inheritdoc />
+        public TogglerMessage<bool> Delete(Guid id)
+        {
+            if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
+
+            _togglerService.Delete(id);
             return new TogglerMessage<bool>();
         }
 
         /// <inheritdoc />
-        public TogglerMessage<bool> Delete(ToggleDto toggleDto)
+        public TogglerMessage<IEnumerable<ServiceDto>> GetAllServices()
         {
-            if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
+            if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
+            IEnumerable<Models.Service> serviceList = _applicationService.GetAll();
+            IEnumerable<ServiceDto> serviceDtoList = new List<ServiceDto>();
+            if (serviceList!=null && serviceList.Count() != 0)
+            {
+                serviceDtoList = Mapper.Map<IEnumerable<Models.Service>, IEnumerable<ServiceDto>>(serviceList);
+                if (serviceDtoList == null) throw new AutoMapperMappingException("Error mapping types");
+            }
 
-            Toggle toggle = Mapper.Map<ToggleDto, Toggle>(toggleDto);
-            if (toggle == null) throw new AutoMapperMappingException("Error mapping types");
-            _togglerService.Delete(toggle.Id);
+            return new TogglerMessage<IEnumerable<ServiceDto>>
+            {
+                Result = serviceDtoList
+            };
+        }
+
+        /// <inheritdoc />
+        public TogglerMessage<ServiceDto> GetService(Guid id)
+        {
+            if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
+            Models.Service service = _applicationService.GetById(id);
+            ServiceDto serviceDto = Mapper.Map<Models.Service, ServiceDto>(service);
+            if (serviceDto == null) throw new AutoMapperMappingException("Error mapping types");
+
+            return new TogglerMessage<ServiceDto>
+            {
+                Result = serviceDto
+            };
+        }
+
+        /// <inheritdoc />
+        public TogglerMessage<ServiceDto> InsertService(ServiceDto serviceDto)
+        {
+            if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
+
+            Service service = Mapper.Map<ServiceDto, Service>(serviceDto);
+            if (service == null) throw new AutoMapperMappingException("Error mapping types");
+            _applicationService.Insert(service);
+            return new TogglerMessage<ServiceDto>();
+        }
+
+        /// <inheritdoc />
+        public TogglerMessage<ServiceDto> UpdateService(ServiceDto serviceDto)
+        {
+            if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
+
+            Service service = Mapper.Map<ServiceDto, Service>(serviceDto);
+            if (service == null) throw new AutoMapperMappingException("Error mapping types");
+            _applicationService.Update(service);
+            return new TogglerMessage<ServiceDto>();
+        }
+
+        /// <inheritdoc />
+        public TogglerMessage<bool> DeleteService(Guid id)
+        {
+            if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
+
+            _applicationService.Delete(id);
             return new TogglerMessage<bool>();
         }
     }

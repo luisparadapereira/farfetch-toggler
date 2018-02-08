@@ -1,0 +1,21 @@
+.bgImage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../../assets/images/LoginBG.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #999;
+    top: 0;
+    left: 0;
+  }
+
+  .slds-text-heading_large {
+      color: 565656;
+  }
+
+  .farfetchLogo {
+      margin-right: 20px;
+  }

@@ -1,0 +1,84 @@
+.slds-button {
+  width: 10rem;
+  height: 3rem;
+  /*font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  border-radius: 0; */
+  
+}
+.slds-button_destructive {
+  color: white;
+}
+
+.slds-button_brand {
+  /* background-color: #f0515a; */
+  border: none;
+  color: white;
+}
+
+.slds-button_brand:focus {
+  /* box-shadow: 0 0 3px #f0515a */
+}
+
+.slds-button_neutral {
+  /* color: #565656; */
+}
+
+.slds-button_neutral:hover {
+  /* background-color:  #e9c6a744 */
+}
+
+.slds-button_neutral:focus {
+  /* box-shadow: 0 0 3px #e9c6a744 */
+}
+
+.slds-input {
+  /* width: 25rem; */
+}
+
+.slds-form-element {
+  /* width: 200px; */
+}
+
+
+
+.slds-visual-picker_medium .slds-visual-picker__figure{
+  height: 3rem;
+}
+
+.services {
+  text-align: center;
+  width:100%;
+}
+
+.services-card {
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.slds-form-element {
+  margin-top: 1rem;
+}
+
+
+.edit-input {
+  text-align: center
+}
+
+.delete {
+  position: absolute;
+  left: 1rem;
+  width: 6rem;
+}
+
+.slds-button_success
+{
+  margin-top: 1rem;
+      width: 10rem;
+  color: white;
+}
+
+.copyButton {
+  margin-top: 1rem;
+}

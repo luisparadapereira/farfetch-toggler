@@ -1,0 +1,61 @@
+.bgImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets/images/LoginBG.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #999;
+  top: 0;
+  left: 0;
+}
+
+.username,
+.password {
+  margin-top: 7%;
+}
+
+.password {
+  margin-top: 10%;
+}
+
+.slds-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #565656;
+  font-size: 13pt;
+  color: #565656;
+}
+
+*:active,
+*:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.loginButton {
+  position: relative;
+  background-color: #f0515a;
+  border: none;
+  color: white;
+  font-weight: 600;
+  font-size: 13pt;
+  margin-top: 4%;
+  width: 100%;
+  height: 10%;
+  display: block;
+}
+
+.forgot {
+  position: relative;
+  margin-top: 2%;
+  color: #565656;
+  display: block;
+  text-align: center;
+}
+
+.slds-button{
+  height : 3rem;
+}

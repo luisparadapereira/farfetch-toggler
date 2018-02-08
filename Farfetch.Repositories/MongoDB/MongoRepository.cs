@@ -50,7 +50,14 @@ namespace Farfetch.Repositories.MongoDB
         public T GetSingle(Expression<Func<T, bool>> expression)
         {
             if (_collection == null) throw new NullReferenceException("Failed to initialize the collection");
-            return _collection.Find(expression)?.ToList()?.FirstOrDefault();
+            try
+            {
+                return _collection.Find(expression)?.ToList()?.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <inheritdoc />

@@ -1,0 +1,38 @@
+ :host {
+  height: 100%;
+  width: 100%;
+}
+
+.slds-grid {
+  width: 100%;
+}
+
+
+.slds-context-bar {
+  border-bottom: solid 3px #f0515a !important
+}
+
+
+
+.slds-context-bar__item.slds-is-active:before {
+  background: #e9c6a7;
+}
+
+.slds-context-bar__item:hover {
+  background-color:  #e9c6a744
+}
+
+.slds-context-bar__item:focus {
+  border: solid 2px #f0515a
+}
+
+
+
+@keyframes bkAnim
+{
+  100% {
+    background-color: #e9c6a744;
+  }
+} 
+
+

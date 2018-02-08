@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Models", "Farfetch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Toggler", "Farfetch.Toggler\Farfetch.Toggler.csproj", "{25836DF9-5882-42E3-A2D2-9C6D5E317D52}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TODELETE_Test", "TODELETE_Test\TODELETE_Test.csproj", "{3439AAA6-C478-4FB5-BEED-CB076CD6663D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{5C7CEB60-B6A6-4EC4-B895-4FCC07D74DCD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C7AD9D63-EFE8-4BCA-B825-6F102FCBC9BF}"
@@ -33,11 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.PlusApp", "Farfetc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A9AB0E6F-1A5A-4857-8989-7F1F2F99856D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farfetch.APIHandler", "Farfetch.APIInformation\Farfetch.APIHandler.csproj", "{577A979E-E320-492D-95D8-C87C4CACC19C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.APIHandler", "Farfetch.APIInformation\Farfetch.APIHandler.csproj", "{577A979E-E320-492D-95D8-C87C4CACC19C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farfetch.Automapper", "Farfetch.Automapper\Farfetch.Automapper.csproj", "{0AA8263D-5864-42A9-B2CE-C425E01D463C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Automapper", "Farfetch.Automapper\Farfetch.Automapper.csproj", "{0AA8263D-5864-42A9-B2CE-C425E01D463C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farfetch.Common", "Farfetch.Common\Farfetch.Common.csproj", "{2A1902CE-1DD9-49B5-B11A-F814884E82BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Common", "Farfetch.Common\Farfetch.Common.csproj", "{2A1902CE-1DD9-49B5-B11A-F814884E82BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +63,6 @@ Global
 		{25836DF9-5882-42E3-A2D2-9C6D5E317D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25836DF9-5882-42E3-A2D2-9C6D5E317D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25836DF9-5882-42E3-A2D2-9C6D5E317D52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3439AAA6-C478-4FB5-BEED-CB076CD6663D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3439AAA6-C478-4FB5-BEED-CB076CD6663D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3439AAA6-C478-4FB5-BEED-CB076CD6663D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3439AAA6-C478-4FB5-BEED-CB076CD6663D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD64B2DB-515D-4948-ACA6-32A4B3574399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD64B2DB-515D-4948-ACA6-32A4B3574399}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD64B2DB-515D-4948-ACA6-32A4B3574399}.Release|Any CPU.ActiveCfg = Release|Any CPU

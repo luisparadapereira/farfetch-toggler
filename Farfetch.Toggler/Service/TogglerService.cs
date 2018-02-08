@@ -11,6 +11,7 @@ namespace Farfetch.Toggler.Service
     /// </summary>
     public class TogglerService: DbCrudService<Toggle>, IService
     {
+
         /// <summary>
         /// Overrides the parent class so we can check when inserting
         /// if the item already exists. If it does then updates it.
@@ -50,6 +51,20 @@ namespace Farfetch.Toggler.Service
             if (overrideToggle != null) return toggle.Value == overrideToggle.Value;
 
             return results.FirstOrDefault(x => x.Value == toggle.Value) != null;
+        }
+
+        /// <summary>
+        /// When deleting a service we need to run this to update all the associated toggles
+        /// </summary>
+        /// <param name="service">The service to delete</param>
+        public void RemoveServiceFromToggles(Models.Service service)
+        {
+            var results = GetBy(x => x.ServiceList.Contains(service));
+            foreach (Toggle toggle in results)
+            {
+                toggle.ServiceList.Remove(service);
+                Update(toggle);
+            }
         }
     }
 }

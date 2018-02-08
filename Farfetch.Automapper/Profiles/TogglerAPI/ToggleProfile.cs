@@ -12,6 +12,10 @@ namespace Farfetch.Automapper.Profiles.TogglerAPI
         public ToggleProfile()
         {
             CreateMap<Toggle, ToggleDto>()?.ReverseMap();
+            CreateMap<Toggle, ToggleListDto>()?.ReverseMap()
+                .ForMember(x => x.Value, y => y.Ignore())
+                .ForMember(x => x.Overrides, y => y.Ignore())
+                .ForMember(x => x.ServiceList, y => y.Ignore());
         }
     }
 }

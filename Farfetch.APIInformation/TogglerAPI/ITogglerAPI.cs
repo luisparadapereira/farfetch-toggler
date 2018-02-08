@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Farfetch.APIHandler.TogglerAPI.DTO;
 
 namespace Farfetch.APIHandler.TogglerAPI
@@ -12,7 +13,7 @@ namespace Farfetch.APIHandler.TogglerAPI
         /// Gets all the available toggles
         /// </summary>
         /// <returns>An IEnumerable holding all the toggles</returns>
-        TogglerMessage<IEnumerable<ToggleDto>> GetAll();
+        TogglerMessage<IEnumerable<ToggleListDto>> GetAll();
 
         /// <summary>
         /// Gets a specific toggle for a service
@@ -29,20 +30,54 @@ namespace Farfetch.APIHandler.TogglerAPI
         /// </summary>
         /// <param name="toggleDto">The toggle to insert</param>
         /// <returns>A boolean specifying if the operation was successful or not</returns>
-        TogglerMessage<bool> Insert(ToggleDto toggleDto);
+        TogglerMessage<ToggleDto> Insert(ToggleDto toggleDto);
 
         /// <summary>
         /// Updates a toggle
         /// </summary>
         /// <param name="toggleDto">The updated toggle</param>
         /// <returns>A boolean specifying if the operation was successful or not</returns>
-        TogglerMessage<bool> Update(ToggleDto toggleDto);
+        TogglerMessage<ToggleDto> Update(ToggleDto toggleDto);
 
         /// <summary>
         /// Deletes a toggle
         /// </summary>
-        /// <param name="toggleDto">The toggle to delete</param>
+        /// <param name="id">The id of the toggle to delete</param>
         /// <returns>A boolean specifying if the operation was successful or not</returns>
-        TogglerMessage<bool> Delete(ToggleDto toggleDto);
+        TogglerMessage<bool> Delete(Guid id);
+
+
+        /// <summary>
+        /// Gets all the available services
+        /// </summary>
+        /// <returns>An IEnumerable holding all the services</returns>
+        TogglerMessage<IEnumerable<ServiceDto>> GetAllServices();
+
+        /// <summary>
+        /// Gets by id
+        /// </summary>
+        /// <returns>A ServiceDto</returns>
+        TogglerMessage<ServiceDto> GetService(Guid id);
+
+        /// <summary>
+        /// Inserts a new service
+        /// </summary>
+        /// <param name="service">The service to insert</param>
+        /// <returns>A boolean specifying if the operation was successful or not</returns>
+        TogglerMessage<ServiceDto> InsertService(ServiceDto service);
+
+        /// <summary>
+        /// Updates a service
+        /// </summary>
+        /// <param name="service">The updated service</param>
+        /// <returns>A boolean specifying if the operation was successful or not</returns>
+        TogglerMessage<ServiceDto> UpdateService(ServiceDto service);
+
+        /// <summary>
+        /// Deletes a service
+        /// </summary>
+        /// <param name="id">The id of the toggle to delete</param>
+        /// <returns>A boolean specifying if the operation was successful or not</returns>
+        TogglerMessage<bool> DeleteService(Guid id);
     }
 }

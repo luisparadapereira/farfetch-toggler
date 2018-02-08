@@ -1,0 +1,47 @@
+<div>
+  <header class="slds-page-header">
+    <h2 class="slds-text-heading_medium slds-align_absolute-center">Connected Services</h2>
+  </header>
+  <div class="slds-grid slds-grid_vertical">
+    <div class="slds-scrollable slds-grow">
+      <table role="grid" class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th aria-label="Toggle Name" aria-sort="none" class=" slds-text-title_caps" scope="col">
+              <span class="slds-truncate" title="Toggle Name">Service Name</span>
+            </th>
+            <th aria-label="Toggle Value" aria-sort="none" class="slds-text-title_caps" scope="col">
+              <span class="slds-truncate" title="Toggle Value">Service Version</span>
+            </th>
+            <th aria-label="Action" aria-sort="none" class="slds-text-title_caps" scope="col">
+
+            </th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+          <tr class="slds-hint-parent" *ngFor="let service of serviceList">
+            <th scope="row">
+              <div class="slds-truncate slds-align_absolute-center" title="service1">{{service.name}}</div>
+            </th>
+            <th scope="row">
+                <div class="slds-truncate slds-align_absolute-center" title="service1">{{service.version}}</div>
+              </th>
+            
+            <td role="gridcell">
+              <div class="slds-truncate slds-align_absolute-center" title="Action">
+                <button class="slds-button slds-button_destructive" (click)="goToService(service.id)">Edit</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="slds-docked-form-footer">
+      <button type="button" class="slds-text-title_caps slds-button slds-button_brand" (click)="insertNew()">Register new service</button>
+    </div>
+
+</div>

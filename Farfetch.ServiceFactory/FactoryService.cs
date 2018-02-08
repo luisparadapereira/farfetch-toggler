@@ -6,6 +6,7 @@
     public enum FactoryService
     {
         Toggler,
-        UserAccounts
+        UserAccounts,
+        TogglerApplication
     }
 }

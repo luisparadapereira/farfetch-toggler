@@ -11,21 +11,30 @@ namespace Farfetch.RestAPI.Controllers
 {
     /// <inheritdoc cref="ITogglerApi" />
     [Route("[controller]")]
-    public class TogglerController : Controller, ITogglerApi
+    public class TogglerController : Controller
     {
-        /// <inheritdoc />
+       /// <inheritdoc />
         [HttpGet]
         [Authorize]
-        public TogglerMessage<IEnumerable<ToggleDto>> GetAll()
+        public TogglerMessage<IEnumerable<ToggleListDto>> GetAll()
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
             return togglerPublic.GetAll();
 
         }
 
+        /// <inheritdoc />
+        [HttpGet("{id}")]
+        [Authorize]
+        public TogglerMessage<ToggleDto> Get(Guid id)
+        {
+            TogglerApiPublic togglerPublic = new TogglerApiPublic();
+            return togglerPublic.Get(id);
+        }
+
         /// <inheritdoc/>
         [HttpGet("{toggleName}/{toggleValue}/{serviceName}/{serviceVersion}")]
-        [Authorize()]
+        [Authorize]
         public TogglerMessage<bool> GetForService(string toggleName, bool toggleValue, string serviceName, string serviceVersion)
         {
             if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));
@@ -39,7 +48,7 @@ namespace Farfetch.RestAPI.Controllers
         /// <inheritdoc />
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<bool> Insert([FromBody] ToggleDto toggleDto)
+        public TogglerMessage<ToggleDto> Insert([FromBody] ToggleDto toggleDto)
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
             return togglerPublic.Insert(toggleDto);
@@ -48,19 +57,21 @@ namespace Farfetch.RestAPI.Controllers
         /// <inheritdoc />
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<bool> Update([FromBody] ToggleDto toggleDto)
+        public TogglerMessage<ToggleDto> Update([FromBody] ToggleDto toggleDto)
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
             return togglerPublic.Update(toggleDto);
         }
 
         /// <inheritdoc />
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<bool> Delete([FromBody] ToggleDto toggleDto)
+        public TogglerMessage<bool> Delete(Guid id)
         {
             TogglerApiPublic togglerPublic = new TogglerApiPublic();
-            return togglerPublic.Delete(toggleDto);
+            return togglerPublic.Delete(id);
         }
+
+       
     }
 }

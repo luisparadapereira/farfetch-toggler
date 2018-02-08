@@ -1,0 +1,35 @@
+<div class="bgImage slds-align_absolute-center">
+  <div class="slds-has-bottom-magnet">
+    <div>
+      <img class="farfetchLogo" src="assets/images/Logo.png">
+    </div>
+<form>
+    <div class="slds-has-bottom-magnet">
+      <div class="slds-form-element username">
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+          <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" aria-hidden="true">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/lds/icons/action-sprite/svg/symbols.svg#user" />
+          </svg>
+          <input type="text" id="text-input-id-0" class="slds-input" placeholder="" [(ngModel)]="username" name="username"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="slds-has-bottom-magnet">
+      <div class="slds-form-element password">
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+          <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default " aria-hidden="true">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/lds/icons/action-sprite/svg/symbols.svg#password_unlock"
+            />
+          </svg>
+          <input type="password" id="text-input-id-1" class="slds-input" placeholder="" [(ngModel)]="userpassword" name="userpassword" />
+        </div>
+      </div>
+    </div>
+
+    <div class="slds-has-bottom-magnet">
+      <button type="submit" class="slds-button loginButton" (click)="login()">Login</button>
+    </div>
+  </form>
+  </div>
+</div>
