@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Claims;
-using Farfetch.APIHandler.Common;
 using Farfetch.APIHandler.Common.Contract;
 using Farfetch.APIHandler.TogglerAPI.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -13,16 +12,14 @@ namespace Farfetch.RestAPI.Controllers
     /// Service Authentication
     /// </summary>
     [Route("[controller]")]
-    public class ServiceBaseAuthenticationController  : BaseAuthenticationController<IApi>, IAuthentication<ServiceDto>
+    public class ServiceAuthenticationController  : BaseAuthenticationController<IApi>, IAuthentication<ServiceDto>
     {
-
         /// <summary>
         /// Default constructor with DI of config
         /// </summary>
         /// <param name="config">The config file</param>
-        public ServiceBaseAuthenticationController(IConfiguration config): base(config)
+        public ServiceAuthenticationController(IConfiguration config): base(config)
         {
-
         }
 
         /// <inheritdoc />

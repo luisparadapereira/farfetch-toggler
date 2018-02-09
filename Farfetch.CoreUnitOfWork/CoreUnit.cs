@@ -41,7 +41,7 @@ namespace Farfetch.CoreUnitOfWork
                     Repository = new MongoRepository<T>(database);
                     break;
                 default:
-                    throw new NullReferenceException();
+                    throw new NullReferenceException("Database defined in settings is not available.");
             }
         }
     }

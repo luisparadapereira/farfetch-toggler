@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Farfetch.Automapper;
@@ -34,7 +35,7 @@ namespace Farfetch.RestAPI
                 var xmlPath = Path.Combine(basePath, "Farfetch.RestAPI.xml");
                 c.IncludeXmlComments(xmlPath);
             });
-
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {

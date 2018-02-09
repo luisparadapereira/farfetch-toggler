@@ -9,6 +9,7 @@ Injectable()
 export class HttpService {
     // tslint:disable-next-line:member-ordering
     private SERVER = 'http://localhost:57146';
+    // private SERVER = 'http://localhost:5000';
 
     private AUTHENTICATION = this.SERVER + '/UserAuthentication';
 

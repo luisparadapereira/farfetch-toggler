@@ -1,27 +1,57 @@
 ﻿using System;
+using Ferfetch.Messaging;
 
 namespace Farfetch.PlusApp
 {
     public class Entry
     {
+        private static Number number;
+
+        private static int plusNumber;
+        private static int plusNumberTmp;
+        private static int multNumber;
+        private static int multNumberTmp;
+
+        private const int INPUT_VALUE = 4;
+
         public static void Main(string[] args)
         {
-            Number number = new Number();
+            number = new Number();
+            plusNumber = number.AddNumber(INPUT_VALUE);
+            multNumber = number.MultNumber(INPUT_VALUE);
+            plusNumberTmp = plusNumber;
+            multNumberTmp = multNumber;
+
+            Console.WriteLine("PlusNumber: " + plusNumber);
+            Console.WriteLine("MultNumber: " + multNumber);
+
+            number.toggleChangedEvent += UpdateStatus;
+            number.RegisterToggles();
+
             while (true)
             {
-                var key = Console.ReadKey();
-                
-                if (key.Key == ConsoleKey.Backspace)
+                if (plusNumber != plusNumberTmp)
                 {
-                    return;
+                    plusNumber = plusNumberTmp;
+                    Console.WriteLine("--------------------------");
+                    Console.WriteLine("PlusNumber: " + plusNumber);
+                    Console.WriteLine("--------------------------");
                 }
 
-                if (key.Key == ConsoleKey.Enter)
+                if (multNumber != multNumberTmp)
                 {
-                    int value = number.CalcNumber(4);
-                    Console.WriteLine("----> " + value);
+                    multNumber = multNumberTmp;
+                    Console.WriteLine("--------------------------");
+                    Console.WriteLine("MultNumber: " + multNumber);
+                    Console.WriteLine("--------------------------");
                 }
             }
+        }
+
+        private static void UpdateStatus(string str)
+        {
+            plusNumberTmp = number.AddNumber(INPUT_VALUE);
+            multNumberTmp = number.MultNumber(INPUT_VALUE);
         }
     }
 }

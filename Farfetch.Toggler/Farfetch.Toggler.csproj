@@ -5,8 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
     <ProjectReference Include="..\Farfetch.Service.Interface\Farfetch.ServiceManager.csproj" />
+    <ProjectReference Include="..\Ferfetch.Messaging\Ferfetch.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

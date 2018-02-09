@@ -14,7 +14,7 @@ export class ToggleEditComponent implements OnInit {
 private insert = false;
   private URL = '/Toggler';
   private myToggle : FarfetchModels.ToggleDto;
-  private loading = false;
+  loading = false;
   private serviceList : Array<FarfetchModels.ServiceDto>
   private serviceMap : Map<string, FarfetchModels.ServiceDto>
   private selectedServicesMap : Map<string, FarfetchModels.ServiceDto>
@@ -106,9 +106,10 @@ private insert = false;
   }
 
   private save(toggle: FarfetchModels.ToggleDto) {
-
+if(this.selectedServicesMap === undefined)  { this.myToggle.serviceList = new Array<FarfetchModels.ServiceDto>(); }
+else {
     this.myToggle.serviceList = Array.from( this.selectedServicesMap.values());
-
+  }
 
     if (this.insert) {
       this.http.post<FarfetchModels.ToggleDto>(this.URL, toggle)

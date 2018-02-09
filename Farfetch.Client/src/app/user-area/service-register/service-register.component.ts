@@ -12,9 +12,9 @@ import { FarfetchModels } from '../../api/modules/farfetch/ifarfetch.models';
 export class ServiceRegisterComponent implements OnInit {
 
   private URL = '/Service';
-  private RegisterURL = '/ServiceAuthorization'
+  private RegisterURL = '/ServiceAuthentication'
   public serviceData: FarfetchModels.ServiceDto;
-  private loading = false;
+  loading = false;
   private insert = false;
 
   constructor(private http: HttpService, private route: ActivatedRoute,
@@ -61,6 +61,7 @@ export class ServiceRegisterComponent implements OnInit {
   }
 
   private generateToken(service: FarfetchModels.ServiceDto) {
+    console.log(service);
     this.http.post<FarfetchModels.ServiceDto>(this.RegisterURL, service)
       .subscribe(
         data => this.successfulToken(data),

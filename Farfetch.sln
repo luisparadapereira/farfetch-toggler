@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Automapper", "Farf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Common", "Farfetch.Common\Farfetch.Common.csproj", "{2A1902CE-1DD9-49B5-B11A-F814884E82BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ferfetch.Messaging", "Ferfetch.Messaging\Ferfetch.Messaging.csproj", "{9290BE73-3C1A-4E3C-BB4B-ACCA744D5203}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{2A1902CE-1DD9-49B5-B11A-F814884E82BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A1902CE-1DD9-49B5-B11A-F814884E82BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A1902CE-1DD9-49B5-B11A-F814884E82BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9290BE73-3C1A-4E3C-BB4B-ACCA744D5203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9290BE73-3C1A-4E3C-BB4B-ACCA744D5203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9290BE73-3C1A-4E3C-BB4B-ACCA744D5203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9290BE73-3C1A-4E3C-BB4B-ACCA744D5203}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{577A979E-E320-492D-95D8-C87C4CACC19C} = {95876B07-BFE4-4418-AE74-A695A80B626D}
 		{0AA8263D-5864-42A9-B2CE-C425E01D463C} = {C7AD9D63-EFE8-4BCA-B825-6F102FCBC9BF}
 		{2A1902CE-1DD9-49B5-B11A-F814884E82BA} = {C7AD9D63-EFE8-4BCA-B825-6F102FCBC9BF}
+		{9290BE73-3C1A-4E3C-BB4B-ACCA744D5203} = {C7AD9D63-EFE8-4BCA-B825-6F102FCBC9BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C392CC3A-6C4F-4F5B-A0FC-874001D54D4C}

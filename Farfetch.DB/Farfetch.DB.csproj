@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\..\.nuget\packages\mongodb.bson\2.5.0\lib\netstandard1.5\MongoDB.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Driver">
       <HintPath>..\..\..\..\..\.nuget\packages\mongodb.driver\2.5.0\lib\netstandard1.5\MongoDB.Driver.dll</HintPath>
     </Reference>

@@ -15,7 +15,7 @@ export class UserComponent implements OnInit {
   public userList: Array<FarfetchModels.UserLoginDto>;
   private loading = false;
   private userProfiles = ['Admin', 'Developer', 'Public'];
-  private toUpdate = false;
+  toUpdate = false;
   private changedUsers: Array<FarfetchModels.UserLoginDto>;
 
   constructor(private http: HttpService, private route: ActivatedRoute,

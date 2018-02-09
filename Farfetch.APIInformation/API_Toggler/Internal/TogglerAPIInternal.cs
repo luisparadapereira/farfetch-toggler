@@ -25,7 +25,7 @@ namespace Farfetch.APIHandler.API_Toggler.Internal
         /// <summary>
         /// FilePath for the API settings
         /// </summary>
-        private const string SETTINGS_FILEPATH = @"TogglerAPI/restSettings.json";
+        private const string SETTINGS_FILEPATH = @"API_Toggler/restSettings.json";
 
         /// <summary>
         /// Default constructor initializes communications and the settings

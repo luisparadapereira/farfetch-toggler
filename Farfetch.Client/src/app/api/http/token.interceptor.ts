@@ -14,7 +14,7 @@ export class TokenInterceptor implements HttpInterceptor {
     constructor(public auth: AuthenticationService, public router: Router) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!req.url.endsWith('Authentication')) {
+        if (!req.url.endsWith('UserAuthentication')) {
             req = req.clone(
                 {
                     setHeaders: { Authorization: `Bearer ${this.auth.getToken()}`}
@@ -28,7 +28,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     if (event.body.status !== 200) {
                         this.handleError(event.body.status);
                     }
-                    if (req.url.endsWith('Authentication')) {
+                    if (req.url.endsWith('UserAuthentication')) {
                         const tokenDecoded = this.jwtHelper.decodeToken(event.body.token);
                         localStorage.setItem('farfetch_token', event.body.token);
                     }

@@ -20,25 +20,25 @@ export class UserAreaComponent implements OnInit {
       this.toggleClass = this.activeClass;
    }
 
-  private goToManageUsers() {
+  goToManageUsers() {
     this.resetClasses();
     this.router.navigate(['/user-area/user']);
     this.userClass = this.activeClass;
   }
 
-  private goToManageToggle() {
+  goToManageToggle() {
     this.resetClasses();
     this.router.navigate(['/user-area/toggle']);
     this.toggleClass = this.activeClass;
   }
 
-  private goToManageService() {
+  goToManageService() {
     this.resetClasses();
     this.router.navigate(['/user-area/service']);
     this.serviceClass = this.activeClass;
   }
 
-  private goToManageLogout() {
+  goToManageLogout() {
     this.resetClasses();
     localStorage.clear();
     this.router.navigate(['/']);

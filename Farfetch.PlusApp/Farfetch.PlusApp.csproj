@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Farfetch.APIInformation\Farfetch.APIHandler.csproj" />
     <ProjectReference Include="..\Farfetch.Toggler\Farfetch.Toggler.csproj" />
+    <ProjectReference Include="..\Ferfetch.Messaging\Ferfetch.Messaging.csproj" />
   </ItemGroup>
 
 </Project>
