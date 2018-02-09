@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Farfetch.Automapper.Profiles.Authentication;
 using Farfetch.Automapper.Profiles.TogglerAPI;
 
 namespace Farfetch.Automapper
@@ -17,6 +18,7 @@ namespace Farfetch.Automapper
                 {
                    cfg?.AddProfile<ToggleProfile>();
                    cfg?.AddProfile<ServiceProfile>();
+                    cfg?.AddProfile<UserProfile>();
                 }
             );
         }

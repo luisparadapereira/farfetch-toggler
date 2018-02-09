@@ -35,7 +35,7 @@
   outline: none;
 }
 
-.loginButton {
+.loginButton, .registerButton {
   position: relative;
   background-color: #f0515a;
   border: none;
@@ -46,6 +46,10 @@
   width: 100%;
   height: 10%;
   display: block;
+}
+
+.registerButton {
+  background-color: #e9c6a7;
 }
 
 .forgot {

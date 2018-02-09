@@ -1,41 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Farfetch.APIHandler.Authorization;
+using Farfetch.APIHandler.Authorization.DTO;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Farfetch.RestAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class UserAccountsController : Controller
+    /// <inheritdoc cref="IAuthorizationApi" />
+    [Route("[controller]")]
+    public class UserAccountsController : Controller, IAuthorizationApi
     {
-        // GET api/values
+        /// <inheritdoc />
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize(Roles = "Admin")]
+        public TogglerMessage<IEnumerable<UserLoginDto>> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            AuthorizationPublic authPublic = new AuthorizationPublic();
+            return authPublic.GetAll();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
+        /// <inheritdoc />
         [HttpPost]
-        public void Post([FromBody]string value)
+        [AllowAnonymous]
+        public TogglerMessage<UserLoginDto> Insert([FromBody] UserLoginDto user)
         {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            user.Profile = "Public";
+            AuthorizationPublic authPublic = new AuthorizationPublic();
+            return authPublic.Insert(user);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        /// <inheritdoc />
+        [HttpPut]
+        [Authorize(Roles = "Admin")]
+        public TogglerMessage<UserLoginDto> Update([FromBody] UserLoginDto user)
         {
+            if (user==null) throw new ArgumentNullException(nameof(user));
+
+            AuthorizationPublic authPublic = new AuthorizationPublic();
+            return authPublic.Update(user);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        /// <inheritdoc />
+        [HttpDelete("{username}")]
+        [Authorize(Roles = "Admin")]
+        public TogglerMessage<bool> Delete(string username)
         {
+            if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+
+            AuthorizationPublic authPublic = new AuthorizationPublic();
+            return authPublic.Delete(username);
         }
     }
 }

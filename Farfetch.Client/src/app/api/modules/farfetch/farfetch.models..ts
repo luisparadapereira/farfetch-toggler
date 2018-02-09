@@ -1,6 +1,18 @@
 import { FarfetchModels } from './ifarfetch.models';
 
 export module FarfetchClasses {
+  export class User implements FarfetchModels.UserLoginDto {
+    username: string;
+    password: string;
+    profile: string;
+
+    constructor() {
+      this.username = '';
+      this.password = '';
+      this.profile = '';
+    }
+  }
+  
   export class CustomService implements FarfetchModels.ServiceDto {
     id: string;
     name: string;

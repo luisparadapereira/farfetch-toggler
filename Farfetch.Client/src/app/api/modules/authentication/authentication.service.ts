@@ -10,6 +10,7 @@ export class AuthenticationService {
 
     public isAuthenticated(): boolean {
         const token = this.getToken();
+        if(token === undefined) return false;
         return tokenNotExpired(null, token);
     }
 

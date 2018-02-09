@@ -1,0 +1,52 @@
+<div>
+  <header class="slds-page-header">
+    <h2 class="slds-text-heading_medium slds-align_absolute-center">User Management</h2>
+  </header>
+  <div class="slds-grid slds-grid_vertical">
+    <div class="slds-scrollable slds-grow">
+      <table role="grid" class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th aria-label="Toggle Name" aria-sort="none" class=" slds-text-title_caps" scope="col">
+              <span class="slds-truncate" title="Toggle Name">Username</span>
+            </th>
+            <th aria-label="Toggle Value" aria-sort="none" class="slds-text-title_caps" scope="col">
+              <span class="slds-truncate" title="Toggle Value">Profile</span>
+            </th>
+            <th aria-label="Action" aria-sort="none" class="slds-text-title_caps" scope="col">
+
+            </th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+          <tr class="slds-hint-parent" *ngFor="let user of userList">
+            <th scope="row">
+              <div class="slds-truncate slds-align_absolute-center" title="service1">{{user.username}}</div>
+            </th>
+            <th scope="row">
+              <select class="form-control slds-combobox slds-align_absolute-center" id="profile" required [(ngModel)]="user.profile" (change)="changed(user)">
+                  <option class="slds-combobox__form-element slds-align_absolute-center" *ngFor="let prof of userProfiles" >{{prof}}</option>
+                </select>
+            </th>
+
+            <td role="gridcell">
+              <div class="slds-truncate slds-align_absolute-center" title="Action">
+                <button class="slds-button slds-button_destructive" (click)="delete(user.username)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="slds-docked-form-footer">
+      <button *ngIf="toUpdate === true" type="button" class="slds-text-title_caps slds-button slds-button_brand" (click)="update()">Update users</button>  
+      <button *ngIf="toUpdate === false" disabled type="button" class="slds-text-title_caps slds-button slds-button_brand" (click)="update()">Update users</button>  
+    
+    </div>
+
+</div>
+
+

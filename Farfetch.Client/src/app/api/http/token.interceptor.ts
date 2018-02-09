@@ -30,11 +30,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     }
                     if (req.url.endsWith('Authentication')) {
                         const tokenDecoded = this.jwtHelper.decodeToken(event.body.token);
-                        const date = new Date().valueOf();
-                        const feh: string = tokenDecoded['exp']+'000';
                         localStorage.setItem('farfetch_token', event.body.token);
-                        localStorage.setItem('farfetch_userType',
-                                                tokenDecoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
                     }
                 }
             },

@@ -24,4 +24,10 @@ export declare module FarfetchModels {
         version: string;
         apiKey: string;
     }
+
+    export interface UserLoginDto {
+        username: string;
+        password: string;
+        profile: string;
+    }
 }
