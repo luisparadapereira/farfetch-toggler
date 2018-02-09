@@ -10,7 +10,7 @@ export class HttpService {
     // tslint:disable-next-line:member-ordering
     private SERVER = 'http://localhost:57146';
 
-    private AUTHENTICATION = this.SERVER + '/Authentication';
+    private AUTHENTICATION = this.SERVER + '/UserAuthentication';
 
     constructor(public http: HttpClient) {    }
 

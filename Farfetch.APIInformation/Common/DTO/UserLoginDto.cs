@@ -1,4 +1,4 @@
-﻿namespace Farfetch.APIHandler.Authorization.DTO
+﻿namespace Farfetch.APIHandler.Common.DTO
 {
     public class UserLoginDto
     {

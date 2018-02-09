@@ -1,64 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using Farfetch.APIHandler.TogglerAPI;
+using Farfetch.APIHandler.API_Toggler.Contract;
+using Farfetch.APIHandler.Common;
+using Farfetch.APIHandler.Common.DTO;
 using Farfetch.APIHandler.TogglerAPI.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Farfetch.RestAPI.Controllers
 {
-    /// <inheritdoc cref="ITogglerApi" />
+    /// <inheritdoc cref="IServiceApi" />
     [Route("[controller]")]
-    public class ServiceController: Controller
+    public class ServiceController: BaseController<IServiceApi>, IServiceApi
     {
+        /// <summary>
+        /// Initializes the Controller
+        /// </summary>
+        public ServiceController()
+        {
+            GetService(AvailableApis.Service);
+        }
+
         /// <inheritdoc />
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<IEnumerable<ServiceDto>> GetAllServices()
+        public FarfetchMessage<IEnumerable<ServiceDto>> GetAll()
         {
-            TogglerApiPublic togglerPublic = new TogglerApiPublic();
-            return togglerPublic.GetAllServices();
+            return Service?.GetAll();
         }
 
         /// <inheritdoc />
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<ServiceDto> GetService(Guid id)
+        public FarfetchMessage<ServiceDto> Get(Guid id)
         {
-            TogglerApiPublic togglerPublic = new TogglerApiPublic();
-            return togglerPublic.GetService(id);
+            return Service?.Get(id);
         }
 
         /// <inheritdoc />
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<ServiceDto> InsertService([FromBody] ServiceDto service)
+        public FarfetchMessage<ServiceDto> Insert([FromBody] ServiceDto service)
         {
-            TogglerApiPublic togglerPublic = new TogglerApiPublic();
-            return togglerPublic.InsertService(service);
+            return Service?.Insert(service);
         }
 
         /// <inheritdoc />
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<ServiceDto> UpdateService([FromBody] ServiceDto service)
+        public FarfetchMessage<ServiceDto> Update([FromBody] ServiceDto service)
         {
-            TogglerApiPublic togglerPublic = new TogglerApiPublic();
-            return togglerPublic.UpdateService(service);
+            return Service?.Update(service);
         }
 
         /// <inheritdoc />
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<bool> DeleteService(Guid id)
+        public FarfetchMessage<bool> Delete(Guid id)
         {
-            TogglerApiPublic togglerPublic = new TogglerApiPublic();
-            return togglerPublic.DeleteService(id);
+            return Service?.Delete(id);
         }
-
-
-
     }
 }

@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Farfetch.APIHandler.Authorization.DTO;
-using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.APIHandler.API_UserAccounts.Contract;
+using Farfetch.APIHandler.Common.DTO;
 using Farfetch.Models;
 using Farfetch.ServiceFactory;
 using Farfetch.UserAccounts.Service;
 
-namespace Farfetch.APIHandler.Authorization
+namespace Farfetch.APIHandler.API_UserAccounts.Public
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Handles authorization requests from the Rest API checking against values in the database
-    /// </summary>
-    public class AuthorizationPublic: IAuthorization, IAuthorizationApi
+    public class UserAccountsPublic: IUserAccountsApi
     {
         /// <summary>
         /// The user service
@@ -24,27 +20,14 @@ namespace Farfetch.APIHandler.Authorization
         /// <summary>
         /// Default constructor defines the service
         /// </summary>
-        public AuthorizationPublic()
+        public UserAccountsPublic()
         {
             Factory factory = new Factory();
-            _userAccountService = factory.GetDbService(FactoryService.UserAccounts) as UserAccountService;
-        }
-        
-        /// <inheritdoc />
-        public UserLoginDto AuthenticateUser(string username, string password)
-        {
-            if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
-            if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
-            if (_userAccountService == null) throw new NullReferenceException("UserAccountService hasn't been initialized yet");
-
-            User user = _userAccountService.GetByExpression(x => x.Username == username && x.Password == password);
-            UserLoginDto userLogin = Mapper.Map<User, UserLoginDto>(user);
-
-            return userLogin;
+            _userAccountService = factory.GetDbService(AvailableServices.UserAccounts) as UserAccountService;
         }
 
         /// <inheritdoc />
-        public TogglerMessage<IEnumerable<UserLoginDto>> GetAll()
+        public FarfetchMessage<IEnumerable<UserLoginDto>> GetAll()
         {
             if (_userAccountService == null) throw new NullReferenceException("User Account Service hasn't been defined");
             IEnumerable<User> userList = _userAccountService.GetAll();
@@ -54,7 +37,7 @@ namespace Farfetch.APIHandler.Authorization
                 userDtoList = Mapper.Map<IEnumerable<User>, IEnumerable<UserLoginDto>>(userList);
                 if (userDtoList == null) throw new AutoMapperMappingException("Error mapping types");
             }
-            return new TogglerMessage<IEnumerable<UserLoginDto>>
+            return new FarfetchMessage<IEnumerable<UserLoginDto>>
             {
                 Result = userDtoList
             };
@@ -62,24 +45,30 @@ namespace Farfetch.APIHandler.Authorization
         }
 
         /// <inheritdoc />
-        public TogglerMessage<UserLoginDto> Insert(UserLoginDto userDto)
+        public FarfetchMessage<UserLoginDto> Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public FarfetchMessage<UserLoginDto> Insert(UserLoginDto userDto)
         {
             if (_userAccountService == null) throw new NullReferenceException("User Account Service hasn't been defined");
 
             User user = Mapper.Map<UserLoginDto, User>(userDto);
             if (user == null) throw new AutoMapperMappingException("Error mapping types");
             _userAccountService.Insert(user);
-            user = _userAccountService.GetByExpression(x => x.Username == userDto.Username && x.Password == userDto.Password );
+            user = _userAccountService.GetByExpression(x => x.Username == userDto.Username && x.Password == userDto.Password);
             userDto = Mapper.Map<User, UserLoginDto>(user);
             if (user == null) throw new AutoMapperMappingException("Error mapping types");
-            return new TogglerMessage<UserLoginDto>
+            return new FarfetchMessage<UserLoginDto>
             {
                 Result = userDto,
             };
         }
 
         /// <inheritdoc />
-        public TogglerMessage<UserLoginDto> Update(UserLoginDto userDto)
+        public FarfetchMessage<UserLoginDto> Update(UserLoginDto userDto)
         {
             if (_userAccountService == null) throw new NullReferenceException("User Account Service hasn't been defined");
 
@@ -95,21 +84,27 @@ namespace Farfetch.APIHandler.Authorization
 
             userDto = Mapper.Map<User, UserLoginDto>(user);
             if (user == null) throw new AutoMapperMappingException("Error mapping types");
-            return new TogglerMessage<UserLoginDto>
+            return new FarfetchMessage<UserLoginDto>
             {
                 Result = userDto,
             };
         }
 
         /// <inheritdoc />
-        public TogglerMessage<bool> Delete(string username)
+        public FarfetchMessage<bool> Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public FarfetchMessage<bool> Delete(string username)
         {
             if (_userAccountService == null) throw new NullReferenceException("User Account Service hasn't been defined");
 
             User user = _userAccountService.GetByExpression(x => x.Username == username);
-            if(user == null) return new TogglerMessage<bool>();
+            if (user == null) return new FarfetchMessage<bool>();
             _userAccountService.Delete(user.Id);
-            return new TogglerMessage<bool>();
+            return new FarfetchMessage<bool>();
         }
     }
 }

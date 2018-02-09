@@ -1,57 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
-using Farfetch.APIHandler.Authorization;
-using Farfetch.APIHandler.Authorization.DTO;
-using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.APIHandler.API_UserAccounts.Contract;
+using Farfetch.APIHandler.Common;
+using Farfetch.APIHandler.Common.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Farfetch.RestAPI.Controllers
 {
-    /// <inheritdoc cref="IAuthorizationApi" />
+    /// <inheritdoc cref="IUserAccountsApi" />
     [Route("[controller]")]
-    public class UserAccountsController : Controller, IAuthorizationApi
+    public class UserAccountsController : BaseController<IUserAccountsApi>, IUserAccountsApi
     {
+        /// <summary>
+        /// Initializes the Controller
+        /// </summary>
+        public UserAccountsController()
+        {
+            GetService(AvailableApis.UserAccounts);
+        }
+
         /// <inheritdoc />
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<IEnumerable<UserLoginDto>> GetAll()
+        public FarfetchMessage<IEnumerable<UserLoginDto>> GetAll()
         {
-            AuthorizationPublic authPublic = new AuthorizationPublic();
-            return authPublic.GetAll();
+            return Service?.GetAll();
         }
 
         /// <inheritdoc />
         [HttpPost]
         [AllowAnonymous]
-        public TogglerMessage<UserLoginDto> Insert([FromBody] UserLoginDto user)
+        public FarfetchMessage<UserLoginDto> Insert([FromBody] UserLoginDto user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             user.Profile = "Public";
-            AuthorizationPublic authPublic = new AuthorizationPublic();
-            return authPublic.Insert(user);
+            return Service?.Insert(user);
         }
 
         /// <inheritdoc />
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<UserLoginDto> Update([FromBody] UserLoginDto user)
+        public FarfetchMessage<UserLoginDto> Update([FromBody] UserLoginDto user)
         {
             if (user==null) throw new ArgumentNullException(nameof(user));
 
-            AuthorizationPublic authPublic = new AuthorizationPublic();
-            return authPublic.Update(user);
+            return Service?.Update(user);
         }
 
         /// <inheritdoc />
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
-        public TogglerMessage<bool> Delete(string username)
+        public FarfetchMessage<bool> Delete(string username)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
 
-            AuthorizationPublic authPublic = new AuthorizationPublic();
-            return authPublic.Delete(username);
+            return Service?.Delete(username);
+        }
+
+        /// <inheritdoc />
+        public FarfetchMessage<UserLoginDto> Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public FarfetchMessage<bool> Delete(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

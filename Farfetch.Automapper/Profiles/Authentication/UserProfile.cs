@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Farfetch.APIHandler.Authorization.DTO;
+using Farfetch.APIHandler.Common.DTO;
 using Farfetch.Models;
 
 namespace Farfetch.Automapper.Profiles.Authentication

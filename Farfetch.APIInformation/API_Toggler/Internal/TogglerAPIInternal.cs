@@ -1,15 +1,16 @@
 ﻿using System;
+using Farfetch.APIHandler.API_Toggler.Contract;
 using Farfetch.APIHandler.Common;
-using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.APIHandler.Common.DTO;
 using Farfetch.Common;
 
-namespace Farfetch.APIHandler.TogglerAPI
+namespace Farfetch.APIHandler.API_Toggler.Internal
 {
     /// <inheritdoc />
     /// <summary>
     /// internally used class to handle all requests made by applications to the Toggler API
     /// </summary>
-    public class TogglerApiInternal : ExternalApi
+    public class TogglerApiInternal : ExternalApi, ITogglerApiInternal
     {
         /// <summary>
         /// ApiCommunication to handle requests
@@ -36,14 +37,8 @@ namespace Farfetch.APIHandler.TogglerAPI
             _settings = reader.Read(SETTINGS_FILEPATH);
         }
 
-        /// <summary>
-        /// Given toggle and service information this class will define what route the application should follow
-        /// </summary>
-        /// <param name="toggleName">The name of the toggle</param>
-        /// <param name="toggleValue">The value of the toggle</param>
-        /// <param name="applicationName">The name of the application/service</param>
-        /// <param name="applicationVersion">The version of the application/service</param>
-        /// <returns>Boolean specifying if the operation should be executed or not</returns>
+
+        /// <inheritdoc />
         public bool CheckToggle(string toggleName, bool toggleValue, string applicationName, string applicationVersion, string apiKey)
         {
             if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));
@@ -54,7 +49,7 @@ namespace Farfetch.APIHandler.TogglerAPI
             string urlQuery = serverLocation + "Toggler/" + toggleName + "/" + toggleValue + "/" + applicationName + "/" + applicationVersion;
 
             if (_apiCommunication == null) throw new NullReferenceException("API Communication isn't defined");
-            TogglerMessage<bool> response = _apiCommunication.ApiGet<TogglerMessage<bool>>(urlQuery, apiKey).Result;
+            FarfetchMessage<bool> response = _apiCommunication.ApiGet<FarfetchMessage<bool>>(urlQuery, apiKey).Result;
 
             return response != null && response.Result;
         }
