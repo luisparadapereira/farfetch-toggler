@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Farfetch.Automapper;
@@ -35,7 +34,7 @@ namespace Farfetch.RestAPI
                 var xmlPath = Path.Combine(basePath, "Farfetch.RestAPI.xml");
                 c.IncludeXmlComments(xmlPath);
             });
-            
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -45,23 +44,23 @@ namespace Farfetch.RestAPI
                         ValidateAudience = true, // validates the recipient
                         ValidateLifetime = true, // valitade token expiration
                         ValidateIssuerSigningKey = true, // validates key is part of trusted keys
-                        ValidIssuer = Configuration["Jwt:Issuer"],
-                        ValidAudience = Configuration["Jwt:Issuer"],
+                        ValidIssuer = Configuration?["Jwt:Issuer"],
+                        ValidAudience = Configuration?["Jwt:Issuer"],
                         IssuerSigningKey = new SymmetricSecurityKey
                         (
-                            Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])
+                            Encoding.UTF8?.GetBytes(Configuration?["Jwt:Key"])
                         )
                     };
                 });
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                        .Build());
+                options?.AddPolicy("CorsPolicy",
+                    builder => builder?.AllowAnyOrigin()
+                        ?.AllowAnyMethod()
+                        ?.AllowAnyHeader()
+                        ?.AllowCredentials()
+                        ?.Build());
             });
 
             services.AddMvc();

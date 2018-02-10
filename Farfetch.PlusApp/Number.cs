@@ -27,7 +27,7 @@ namespace Farfetch.PlusApp
         /// <summary>
         /// Event Delegate
         /// </summary>
-        public event FarfetchDelegate toggleChangedEvent;
+        public event FarfetchDelegate ToggleChangedEvent;
 
         /// <summary>
         /// Default constructor gathers application information and the initializes
@@ -46,8 +46,8 @@ namespace Farfetch.PlusApp
         /// </summary>
         public void RegisterToggles()
         {
-            RegisterToggle("toggle1", toggleChangedEvent);
-            RegisterToggle("toggle2", toggleChangedEvent);
+            RegisterToggle("toggle1", ToggleChangedEvent);
+            RegisterToggle("toggle2", ToggleChangedEvent);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Farfetch.PlusApp
         /// <param name="delegateHandler">The event handler</param>
         private void RegisterToggle(string toggleName, FarfetchDelegate delegateHandler)
         {
-            _subscriber.ReceiveMessage(toggleName, delegateHandler);
+            _subscriber?.ReceiveMessage(toggleName, delegateHandler);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Farfetch.PlusApp
         public int AddNumber(int number)
         {
             int valueToReturn = number;
-            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
+            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion, Key?.Key))
             {
                 valueToReturn = number + VALUE_TO_ADD;
             }
@@ -90,7 +90,7 @@ namespace Farfetch.PlusApp
         public int MultNumber(int number)
         {
             int valueToReturn = number;
-            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle2", true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
+            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle2", true, CallingAssemblyName, CallingAssemblyVersion, Key?.Key))
             {
                 valueToReturn = number * VALUE_TO_ADD;
             }

@@ -1,5 +1,5 @@
 ﻿{
   "Protocol":  "http",
-  "Server": "localhost:57146",
+  "Server": "localhost:5000",
   "Version":  "v1" 
 }

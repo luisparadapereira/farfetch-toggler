@@ -47,13 +47,13 @@ namespace Farfetch.Toggler.Service
         /// <param name="toggle">The toggle to update</param>
         public new void Update(Toggle toggle)
         {
-            _broadcaster.SendMessage(toggle.Name, "updated");
+            _broadcaster?.SendMessage(toggle?.Name, "updated");
             base.Update(toggle);
         }
 
         /// <summary>
         /// Checks if an operation should be executed or not based on toggle and service values.
-        /// Also verifies if there is any other toggle with the same name and service information with the override 
+        /// Also verifies if there is any other toggle with the same name and service information with the override
         /// function turned to true. If so that one gains precedence.
         /// </summary>
         /// <param name="toggle">The toggle to check</param>
@@ -61,7 +61,7 @@ namespace Farfetch.Toggler.Service
         public bool ShouldApplicationExecute(Toggle toggle)
         {
             if (toggle == null) throw new ArgumentNullException(nameof(toggle));
-            var service = toggle.ServiceList.FirstOrDefault();
+            var service = toggle.ServiceList?.FirstOrDefault();
             if (service == null) throw new NullReferenceException("Toggle didn't have any service");
 
             var results = GetBy(x => x.Name == toggle.Name).ToList();
@@ -69,7 +69,7 @@ namespace Farfetch.Toggler.Service
 
             var existingToggles = results.Where(y => y.ServiceList.Exists(x => x.Name == service.Name && x.Version == service.Version)).ToList();
             if (existingToggles.Count == 0) return false;
-            
+
             var overrideToggle = results.FirstOrDefault(x => x.Overrides);
             if (overrideToggle != null) return toggle.Value == overrideToggle.Value;
 
