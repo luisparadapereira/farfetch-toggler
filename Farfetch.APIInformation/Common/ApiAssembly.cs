@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Farfetch.AppCommon;
 using Farfetch.Common;
 
 namespace Farfetch.APIHandler.Common
@@ -13,7 +12,7 @@ namespace Farfetch.APIHandler.Common
         public string ApiName { get; set; }
     }
 
-    public class ApiService: ServiceInformation
+    public class ApiAssembly: AssemblyInformation
     {
         protected const string apiKeyPath = @"APIKEYS.json";
 

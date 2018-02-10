@@ -7,10 +7,10 @@ namespace Farfetch.Automapper.Profiles.Authentication
     /// <summary>
     /// Defines the profiles for type Service
     /// </summary>
-    internal class UserProfile: Profile
+    public class UserAMProfile: Profile
     {
         /// <inheritdoc />
-        public UserProfile()
+        public UserAMProfile()
         {
             CreateMap<User, UserLoginDto>()?.ReverseMap();
         }

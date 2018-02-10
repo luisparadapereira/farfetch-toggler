@@ -7,9 +7,9 @@ namespace Farfetch.Automapper.Profiles.TogglerAPI
     /// <summary>
     /// Defines the profiles for type Service
     /// </summary>
-    internal class ServiceProfile: Profile
+    public class ServiceAMProfile: Profile
     {
-        public ServiceProfile()
+        public ServiceAMProfile()
         {
             CreateMap<Service, ServiceDto>()?.ReverseMap();
         }

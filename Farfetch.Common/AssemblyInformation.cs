@@ -2,12 +2,12 @@
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Farfetch.AppCommon
+namespace Farfetch.Common
 {
     /// <summary>
     /// Defines application information such as assembly name and version
     /// </summary>
-    public class ServiceInformation
+    public class AssemblyInformation
     {
         /// <summary>
         /// The assembly that has called this class

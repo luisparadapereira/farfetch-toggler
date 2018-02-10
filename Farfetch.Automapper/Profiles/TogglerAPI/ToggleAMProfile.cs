@@ -7,9 +7,9 @@ namespace Farfetch.Automapper.Profiles.TogglerAPI
     /// <summary>
     /// Defines the profiles for type Toggle
     /// </summary>
-    internal class ToggleProfile: Profile
+    public class ToggleAMProfile: Profile
     {
-        public ToggleProfile()
+        public ToggleAMProfile()
         {
             CreateMap<Toggle, ToggleDto>()?.ReverseMap();
             CreateMap<Toggle, ToggleListDto>()?.ReverseMap()

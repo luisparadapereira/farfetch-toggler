@@ -1,5 +1,6 @@
 ﻿using Farfetch.APIHandler.API_Toggler.Internal;
 using Farfetch.APIHandler.Common;
+using Farfetch.Common;
 using Ferfetch.Messaging;
 
 namespace Farfetch.PlusApp
@@ -7,7 +8,7 @@ namespace Farfetch.PlusApp
     /// <summary>
     /// Example service application where a toggle is used
     /// </summary>
-    public class Number: ApiService
+    public class Number: ApiAssembly,  IApplication
     {
         /// <summary>
         /// The value to add to the input number
@@ -25,9 +26,14 @@ namespace Farfetch.PlusApp
         private readonly Subscriber _subscriber;
 
         /// <summary>
-        /// Event Delegate
+        /// Event  for changes in plus values
         /// </summary>
-        public event FarfetchDelegate ToggleChangedEvent;
+        public event FarfetchDelegate Toggle1ChangedEvent;
+
+        /// <summary>
+        /// Event  for changes in plus values
+        /// </summary>
+        public event FarfetchDelegate Toggle2ChangedEvent;
 
         /// <summary>
         /// Default constructor gathers application information and the initializes
@@ -46,18 +52,8 @@ namespace Farfetch.PlusApp
         /// </summary>
         public void RegisterToggles()
         {
-            RegisterToggle("toggle1", ToggleChangedEvent);
-            RegisterToggle("toggle2", ToggleChangedEvent);
-        }
-
-        /// <summary>
-        /// Registers each toggle with the subscriber module
-        /// </summary>
-        /// <param name="toggleName">The toggle name</param>
-        /// <param name="delegateHandler">The event handler</param>
-        private void RegisterToggle(string toggleName, FarfetchDelegate delegateHandler)
-        {
-            _subscriber?.ReceiveMessage(toggleName, delegateHandler);
+            _subscriber.ReceiveMessage("toggle1", Toggle1ChangedEvent);
+            _subscriber.ReceiveMessage("toggle2", Toggle2ChangedEvent);
         }
 
         /// <summary>
@@ -71,7 +67,7 @@ namespace Farfetch.PlusApp
         public int AddNumber(int number)
         {
             int valueToReturn = number;
-            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion, Key?.Key))
+            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle1", true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
             {
                 valueToReturn = number + VALUE_TO_ADD;
             }
@@ -90,12 +86,25 @@ namespace Farfetch.PlusApp
         public int MultNumber(int number)
         {
             int valueToReturn = number;
-            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle2", true, CallingAssemblyName, CallingAssemblyVersion, Key?.Key))
+            if (_togglerApiInternal != null && _togglerApiInternal.CheckToggle("toggle2", true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
             {
                 valueToReturn = number * VALUE_TO_ADD;
             }
 
             return valueToReturn;
+        }
+
+
+        /// <inheritdoc cref="IApplication" />
+        public string GetAssemblyName()
+        {
+            return CallingAssemblyName;
+        }
+
+        /// <inheritdoc cref="IApplication" />
+        public string GetAssemblyVersion()
+        {
+            return CallingAssemblyVersion;
         }
     }
 }

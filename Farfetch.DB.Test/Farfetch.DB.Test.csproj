@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Farfetch.Common\Farfetch.Common.csproj" />
+    <ProjectReference Include="..\Farfetch.CoreUnitOfWork\Farfetch.CoreUnitOfWork.csproj" />
+    <ProjectReference Include="..\Farfetch.DB\Farfetch.DB.csproj" />
+    <ProjectReference Include="..\Farfetch.Tests\Farfetch.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\..\.nuget\packages\mongodb.driver\2.5.0\lib\netstandard1.5\MongoDB.Driver.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

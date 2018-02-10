@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace Farfetch.Common
@@ -12,8 +13,12 @@ namespace Farfetch.Common
         /// <returns>The serialized settings</returns>
         public T Read(string filePath)
         {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
+
             T settings;
-            using (StreamReader file = File.OpenText(Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, filePath)))
+            if(!File.Exists(filePath)) throw new FileNotFoundException();
+
+            using (StreamReader file = File.OpenText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath)))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 settings = (T)serializer.Deserialize(file, typeof(T));

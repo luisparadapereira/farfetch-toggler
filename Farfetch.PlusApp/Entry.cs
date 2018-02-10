@@ -24,33 +24,37 @@ namespace Farfetch.PlusApp
             Console.WriteLine("PlusNumber: " + _plusNumber);
             Console.WriteLine("MultNumber: " + _multNumber);
 
-            _number.ToggleChangedEvent += UpdateStatus;
+            _number.Toggle1ChangedEvent += UpdatePlusValue;
+            _number.Toggle2ChangedEvent += UpdateMultValue;
             _number.RegisterToggles();
+        }
 
-            while (true)
+        private static void UpdateMultValue(string str)
+        {
+            Console.WriteLine("Requesting new mult value.");
+            _multNumberTmp = _number.MultNumber(INPUT_VALUE);
+
+            if (_multNumber != _multNumberTmp)
             {
-                if (_plusNumber != _plusNumberTmp)
-                {
-                    _plusNumber = _plusNumberTmp;
-                    Console.WriteLine("--------------------------");
-                    Console.WriteLine("PlusNumber: " + _plusNumber);
-                    Console.WriteLine("--------------------------");
-                }
-
-                if (_multNumber != _multNumberTmp)
-                {
-                    _multNumber = _multNumberTmp;
-                    Console.WriteLine("--------------------------");
-                    Console.WriteLine("MultNumber: " + _multNumber);
-                    Console.WriteLine("--------------------------");
-                }
+                _multNumber = _multNumberTmp;
+                Console.WriteLine("--------------------------");
+                Console.WriteLine("MultNumber: " + _multNumber);
+                Console.WriteLine("--------------------------");
             }
         }
 
-        private static void UpdateStatus(string str)
+        private static void UpdatePlusValue(string str)
         {
+            Console.WriteLine("Requesting new plus value.");
             _plusNumberTmp = _number.AddNumber(INPUT_VALUE);
-            _multNumberTmp = _number.MultNumber(INPUT_VALUE);
+
+            if (_plusNumber != _plusNumberTmp)
+            {
+                _plusNumber = _plusNumberTmp;
+                Console.WriteLine("--------------------------");
+                Console.WriteLine("PlusNumber: " + _plusNumber);
+                Console.WriteLine("--------------------------");
+            }
         }
     }
 }

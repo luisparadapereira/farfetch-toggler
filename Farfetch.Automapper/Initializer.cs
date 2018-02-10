@@ -16,9 +16,9 @@ namespace Farfetch.Automapper
             Mapper.Initialize(
                 cfg =>
                 {
-                   cfg?.AddProfile<ToggleProfile>();
-                   cfg?.AddProfile<ServiceProfile>();
-                    cfg?.AddProfile<UserProfile>();
+                   cfg?.AddProfile<ToggleAMProfile>();
+                   cfg?.AddProfile<ServiceAMProfile>();
+                   cfg?.AddProfile<UserAMProfile>();
                 }
             );
         }
