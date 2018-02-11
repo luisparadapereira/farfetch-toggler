@@ -71,6 +71,14 @@
 #### Data filling
 Run the Data Insertion application first. This will create the admin account, necessary toggles and services to correctly show how the messaging works.
 
+***Available Users***
+| Username | Password | Profile |
+|--|-- | -- | 
+|  admin| admin | Admin |
+|  developer| developer | Developer |
+|  public| public | Public |
+
+
 #### Front end 
 * Go into http://localhost:4200
 * Log in with the following credentials
