@@ -117,8 +117,11 @@ Follow Farfetch.PlusApp for reference but in a nutshell:
 * Extend ApiAssembly and implement IApplication
 	* ***IApplication*** - Generic Application interface. All applications should implement this interface. Common methods should go here
 	*  ***ApiAssembly*** -  Will define how the application reads its assembly information and how to get the API key. If you're going to interact with an API you should inherit from this class and always keep track of your API keys in the same place.
-* If you just want to check a toggle information:
+* If you just want to check a toggle information (Note that you should adjust to following code to your code best practices such as readonly variables, events, etc):
 ```
+using Farfetch.APIHandler.API_Toggler.Internal;
+using Farfetch.APIHandler.Common;
+
 TogglerApiInternal _togglerApiInternal = new TogglerApiInternal(); // INITIALIZE THE BASE CLASS
 if ( 
 	_togglerApiInternal != null && 
@@ -138,7 +141,20 @@ else
 	// WHAT TO DO IF THE TOGGLE IS NOT ACTIVE
 }
 ```
-	* 
+
+* If you want to add message subscription on toggle updates (Note that you should adjust to following code to your code best practices such as readonly variables, events, etc)
+```
+using Farfetch.Messaging;
+
+Subscriber _subscriber = new Subscriber(); // Initialize the Rabbit subscriber
+
+FarfetchDelegate ToggleChangedEvent; // Create the event the is thrown when a new message arrives 
+
+ToggleChangedEvent += WhatToDoWhenToggleChanges; // Add a method that will be called when the event is fired 
+
+_subscriber.ReceiveMessage(toggleName, ToggleChangedEvent); // Subscribe to new messages for the toggle with toggleName
+
+```
 
 
 ### Known Bugs
