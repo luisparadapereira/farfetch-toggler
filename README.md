@@ -111,12 +111,13 @@
 
 ### Development Timeline
 * Architecture Layout - 0.5 day
-* Base Architecture Implementation - 1.5 days
+* Base Architecture Implementation - 0.5 days
 * User and Service Authentication - 0.75 days
 * Messaging service research - 0.25 days
 * Frontend development - 1.25 days
 * Messaging service implementation - 0.25 days
-* Tests and documentation - 1.5 days
 * Finishing touches - 0.5 days
+* Tests and documentation - 1.5 days
+
 
 
