@@ -4,11 +4,4 @@
     "ServiceVersion": "1.0.0.0",
     "ApiName": "TogglerAPI",
     "Key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTZXJ2aWNlIiwiU2VydmljZU5hbWUiOiJGYXJmZXRjaC5QbHVzQXBwIiwiU2VydmljZVZlcnNpb24iOiIxLjAuMC4wIiwiZXhwIjoxNTQ5NzQxMDQ0LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjU3MTQ2IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1NzE0NiJ9.KfJA_lTVKCbSVmliY_jZ98YyCfCh5g-ioBiNFmdUdgg"
-  },
-  {
-    "ServiceName": "",
-    "ServiceVersion": "",
-    "ApiName": "TogglerAPI",
-    "Key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJQdWJsaWMiLCJleHAiOjE1MTgwMjY4NDEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTcxNDYiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjU3MTQ2In0.4KXSTz8gHQbEu4S6saL24PAUtEyEpa6kLlg0CaawBpc"
-  }
-]
+  }]

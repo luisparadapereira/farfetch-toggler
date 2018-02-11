@@ -57,6 +57,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.Toggler.Tests", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Farfetch.RestAPI.Test", "Farfetch.RestAPI.Test\Farfetch.RestAPI.Test.csproj", "{003D6ED7-2F23-4EC8-A6F9-8A576DABDC68}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataInsertion", "DataInsertion", "{9B5AFD36-DE16-487D-8993-FD0BFA2D46A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farfetch.DataInsertion", "Farfetch.DataInsertion\Farfetch.DataInsertion.csproj", "{B479C8DC-04AD-49E5-8D52-A6CAF0CF9914}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +159,10 @@ Global
 		{003D6ED7-2F23-4EC8-A6F9-8A576DABDC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{003D6ED7-2F23-4EC8-A6F9-8A576DABDC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{003D6ED7-2F23-4EC8-A6F9-8A576DABDC68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B479C8DC-04AD-49E5-8D52-A6CAF0CF9914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B479C8DC-04AD-49E5-8D52-A6CAF0CF9914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B479C8DC-04AD-49E5-8D52-A6CAF0CF9914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B479C8DC-04AD-49E5-8D52-A6CAF0CF9914}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +192,7 @@ Global
 		{B20C546C-5ADB-439C-8363-0876C659CF30} = {A9AB0E6F-1A5A-4857-8989-7F1F2F99856D}
 		{E0D99F4D-EE8F-4C70-BD0D-F2E29D8C8EB1} = {5C7CEB60-B6A6-4EC4-B895-4FCC07D74DCD}
 		{003D6ED7-2F23-4EC8-A6F9-8A576DABDC68} = {95876B07-BFE4-4418-AE74-A695A80B626D}
+		{B479C8DC-04AD-49E5-8D52-A6CAF0CF9914} = {9B5AFD36-DE16-487D-8993-FD0BFA2D46A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C392CC3A-6C4F-4F5B-A0FC-874001D54D4C}

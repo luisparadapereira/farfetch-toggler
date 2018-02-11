@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Farfetch.Common\Farfetch.Common.csproj" />
+    <ProjectReference Include="..\Farfetch.CoreUnitOfWork\Farfetch.CoreUnitOfWork.csproj" />
+    <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
+    <ProjectReference Include="..\Farfetch.Repositories\Farfetch.Repositories.csproj" />
+    <ProjectReference Include="..\Farfetch.RestAPI\Farfetch.RestAPI.csproj" />
+  </ItemGroup>
+
+</Project>
