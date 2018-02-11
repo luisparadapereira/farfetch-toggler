@@ -86,7 +86,7 @@ Two main functions
 
 Example behaviours
 | Input| Action | Toggle Name | Toggle Value | Output |
-|  --|-- | -- | -- | -- | -- |
+|--|-- | -- | -- | -- | -- |
 |  4| Plus | toggle1 | true |  6 |
 |  4| Plus | toggle1 | false|  4 |
 |  4| Mult | toggle2 | true|  8 |
