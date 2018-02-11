@@ -19,31 +19,6 @@
   color: white;
 }
 
-.slds-button_brand:focus {
-  /* box-shadow: 0 0 3px #f0515a */
-}
-
-.slds-button_neutral {
-  /* color: #565656; */
-}
-
-.slds-button_neutral:hover {
-  /* background-color:  #e9c6a744 */
-}
-
-.slds-button_neutral:focus {
-  /* box-shadow: 0 0 3px #e9c6a744 */
-}
-
-.slds-input {
-  /* width: 25rem; */
-}
-
-.slds-form-element {
-  /* width: 200px; */
-}
-
-
 
 .slds-visual-picker_medium .slds-visual-picker__figure{
   height: 3rem;
@@ -86,4 +61,15 @@
   border-width: 1rem;
   border-right-color:1589ee;
   border-top-color:1589ee;
+}
+
+h1 {
+  font-size: 1rem;
+}
+
+.selectButton {
+  margin: 0;
+  padding: 0;
+  width: 10rem;
+  
 }
