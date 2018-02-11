@@ -11,8 +11,6 @@ namespace Farfetch.CoreUnitOfWork
 {
     public class CoreUnit<T> where T : DbT
     {
-        private const string SETTINGS_FILEPATH = @"dbsettings.json";
-
         private readonly DbSettings _dbSettings;
 
         public IRepository<T> Repository { get; private set; }
@@ -20,10 +18,10 @@ namespace Farfetch.CoreUnitOfWork
         /// <summary>
         /// Default constructor
         /// </summary>
-        public CoreUnit()
+        public CoreUnit(string fileSettingsPath)
         {
             SettingsReader<DbSettings> reader = new SettingsReader<DbSettings>();
-            _dbSettings = reader.Read(SETTINGS_FILEPATH);
+            _dbSettings = reader.Read(fileSettingsPath);
             InitDatabase();
         }
 

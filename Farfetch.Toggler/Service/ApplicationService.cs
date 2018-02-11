@@ -10,6 +10,12 @@ namespace Farfetch.Toggler.Service
     /// </summary>
     public class ApplicationService: DbCrudService<Models.Service>, IService
     {
+        private string _fileSettingsPath;
+
+        public ApplicationService(string fileSettingsPath) : base(fileSettingsPath)
+        {
+            _fileSettingsPath = fileSettingsPath;
+        }
 
         /// <summary>
         /// Overrides the parent class so we can check when inserting
@@ -37,7 +43,7 @@ namespace Farfetch.Toggler.Service
         {
             Models.Service service = GetById(id);
             if (service == null) return;
-            TogglerService togglerService = new TogglerService();
+            TogglerService togglerService = new TogglerService(_fileSettingsPath);
             togglerService.RemoveServiceFromToggles(service);
             base.Delete(id);
         }

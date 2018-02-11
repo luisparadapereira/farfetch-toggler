@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>c:\users\luisp\development\farfetch\codingassignment\farfetch\farfetch.plusapp\entry.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+
+namespace Farfetch.PlusApp
+{
+    public class Entry
+    {
+        private static Number _number;
+
+        private static int _plusNumber;
+        private static int _plusNumberTmp;
+        private static int _multNumber;
+        private static int _multNumberTmp;
+
+        private const int INPUT_VALUE = 4;
+
+        public static void Main(string[] args)
+        {
+            _number = new Number();
+            _plusNumber = _number.AddNumber(INPUT_VALUE);
+            _multNumber = _number.MultNumber(INPUT_VALUE);
+            _plusNumberTmp = _plusNumber;
+            _multNumberTmp = _multNumber;
+
+            Console.WriteLine(&quot;PlusNumber: &quot; + _plusNumber);
+            Console.WriteLine(&quot;MultNumber: &quot; + _multNumber);
+
+            _number.Toggle1ChangedEvent += UpdatePlusValue;
+            _number.Toggle2ChangedEvent += UpdateMultValue;
+            _number.RegisterToggles();
+        }
+
+        private static void UpdateMultValue(string str)
+        {
+            Console.WriteLine(&quot;Requesting new mult value.&quot;);
+            _multNumberTmp = _number.MultNumber(INPUT_VALUE);
+
+            if (_multNumber != _multNumberTmp)
+            {
+                _multNumber = _multNumberTmp;
+                Console.WriteLine(&quot;--------------------------&quot;);
+                Console.WriteLine(&quot;MultNumber: &quot; + _multNumber);
+                Console.WriteLine(&quot;--------------------------&quot;);
+            }
+        }
+
+        private static void UpdatePlusValue(string str)
+        {
+            Console.WriteLine(&quot;Requesting new plus value.&quot;);
+            _plusNumberTmp = _number.AddNumber(INPUT_VALUE);
+
+            if (_plusNumber != _plusNumberTmp)
+            {
+                _plusNumber = _plusNumberTmp;
+                Console.WriteLine(&quot;--------------------------&quot;);
+                Console.WriteLine(&quot;PlusNumber: &quot; + _plusNumber);
+                Console.WriteLine(&quot;--------------------------&quot;);
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,10,0],[18,13,18,36,0],[19,13,19,58,0],[20,13,20,59,0],[21,13,21,42,0],[22,13,22,42,0],[24,13,24,61,0],[25,13,25,61,0],[27,13,27,60,0],[28,13,28,60,0],[29,13,29,39,0],[30,9,30,10,0],[33,9,33,10,0],[34,13,34,61,0],[35,13,35,62,0],[37,13,37,47,0],[38,13,38,14,0],[39,17,39,46,0],[40,17,40,65,0],[41,17,41,65,0],[42,17,42,65,0],[43,13,43,14,0],[44,9,44,10,0],[47,9,47,10,0],[48,13,48,61,0],[49,13,49,61,0],[51,13,51,47,0],[52,13,52,14,0],[53,17,53,46,0],[54,17,54,65,0],[55,17,55,65,0],[56,17,56,65,0],[57,13,57,14,0],[58,9,58,10,0]]);
+    </script>
+  </body>
+</html>

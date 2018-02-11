@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.ServiceFactory\Factory.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Farfetch.ServiceManager.Interfaces;
+using Farfetch.Toggler.Service;
+using Farfetch.UserAccounts.Service;
+
+namespace Farfetch.ServiceFactory
+{
+    /// &lt;summary&gt;
+    /// Available service types
+    /// &lt;/summary&gt;
+    public enum AvailableServices
+    {
+        Toggler,
+        UserAccounts,
+        TogglerApplication
+    }
+
+    /// &lt;summary&gt;
+    /// Centralized location to retrieve services.
+    /// &lt;/summary&gt;
+    public class Factory
+    {
+        private string _fileSettingsPath;
+
+        public Factory(string fileSettingsPath)
+        {
+            _fileSettingsPath = fileSettingsPath;
+        }
+
+        /// &lt;summary&gt;
+        /// Factory returns the service associated to the FactoryService enum
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The type of service&lt;/param&gt;
+        /// &lt;returns&gt;An IService&lt;/returns&gt;
+        public IService GetDbService(AvailableServices service)
+        {
+            switch (service)
+            {
+                case AvailableServices.Toggler:
+                    return new TogglerService(_fileSettingsPath);
+                case AvailableServices.UserAccounts:
+                    return new UserAccountService(_fileSettingsPath);
+                case AvailableServices.TogglerApplication:
+                    return new ApplicationService(_fileSettingsPath);
+                default:
+                    throw new OperationCanceledException(&quot;Service name not found.&quot;);
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[25,9,25,48,1],[26,9,26,10,1],[27,13,27,50,1],[28,9,28,10,1],[36,9,36,10,1],[37,13,37,29,1],[40,21,40,66,1],[42,21,42,70,1],[44,21,44,70,1],[46,21,46,85,0],[48,9,48,10,1]]);
+    </script>
+  </body>
+</html>

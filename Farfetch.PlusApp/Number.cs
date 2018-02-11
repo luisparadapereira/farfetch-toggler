@@ -1,7 +1,7 @@
 ﻿using Farfetch.APIHandler.API_Toggler.Internal;
 using Farfetch.APIHandler.Common;
 using Farfetch.Common;
-using Ferfetch.Messaging;
+using Farfetch.Messaging;
 
 namespace Farfetch.PlusApp
 {

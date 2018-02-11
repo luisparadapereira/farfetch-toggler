@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Common\AssemblyInformation.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Diagnostics;
+using System.Reflection;
+
+namespace Farfetch.Common
+{
+    /// &lt;summary&gt;
+    /// Defines application information such as assembly name and version
+    /// &lt;/summary&gt;
+    public class AssemblyInformation
+    {
+        /// &lt;summary&gt;
+        /// The assembly that has called this class
+        /// &lt;/summary&gt;
+        private Assembly _callingAssembly;
+
+        /// &lt;summary&gt;
+        /// The version of the assembly as defined in properties
+        /// &lt;/summary&gt;
+        protected string CallingAssemblyVersion;
+
+        /// &lt;summary&gt;
+        /// The name of the assembly
+        /// &lt;/summary&gt;
+        protected string CallingAssemblyName;
+
+        /// &lt;summary&gt;
+        /// Gathers information on the input assembly type
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;assemblyType&quot;&gt;The type of the assembly to get.&lt;/param&gt;
+        protected void GetApplicationInformation(Type assemblyType)
+        {
+            _callingAssembly = Assembly.GetAssembly(assemblyType);
+            if(_callingAssembly == null) throw new NullReferenceException(&quot;Couldn&#39;t get the Assembly information&quot;);
+            CallingAssemblyName = _callingAssembly?.GetName()?.Name;
+            if (_callingAssembly.Location == null) throw new NullReferenceException(&quot;Couldn&#39;t get the Assembly Location information&quot;);
+            CallingAssemblyVersion = FileVersionInfo.GetVersionInfo(_callingAssembly.Location).FileVersion;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[32,9,32,10,1],[33,13,33,67,1],[34,13,34,41,1],[34,42,34,116,0],[35,13,35,69,1],[36,13,36,51,1],[36,52,36,135,0],[37,13,37,108,1],[38,9,38,10,1]]);
+    </script>
+  </body>
+</html>

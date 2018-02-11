@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>c:\users\luisp\development\farfetch\codingassignment\farfetch\farfetch.messaging\broadcaster.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text;
+using RabbitMQ.Client;
+
+namespace Farfetch.Messaging
+{
+    /// &lt;summary&gt;
+    /// Sends a message via RabbitMQ
+    /// &lt;/summary&gt;
+    public class Broadcaster: RabbitSetup
+    {
+        /// &lt;summary&gt;
+        /// Sends a specific message to a specific channel
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;msgChannel&quot;&gt;The channel to broadcast&lt;/param&gt;
+        /// &lt;param name=&quot;message&quot;&gt;The message to send&lt;/param&gt;
+        public void SendMessage(string msgChannel, string message)
+        {
+            var body = Encoding.UTF8?.GetBytes(message);
+            Channel.BasicPublish(
+                &quot;direct_logs&quot;,
+                msgChannel,
+                null,
+                body
+            );
+        }
+
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,10,1],[18,13,18,57,1],[19,13,24,15,1],[25,9,25,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI\Controllers\TogglerController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using Farfetch.APIHandler.API_Toggler.Contract;
+using Farfetch.APIHandler.Common;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
+namespace Farfetch.RestAPI.Controllers
+{
+    /// &lt;inheritdoc cref=&quot;ITogglerApi&quot; /&gt;
+    [Route(&quot;[controller]&quot;)]
+    public class TogglerController : BaseController&lt;ITogglerApi&gt;, ITogglerApi
+    {
+        /// &lt;summary&gt;
+        /// Initializes the Controller
+        /// &lt;/summary&gt;
+        public TogglerController(IConfiguration config) : base(config)
+        {
+            GetService(AvailableApis.Toggler);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [HttpGet]
+        [Authorize]
+        public FarfetchMessage&lt;IEnumerable&lt;ToggleListDto&gt;&gt; GetAll()
+        {
+            return Service?.GetAll();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [HttpGet(&quot;{id}&quot;)]
+        [Authorize]
+        public FarfetchMessage&lt;ToggleDto&gt; Get(Guid id)
+        {
+           return Service?.Get(id);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        [HttpGet(&quot;{toggleName}/{toggleValue}/{serviceName}/{serviceVersion}&quot;)]
+        [Authorize]
+        public FarfetchMessage&lt;bool&gt; GetForService(string toggleName, bool toggleValue, string serviceName, string serviceVersion)
+        {
+            if (string.IsNullOrEmpty(toggleName)) throw new ArgumentNullException(nameof(toggleName));
+            if (string.IsNullOrEmpty(serviceName)) throw new ArgumentNullException(nameof(serviceName));
+            if (string.IsNullOrEmpty(serviceVersion)) throw new ArgumentNullException(nameof(serviceVersion));
+
+            return Service?.GetForService(toggleName, toggleValue, serviceName, serviceVersion);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [HttpPost]
+        [Authorize(Roles = &quot;Admin&quot;)]
+        public FarfetchMessage&lt;ToggleDto&gt; Insert([FromBody] ToggleDto toggleDto)
+        {
+            return Service?.Insert(toggleDto);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [HttpPut]
+        [Authorize(Roles = &quot;Admin&quot;)]
+        public FarfetchMessage&lt;ToggleDto&gt; Update([FromBody] ToggleDto toggleDto)
+        {
+            return Service?.Update(toggleDto);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [HttpDelete(&quot;{id}&quot;)]
+        [Authorize(Roles = &quot;Admin&quot;)]
+        public FarfetchMessage&lt;bool&gt; Delete(Guid id)
+        {
+            return Service?.Delete(id);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        FarfetchMessage&lt;IEnumerable&lt;ToggleDto&gt;&gt; ICrudApi&lt;ToggleDto&gt;.GetAll()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,59,20,71,1],[21,9,21,10,1],[22,13,22,47,1],[23,9,23,10,1],[29,9,29,10,1],[30,13,30,38,1],[31,9,31,10,1],[37,9,37,10,1],[38,12,38,36,1],[39,9,39,10,1],[45,9,45,10,1],[46,13,46,50,1],[46,51,46,103,0],[47,13,47,51,1],[47,52,47,105,0],[48,13,48,54,1],[48,55,48,111,0],[50,13,50,97,1],[51,9,51,10,1],[57,9,57,10,1],[58,13,58,47,1],[59,9,59,10,1],[65,9,65,10,1],[66,13,66,47,1],[67,9,67,10,1],[73,9,73,10,1],[74,13,74,40,1],[75,9,75,10,1],[79,9,79,10,0],[80,13,80,49,0]]);
+    </script>
+  </body>
+</html>

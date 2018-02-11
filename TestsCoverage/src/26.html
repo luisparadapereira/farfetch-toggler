@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Automapper\Profiles\Authentication\UserAMProfile.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AutoMapper;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.Models;
+
+namespace Farfetch.Automapper.Profiles.Authentication
+{
+    /// &lt;summary&gt;
+    /// Defines the profiles for type Service
+    /// &lt;/summary&gt;
+    public class UserAMProfile: Profile
+    {
+        /// &lt;inheritdoc /&gt;
+        public UserAMProfile()
+        {
+            CreateMap&lt;User, UserLoginDto&gt;()?.ReverseMap();
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,31,1],[14,9,14,10,1],[15,13,15,59,1],[16,9,16,10,1]]);
+    </script>
+  </body>
+</html>

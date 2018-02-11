@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI.Test\ServiceControllerTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.RestAPI.Controllers;
+using Farfetch.Tests;
+using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
+
+namespace Farfetch.RestAPI.Test
+{
+    [TestFixture]
+    public class ServiceControllerTests : TestBase
+    {
+        [Test]
+        public void Should_GetAll()
+        {
+            IConfiguration config = InitConfiguration();
+            ServiceController serviceController = new ServiceController(config);
+
+            var farfetchMessage = serviceController.GetAll();
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;IEnumerable&lt;ServiceDto&gt;&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.IsNotEmpty(farfetchMessage.Result);
+            Assert.AreEqual(typeof(ServiceDto), farfetchMessage.Result.FirstOrDefault().GetType());
+        }
+
+        [Test]
+        public void Should_Insert()
+        {
+            IConfiguration config = InitConfiguration();
+            ServiceController serviceController = new ServiceController(config);
+
+            ServiceDto service = new ServiceDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ServiceNameTestInsert&quot;,
+                Version = &quot;ServiceVersion&quot;,
+                ApiKey = &quot;apiKeyTest&quot;
+            };
+
+            var farfetchMessage = serviceController.Insert(service);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(service.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(service.Version, farfetchMessage.Result.Version);
+            Assert.AreEqual(service.ApiKey, farfetchMessage.Result.ApiKey);
+        }
+
+        [Test]
+        public void Should_Get()
+        {
+            IConfiguration config = InitConfiguration();
+            ServiceController serviceController = new ServiceController(config);
+
+            ServiceDto service = new ServiceDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ServiceNameTestGet&quot;,
+                Version = &quot;ServiceVersion&quot;,
+                ApiKey = &quot;apiKeyTest&quot;
+            };
+
+            var farfetchMessage = serviceController.Insert(service);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(service.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(service.Version, farfetchMessage.Result.Version);
+            Assert.AreEqual(service.ApiKey, farfetchMessage.Result.ApiKey);
+
+            var farfetchMessage2 = serviceController.Get(farfetchMessage.Result.Id);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(farfetchMessage.Result.Id, farfetchMessage2.Result.Id);
+            Assert.AreEqual(service.Name, farfetchMessage2.Result.Name);
+            Assert.AreEqual(service.Version, farfetchMessage2.Result.Version);
+            Assert.AreEqual(service.ApiKey, farfetchMessage2.Result.ApiKey);
+        }
+
+        [Test]
+        public void Should_Update()
+        {
+            IConfiguration config = InitConfiguration();
+            ServiceController serviceController = new ServiceController(config);
+
+            ServiceDto service = new ServiceDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ServiceNameTestUpdate&quot;,
+                Version = &quot;ServiceVersion&quot;,
+                ApiKey = &quot;apiKeyTest&quot;
+            };
+
+            var farfetchMessage = serviceController.Insert(service);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(service.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(service.Version, farfetchMessage.Result.Version);
+            Assert.AreEqual(service.ApiKey, farfetchMessage.Result.ApiKey);
+
+            farfetchMessage.Result.ApiKey = &quot;api key updated&quot;;
+
+            var farfetchMessage2 = serviceController.Update(farfetchMessage.Result);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(farfetchMessage.Result.Id, farfetchMessage2.Result.Id);
+            Assert.AreEqual(service.Name, farfetchMessage2.Result.Name);
+            Assert.AreEqual(service.Version, farfetchMessage2.Result.Version);
+            Assert.AreEqual(&quot;api key updated&quot;, farfetchMessage2.Result.ApiKey);
+
+            serviceController.Delete(farfetchMessage2.Result.Id);
+        }
+
+        [Test]
+        public void Should_Delete()
+        {
+            IConfiguration config = InitConfiguration();
+            ServiceController serviceController = new ServiceController(config);
+
+            ServiceDto service = new ServiceDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ServiceNameTestDelete&quot;,
+                Version = &quot;ServiceVersion&quot;,
+                ApiKey = &quot;apiKeyTest&quot;
+            };
+
+            var farfetchMessage = serviceController.Insert(service);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(service.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(service.Version, farfetchMessage.Result.Version);
+            Assert.AreEqual(service.ApiKey, farfetchMessage.Result.ApiKey);
+
+            var farfetchMessage2 = serviceController.Delete(farfetchMessage.Result.Id);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;bool&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(true, farfetchMessage2.Result);
+
+            var farfetchMessage3 = serviceController.Get(farfetchMessage.Result.Id);
+            Assert.NotNull(farfetchMessage3);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ServiceDto&gt;), farfetchMessage.GetType());
+            Assert.IsNull(farfetchMessage3.Result);
+        }
+
+        public static IConfiguration InitConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(&quot;appsettings_test.json&quot;);
+
+            return builder.Build();
+
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,10,1],[20,13,20,57,1],[21,13,21,81,1],[23,13,23,62,1],[24,13,24,45,1],[25,13,25,106,1],[26,13,26,52,1],[27,13,27,55,1],[28,13,28,100,1],[29,9,29,10,1],[33,9,33,10,1],[34,13,34,57,1],[35,13,35,81,1],[37,13,43,15,1],[45,13,45,69,1],[46,13,46,45,1],[47,13,47,93,1],[48,13,48,52,1],[49,13,49,72,1],[50,13,50,78,1],[51,13,51,76,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,57,1],[58,13,58,81,1],[60,13,66,15,1],[68,13,68,69,1],[69,13,69,45,1],[70,13,70,93,1],[71,13,71,52,1],[72,13,72,72,1],[73,13,73,78,1],[74,13,74,76,1],[76,13,76,85,1],[77,13,77,46,1],[78,13,78,94,1],[79,13,79,53,1],[80,13,80,84,1],[81,13,81,73,1],[82,13,82,79,1],[83,13,83,77,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,89,57,1],[90,13,90,81,1],[92,13,98,15,1],[100,13,100,69,1],[101,13,101,45,1],[102,13,102,93,1],[103,13,103,52,1],[104,13,104,72,1],[105,13,105,78,1],[106,13,106,76,1],[108,13,108,63,1],[110,13,110,85,1],[111,13,111,46,1],[112,13,112,94,1],[113,13,113,53,1],[114,13,114,84,1],[115,13,115,73,1],[116,13,116,79,1],[117,13,117,80,1],[119,13,119,66,1],[120,9,120,10,1],[124,9,124,10,1],[125,13,125,57,1],[126,13,126,81,1],[128,13,134,15,1],[136,13,136,69,1],[137,13,137,45,1],[138,13,138,93,1],[139,13,139,52,1],[140,13,140,72,1],[141,13,141,78,1],[142,13,142,76,1],[144,13,144,88,1],[145,13,145,46,1],[146,13,146,88,1],[147,13,147,53,1],[148,13,148,60,1],[150,13,150,85,1],[151,13,151,46,1],[152,13,152,93,1],[153,13,153,52,1],[154,9,154,10,1],[157,9,157,10,1],[158,13,160,55,1],[162,13,162,36,1],[164,9,164,10,1]]);
+    </script>
+  </body>
+</html>

@@ -50,11 +50,5 @@ namespace Farfetch.ServiceManager.Interfaces
         /// </summary>
         /// <param name="id">The Id to search for</param>
         void Delete(Guid id);
-
-        /// <summary>
-        /// Deletes a list of entries from the database with matching Id
-        /// </summary>
-        /// <param name="idsToDelete">A list of ids to delete</param>
-        void Delete(IEnumerable<Guid> idsToDelete);
     }
 }

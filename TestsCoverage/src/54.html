@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>c:\users\luisp\development\farfetch\codingassignment\farfetch\farfetch.plusapp\number.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Farfetch.APIHandler.API_Toggler.Internal;
+using Farfetch.APIHandler.Common;
+using Farfetch.Common;
+using Farfetch.Messaging;
+
+namespace Farfetch.PlusApp
+{
+    /// &lt;summary&gt;
+    /// Example service application where a toggle is used
+    /// &lt;/summary&gt;
+    public class Number: ApiAssembly,  IApplication
+    {
+        /// &lt;summary&gt;
+        /// The value to add to the input number
+        /// &lt;/summary&gt;
+        private const int VALUE_TO_ADD = 2;
+
+        /// &lt;summary&gt;
+        /// The Toggler API Communication
+        /// &lt;/summary&gt;
+        private readonly TogglerApiInternal _togglerApiInternal;
+
+        /// &lt;summary&gt;
+        /// Message Subscriber
+        /// &lt;/summary&gt;
+        private readonly Subscriber _subscriber;
+
+        /// &lt;summary&gt;
+        /// Event  for changes in plus values
+        /// &lt;/summary&gt;
+        public event FarfetchDelegate Toggle1ChangedEvent;
+
+        /// &lt;summary&gt;
+        /// Event  for changes in plus values
+        /// &lt;/summary&gt;
+        public event FarfetchDelegate Toggle2ChangedEvent;
+
+        /// &lt;summary&gt;
+        /// Default constructor gathers application information and the initializes
+        /// the toggle API communication
+        /// &lt;/summary&gt;
+        public Number()
+        {
+            GetApplicationInformation(typeof(Number));
+            GetApiKey(CallingAssemblyName, CallingAssemblyVersion);
+            _togglerApiInternal = new TogglerApiInternal();
+            _subscriber = new Subscriber();
+        }
+
+        /// &lt;summary&gt;
+        /// Registers all the application toggles
+        /// &lt;/summary&gt;
+        public void RegisterToggles()
+        {
+            _subscriber.ReceiveMessage(&quot;toggle1&quot;, Toggle1ChangedEvent);
+            _subscriber.ReceiveMessage(&quot;toggle2&quot;, Toggle2ChangedEvent);
+        }
+
+        /// &lt;summary&gt;
+        /// Given a number x will return number y.
+        /// Depending if the togle is active or not:
+        /// y = x -&gt; toggle not active
+        /// y = x + VALUE_TO_ADD -&gt; toggle active
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;number&quot;&gt;The number to calculate&lt;/param&gt;
+        /// &lt;returns&gt;the input number with a possible operation on it&lt;/returns&gt;
+        public int AddNumber(int number)
+        {
+            int valueToReturn = number;
+            if (_togglerApiInternal != null &amp;&amp; _togglerApiInternal.CheckToggle(&quot;toggle1&quot;, true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
+            {
+                valueToReturn = number + VALUE_TO_ADD;
+            }
+
+            return valueToReturn;
+        }
+
+        /// &lt;summary&gt;
+        /// Given a number x will return number y.
+        /// Depending if the togle is active or not:
+        /// y = x -&gt; toggle not active
+        /// y = x * VALUE_TO_ADD -&gt; toggle active
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;number&quot;&gt;The number to calculate&lt;/param&gt;
+        /// &lt;returns&gt;the input number with a possible operation on it&lt;/returns&gt;
+        public int MultNumber(int number)
+        {
+            int valueToReturn = number;
+            if (_togglerApiInternal != null &amp;&amp; _togglerApiInternal.CheckToggle(&quot;toggle2&quot;, true, CallingAssemblyName, CallingAssemblyVersion, Key.Key))
+            {
+                valueToReturn = number * VALUE_TO_ADD;
+            }
+
+            return valueToReturn;
+        }
+
+
+        /// &lt;inheritdoc cref=&quot;IApplication&quot; /&gt;
+        public string GetAssemblyName()
+        {
+            return CallingAssemblyName;
+        }
+
+        /// &lt;inheritdoc cref=&quot;IApplication&quot; /&gt;
+        public string GetAssemblyVersion()
+        {
+            return CallingAssemblyVersion;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[42,9,42,24,1],[43,9,43,10,1],[44,13,44,55,1],[45,13,45,68,1],[46,13,46,60,1],[47,13,47,44,1],[48,9,48,10,1],[54,9,54,10,0],[55,13,55,72,0],[56,13,56,72,0],[57,9,57,10,0],[68,9,68,10,0],[69,13,69,40,0],[70,13,70,151,0],[71,13,71,14,0],[72,17,72,55,0],[73,13,73,14,0],[75,13,75,34,0],[76,9,76,10,0],[87,9,87,10,0],[88,13,88,40,0],[89,13,89,151,0],[90,13,90,14,0],[91,17,91,55,0],[92,13,92,14,0],[94,13,94,34,0],[95,9,95,10,0],[100,9,100,10,1],[101,13,101,40,1],[102,9,102,10,1],[106,9,106,10,1],[107,13,107,43,1],[108,9,108,10,1]]);
+    </script>
+  </body>
+</html>

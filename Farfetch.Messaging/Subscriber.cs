@@ -2,7 +2,7 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace Ferfetch.Messaging
+namespace Farfetch.Messaging
 {
     /// <summary>
     /// Subscribes to a message via RabbitMQ

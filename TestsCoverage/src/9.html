@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI\Controllers\UserAuthenticationController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Security.Claims;
+using Farfetch.APIHandler.API_Authorization.Contract;
+using Farfetch.APIHandler.Common;
+using Farfetch.APIHandler.Common.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
+namespace Farfetch.RestAPI.Controllers
+{
+    /// &lt;inheritdoc cref=&quot;IUserAuthenticationApi&quot; /&gt;
+    [Route(&quot;[controller]&quot;)]
+    public class UserAuthenticationController : BaseAuthenticationController&lt;IUserAuthenticationApi&gt;, IUserAuthenticationApi, IAuthentication&lt;UserLoginDto&gt;
+    {
+        /// &lt;summary&gt;
+        /// Default constructor with DI of config
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;config&quot;&gt;The config file&lt;/param&gt;
+        public UserAuthenticationController(IConfiguration config) : base(config)
+        {
+            GetService(AvailableApis.UserAuthorization);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult CreateToken([FromBody] UserLoginDto userLogin)
+        {
+            if (userLogin == null) throw new ArgumentNullException(nameof(userLogin));
+            if (string.IsNullOrEmpty(userLogin.Username)) throw new NullReferenceException(&quot;Username hasn&#39;t been defined&quot;);
+            if (string.IsNullOrEmpty(userLogin.Password)) throw new NullReferenceException(&quot;Password hasn&#39;t been defined&quot;);
+
+            IActionResult response = Unauthorized();
+
+            userLogin = AuthenticateUser(userLogin.Username, userLogin.Password);
+
+            if (userLogin == null) return response;
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Role, userLogin.Profile)
+            };
+
+            string tokenString = BuildToken(DateTime.Now.AddMinutes(30), claims);
+            response = Ok(new {token = tokenString});
+
+            return response;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public UserLoginDto AuthenticateUser(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
+            return Service?.AuthenticateUser(username, password);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,70,20,82,0],[21,9,21,10,0],[22,13,22,57,0],[23,9,23,10,0],[29,9,29,10,0],[30,13,30,35,0],[30,36,30,87,0],[31,13,31,58,0],[31,59,31,124,0],[32,13,32,58,0],[32,59,32,124,0],[34,13,34,53,0],[36,13,36,82,0],[38,13,38,35,0],[38,36,38,52,0],[40,13,43,15,0],[45,13,45,82,0],[46,13,46,54,0],[48,13,48,29,0],[49,9,49,10,0],[53,9,53,10,0],[54,13,54,48,0],[54,49,54,99,0],[55,13,55,48,0],[55,49,55,99,0],[56,13,56,66,0],[57,9,57,10,0]]);
+    </script>
+  </body>
+</html>

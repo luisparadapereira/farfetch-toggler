@@ -5,6 +5,7 @@ using Farfetch.APIHandler.Common;
 using Farfetch.APIHandler.Common.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Farfetch.RestAPI.Controllers
 {
@@ -15,12 +16,15 @@ namespace Farfetch.RestAPI.Controllers
         /// <summary>
         /// Initializes the Controller
         /// </summary>
-        public UserAccountsController()
+        public UserAccountsController(IConfiguration config) : base(config)
         {
             GetService(AvailableApis.UserAccounts);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH ADMINS. Gets all of the registered users
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public FarfetchMessage<IEnumerable<UserLoginDto>> GetAll()
@@ -28,7 +32,11 @@ namespace Farfetch.RestAPI.Controllers
             return Service?.GetAll();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PUBLIC. Registers a new public user
+        /// </summary>
+        /// <param name="user">The user to register</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public FarfetchMessage<UserLoginDto> Insert([FromBody] UserLoginDto user)
@@ -38,7 +46,18 @@ namespace Farfetch.RestAPI.Controllers
             return Service?.Insert(user);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH ADMINS. Updates the Profile of a user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Only Admins can update a user. 
+        /// Available profiles are:
+        /// - Admins
+        /// - Developer
+        /// - Public
+        /// </remarks>
         [HttpPut]
         [Authorize(Roles = "Admin")]
         public FarfetchMessage<UserLoginDto> Update([FromBody] UserLoginDto user)
@@ -48,7 +67,11 @@ namespace Farfetch.RestAPI.Controllers
             return Service?.Update(user);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH ADMINS. Deletes a user
+        /// </summary>
+        /// <param name="username">The username of the user to delete</param>
+        /// <returns></returns>
         [HttpDelete("{username}")]
         [Authorize(Roles = "Admin")]
         public FarfetchMessage<bool> Delete(string username)
@@ -59,12 +82,14 @@ namespace Farfetch.RestAPI.Controllers
         }
 
         /// <inheritdoc />
+        [NonAction]
         public FarfetchMessage<UserLoginDto> Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
+        [NonAction]
         public FarfetchMessage<bool> Delete(Guid id)
         {
             throw new NotImplementedException();

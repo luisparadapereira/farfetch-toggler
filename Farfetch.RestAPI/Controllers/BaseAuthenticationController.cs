@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Farfetch.APIHandler.Common;
 using Farfetch.APIHandler.Common.Contract;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -16,17 +17,11 @@ namespace Farfetch.RestAPI.Controllers
     public class BaseAuthenticationController<T>: BaseController<T> where T: IApi
     {
         /// <summary>
-        /// The config file holding JWT information
-        /// </summary>
-        private readonly IConfiguration _config;
-
-        /// <summary>
         /// Constructor with DI of configuration
         /// </summary>
         /// <param name="config">The configuration</param>
-        public BaseAuthenticationController(IConfiguration config)
+        public BaseAuthenticationController(IConfiguration config) : base(config)
         {
-            _config = config;
         }
 
         /// <summary>
@@ -35,6 +30,7 @@ namespace Farfetch.RestAPI.Controllers
         /// <param name="timeUntilExpiration"></param>
         /// <param name="claims"></param>
         /// <returns></returns>
+        [NonAction]
         public string BuildToken(DateTime timeUntilExpiration, Claim[] claims)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

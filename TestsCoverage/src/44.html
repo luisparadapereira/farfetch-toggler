@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.APIInformation\API_Toggler\Public\ServiceAPIPublic.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+using Farfetch.APIHandler.API_Toggler.Contract;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.Models;
+using Farfetch.ServiceFactory;
+using Farfetch.Toggler.Service;
+using Factory = Farfetch.ServiceFactory.Factory;
+
+namespace Farfetch.APIHandler.API_Toggler.Public
+{
+    public class ServiceApiPublic : IServiceApi
+    {
+        /// &lt;summary&gt;
+        /// The Application service that is defined on the constructor
+        /// &lt;/summary&gt;
+        private readonly ApplicationService _applicationService;
+
+        /// &lt;summary&gt;
+        /// Default constructor defines the service
+        /// &lt;/summary&gt;
+        public ServiceApiPublic(string settingsFilePath)
+        {
+            Factory factory = new Factory(settingsFilePath);
+            _applicationService = factory.GetDbService(AvailableServices.TogglerApplication) as ApplicationService;
+
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;IEnumerable&lt;ServiceDto&gt;&gt; GetAll()
+        {
+            if (_applicationService == null) throw new NullReferenceException(&quot;Application Service hasn&#39;t been defined&quot;);
+            IEnumerable&lt;Models.Service&gt; serviceList = _applicationService.GetAll();
+            IEnumerable&lt;ServiceDto&gt; serviceDtoList = new List&lt;ServiceDto&gt;();
+            if (serviceList!=null &amp;&amp; serviceList.Count() != 0)
+            {
+                serviceDtoList = Mapper.Map&lt;IEnumerable&lt;Models.Service&gt;, IEnumerable&lt;ServiceDto&gt;&gt;(serviceList);
+                if (serviceDtoList == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            }
+
+            return new FarfetchMessage&lt;IEnumerable&lt;ServiceDto&gt;&gt;
+            {
+                Result = serviceDtoList
+            };
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;ServiceDto&gt; Get(Guid id)
+        {
+            if (_applicationService == null) throw new NullReferenceException(&quot;Application Service hasn&#39;t been defined&quot;);
+            Service service = _applicationService.GetById(id);
+            if (service == null)
+            {
+                return new FarfetchMessage&lt;ServiceDto&gt;
+                {
+                    Result = null
+                };
+            }
+            ServiceDto serviceDto = Mapper.Map&lt;Models.Service, ServiceDto&gt;(service);
+            if (serviceDto == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+
+            return new FarfetchMessage&lt;ServiceDto&gt;
+            {
+                Result = serviceDto
+            };
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;ServiceDto&gt; Insert(ServiceDto serviceDto)
+        {
+            if (_applicationService == null) throw new NullReferenceException(&quot;Application Service hasn&#39;t been defined&quot;);
+
+            Service service = Mapper.Map&lt;ServiceDto, Service&gt;(serviceDto);
+            if (service == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            _applicationService.Insert(service);
+
+            service = _applicationService.GetByExpression(x =&gt; x.Name == serviceDto.Name &amp;&amp; x.Version == serviceDto.Version &amp;&amp; x.ApiKey == serviceDto.ApiKey);
+
+            serviceDto = Mapper.Map&lt;Service, ServiceDto&gt;(service);
+            if (service == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            return new FarfetchMessage&lt;ServiceDto&gt;
+            {
+                Result = serviceDto,
+            };
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;ServiceDto&gt; Update(ServiceDto serviceDto)
+        {
+            if (_applicationService == null) throw new NullReferenceException(&quot;Application Service hasn&#39;t been defined&quot;);
+
+            Service service = Mapper.Map&lt;ServiceDto, Service&gt;(serviceDto);
+            if (service == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            _applicationService.Update(service);
+
+            service = _applicationService.GetByExpression(x =&gt; x.Name == serviceDto.Name &amp;&amp; x.Version == serviceDto.Version &amp;&amp; x.ApiKey == serviceDto.ApiKey);
+
+            serviceDto = Mapper.Map&lt;Service, ServiceDto&gt;(service);
+            if (service == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            return new FarfetchMessage&lt;ServiceDto&gt;
+            {
+                Result = serviceDto,
+            };
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;bool&gt; Delete(Guid id)
+        {
+            if (_applicationService == null) throw new NullReferenceException(&quot;Application Service hasn&#39;t been defined&quot;);
+
+            try
+            {
+                _applicationService.Delete(id);
+                return new FarfetchMessage&lt;bool&gt;
+                {
+                    Result = true
+                };
+            }
+            catch (Exception)
+            {
+                return new FarfetchMessage&lt;bool&gt;
+                {
+                    Result = false
+                };
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[25,9,25,57,1],[26,9,26,10,1],[27,13,27,61,1],[28,13,28,116,1],[30,9,30,10,1],[34,9,34,10,1],[35,13,35,45,1],[35,46,35,122,0],[36,13,36,84,1],[37,13,37,77,1],[38,13,38,63,1],[39,13,39,14,1],[40,17,40,112,1],[41,17,41,44,1],[41,45,41,105,0],[42,13,42,14,1],[44,13,47,15,1],[48,9,48,10,1],[52,9,52,10,1],[53,13,53,45,1],[53,46,53,122,0],[54,13,54,63,1],[55,13,55,33,1],[56,13,56,14,1],[57,17,60,19,1],[62,13,62,85,1],[63,13,63,36,1],[63,37,63,97,0],[65,13,68,15,1],[69,9,69,10,1],[73,9,73,10,1],[74,13,74,45,1],[74,46,74,122,0],[76,13,76,75,1],[77,13,77,33,1],[77,34,77,94,0],[78,13,78,49,1],[80,13,80,159,1],[82,13,82,67,1],[83,13,83,33,1],[83,34,83,94,0],[84,13,87,15,1],[88,9,88,10,1],[92,9,92,10,1],[93,13,93,45,1],[93,46,93,122,0],[95,13,95,75,1],[96,13,96,33,1],[96,34,96,94,0],[97,13,97,49,1],[99,13,99,159,1],[101,13,101,67,1],[102,13,102,33,1],[102,34,102,94,0],[103,13,106,15,1],[107,9,107,10,1],[111,9,111,10,1],[112,13,112,45,1],[112,46,112,122,0],[115,13,115,14,1],[116,17,116,48,1],[117,17,120,19,1],[122,13,122,30,0],[123,13,123,14,0],[124,17,127,19,0],[129,9,129,10,1]]);
+    </script>
+  </body>
+</html>

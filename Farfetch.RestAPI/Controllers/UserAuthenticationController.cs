@@ -22,7 +22,11 @@ namespace Farfetch.RestAPI.Controllers
             GetService(AvailableApis.UserAuthorization);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PUBLIC. Creates a new user token for a valid user
+        /// </summary>
+        /// <param name="userLogin">The user login</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult CreateToken([FromBody] UserLoginDto userLogin)
@@ -49,6 +53,7 @@ namespace Farfetch.RestAPI.Controllers
         }
 
         /// <inheritdoc />
+        [NonAction]
         public UserLoginDto AuthenticateUser(string username, string password)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));

@@ -56,11 +56,5 @@ namespace Farfetch.Repositories
         /// <param name="expression">The expression to search the entity to delete by</param>
         void Delete(Expression<Func<T, bool>> expression);
 
-        /// <summary>
-        /// Deletes multiple entities that match the expression
-        /// </summary>
-        /// <param name="expression">The expression to search the entities to delete</param>
-        void DeleteMany(Expression<Func<T, bool>> expression);
-
     }
 }

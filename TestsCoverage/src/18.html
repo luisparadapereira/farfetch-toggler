@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Service.Interface\BaseServices\DbService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Farfetch.CoreUnitOfWork;
+using Farfetch.Models;
+
+namespace Farfetch.ServiceManager.BaseServices
+{
+    /// &lt;summary&gt;
+    /// Base for services that deal with the database
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;T&quot;&gt;The type of model we&#39;re handling&lt;/typeparam&gt;
+    public class DbService&lt;T&gt; where T : DbT
+    {
+        /// &lt;summary&gt;
+        /// CoreUnitOfWork class. Operations to the database will be exectuted
+        /// from here
+        /// &lt;/summary&gt;
+        protected CoreUnit&lt;T&gt; CoreUnit;
+
+        /// &lt;summary&gt;
+        /// Default constructor initializes the core unit
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;fileSettingsPath&quot;&gt;Settings file path&lt;/param&gt;
+        protected DbService(string fileSettingsPath)
+        {
+            InitCoreUnit(fileSettingsPath);
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes the core unit of work
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;fileSettingsPath&quot;&gt;Settings file path&lt;/param&gt;
+        private void InitCoreUnit(string fileSettingsPath)
+        {
+            if (fileSettingsPath == null) throw new ArgumentNullException(nameof(fileSettingsPath));
+            CoreUnit = new CoreUnit&lt;T&gt;(fileSettingsPath);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,53,1],[24,9,24,10,1],[25,13,25,44,1],[26,9,26,10,1],[33,9,33,10,1],[34,13,34,42,1],[34,43,34,101,0],[35,13,35,58,1],[36,9,36,10,1]]);
+    </script>
+  </body>
+</html>

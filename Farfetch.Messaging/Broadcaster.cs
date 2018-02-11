@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using RabbitMQ.Client;
 
-namespace Ferfetch.Messaging
+namespace Farfetch.Messaging
 {
     /// <summary>
     /// Sends a message via RabbitMQ

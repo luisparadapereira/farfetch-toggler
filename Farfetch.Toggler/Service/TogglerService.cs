@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Farfetch.Messaging;
 using Farfetch.Models;
 using Farfetch.ServiceManager;
 using Farfetch.ServiceManager.Interfaces;
-using Ferfetch.Messaging;
 
 namespace Farfetch.Toggler.Service
 {
@@ -15,7 +16,7 @@ namespace Farfetch.Toggler.Service
         private readonly Broadcaster _broadcaster;
 
 
-        public TogglerService()
+        public TogglerService(string fileSettingsPath) : base(fileSettingsPath)
         {
             _broadcaster = new Broadcaster();
         }
@@ -82,15 +83,13 @@ namespace Farfetch.Toggler.Service
         /// <param name="service">The service to delete</param>
         public void RemoveServiceFromToggles(Models.Service service)
         {
-            var results = GetBy(x => x.ServiceList.Contains(service));
+            List<Toggle> results = GetAll().Where(x => x.ServiceList.Any(y => y.Name == service.Name && y.Version == service.Version)).ToList();
             foreach (Toggle toggle in results)
             {
-                toggle.ServiceList.Remove(service);
+                toggle.ServiceList.RemoveAll(x => x.Name == service.Name && x.Version == service.Version);
+
                 Update(toggle);
             }
         }
-
-
-
     }
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Toggler\Service\TogglerService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Farfetch.Messaging;
+using Farfetch.Models;
+using Farfetch.ServiceManager;
+using Farfetch.ServiceManager.Interfaces;
+
+namespace Farfetch.Toggler.Service
+{
+    /// &lt;summary&gt;
+    /// Toggler service that handles client requests
+    /// &lt;/summary&gt;
+    public class TogglerService: DbCrudService&lt;Toggle&gt;, IService
+    {
+        private readonly Broadcaster _broadcaster;
+
+
+        public TogglerService(string fileSettingsPath) : base(fileSettingsPath)
+        {
+            _broadcaster = new Broadcaster();
+        }
+
+        /// &lt;summary&gt;
+        /// Overrides the parent class so we can check when inserting
+        /// if the item already exists. If it does then updates it.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;toggle&quot;&gt;The toggle to insert&lt;/param&gt;
+        public new void Insert(Toggle toggle)
+        {
+            if (toggle == null) throw new ArgumentNullException(nameof(toggle));
+            if(string.IsNullOrEmpty(toggle.Name)) throw new NullReferenceException(&quot;Toggle name was not defined&quot;);
+            Toggle existingToggle = GetBy(x =&gt; x.Name == toggle.Name &amp;&amp; x.Value == toggle.Value)?.FirstOrDefault();
+            if(existingToggle == null)
+            {
+                base.Insert(toggle);
+            }
+            else
+            {
+                toggle.Id = existingToggle.Id;
+                Update(toggle);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Overrides the parent class so we can emit messages on toggle update
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;toggle&quot;&gt;The toggle to update&lt;/param&gt;
+        public new void Update(Toggle toggle)
+        {
+            _broadcaster?.SendMessage(toggle?.Name, &quot;updated&quot;);
+            base.Update(toggle);
+        }
+
+        /// &lt;summary&gt;
+        /// Checks if an operation should be executed or not based on toggle and service values.
+        /// Also verifies if there is any other toggle with the same name and service information with the override
+        /// function turned to true. If so that one gains precedence.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;toggle&quot;&gt;The toggle to check&lt;/param&gt;
+        /// &lt;returns&gt;boolean specifying if the operation should be executed or not&lt;/returns&gt;
+        public bool ShouldApplicationExecute(Toggle toggle)
+        {
+            if (toggle == null) throw new ArgumentNullException(nameof(toggle));
+            var service = toggle.ServiceList?.FirstOrDefault();
+            if (service == null) throw new NullReferenceException(&quot;Toggle didn&#39;t have any service&quot;);
+
+            var results = GetBy(x =&gt; x.Name == toggle.Name).ToList();
+            if (results.Count == 0) return false;
+
+            var existingToggles = results.Where(y =&gt; y.ServiceList.Exists(x =&gt; x.Name == service.Name &amp;&amp; x.Version == service.Version)).ToList();
+            if (existingToggles.Count == 0) return false;
+
+            var overrideToggle = results.FirstOrDefault(x =&gt; x.Overrides);
+            if (overrideToggle != null) return toggle.Value == overrideToggle.Value;
+
+            return results.FirstOrDefault(x =&gt; x.Value == toggle.Value) != null;
+        }
+
+        /// &lt;summary&gt;
+        /// When deleting a service we need to run this to update all the associated toggles
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service to delete&lt;/param&gt;
+        public void RemoveServiceFromToggles(Models.Service service)
+        {
+            List&lt;Toggle&gt; results = GetAll().Where(x =&gt; x.ServiceList.Any(y =&gt; y.Name == service.Name &amp;&amp; y.Version == service.Version)).ToList();
+            foreach (Toggle toggle in results)
+            {
+                toggle.ServiceList.RemoveAll(x =&gt; x.Name == service.Name &amp;&amp; x.Version == service.Version);
+
+                Update(toggle);
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,58,19,80,1],[20,9,20,10,1],[21,13,21,46,1],[22,9,22,10,1],[30,9,30,10,1],[31,13,31,32,1],[31,33,31,81,0],[32,13,32,50,1],[32,51,32,115,0],[33,13,33,116,1],[34,13,34,39,1],[35,13,35,14,1],[36,17,36,37,1],[37,13,37,14,1],[39,13,39,14,1],[40,17,40,47,1],[41,17,41,32,1],[42,13,42,14,1],[43,9,43,10,1],[50,9,50,10,1],[51,13,51,64,1],[52,13,52,33,1],[53,9,53,10,1],[63,9,63,10,1],[64,13,64,32,1],[64,33,64,81,0],[65,13,65,64,1],[66,13,66,33,1],[66,34,66,101,1],[68,13,68,70,1],[69,13,69,36,1],[69,37,69,50,0],[71,13,71,54,1],[71,54,71,80,1],[71,80,71,134,1],[71,134,71,135,1],[71,54,71,135,1],[71,135,71,146,1],[71,13,71,146,1],[72,13,72,44,1],[72,45,72,58,0],[74,13,74,62,1],[74,62,74,73,1],[74,73,74,75,1],[74,13,74,75,1],[75,13,75,40,1],[75,41,75,85,1],[77,13,77,48,1],[77,48,77,71,1],[77,71,77,81,1],[77,13,77,81,1],[78,9,78,10,1],[85,9,85,10,1],[86,13,86,56,1],[86,56,86,79,1],[86,79,86,133,1],[86,133,86,134,1],[86,56,86,134,1],[86,134,86,145,1],[86,13,86,145,1],[87,13,87,20,1],[87,22,87,35,1],[87,36,87,38,1],[87,39,87,46,1],[88,13,88,14,1],[89,17,89,51,1],[89,51,89,105,1],[89,105,89,107,1],[89,17,89,107,1],[91,17,91,32,1],[92,13,92,14,1],[93,9,93,10,1]]);
+    </script>
+  </body>
+</html>

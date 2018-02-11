@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.APIInformation\API_UserAccounts\Public\UserAccountsPublic.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+using Farfetch.APIHandler.API_UserAccounts.Contract;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.Models;
+using Farfetch.ServiceFactory;
+using Farfetch.UserAccounts.Service;
+
+namespace Farfetch.APIHandler.API_UserAccounts.Public
+{
+    public class UserAccountsPublic : IUserAccountsApi
+    {
+        /// &lt;summary&gt;
+        /// The user service
+        /// &lt;/summary&gt;
+        private readonly UserAccountService _userAccountService;
+
+        /// &lt;summary&gt;
+        /// Default constructor defines the service
+        /// &lt;/summary&gt;
+        public UserAccountsPublic(string settingsFilePath)
+        {
+            Factory factory = new Factory(settingsFilePath);
+            _userAccountService = factory.GetDbService(AvailableServices.UserAccounts) as UserAccountService;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;IEnumerable&lt;UserLoginDto&gt;&gt; GetAll()
+        {
+            if (_userAccountService == null) throw new NullReferenceException(&quot;User Account Service hasn&#39;t been defined&quot;);
+            IEnumerable&lt;User&gt; userList = _userAccountService.GetAll();
+            IEnumerable&lt;UserLoginDto&gt; userDtoList = new List&lt;UserLoginDto&gt;();
+            if (userList != null &amp;&amp; userList.Count() != 0)
+            {
+                userDtoList = Mapper.Map&lt;IEnumerable&lt;User&gt;, IEnumerable&lt;UserLoginDto&gt;&gt;(userList);
+                if (userDtoList == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            }
+            return new FarfetchMessage&lt;IEnumerable&lt;UserLoginDto&gt;&gt;
+            {
+                Result = userDtoList
+            };
+
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;UserLoginDto&gt; Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;UserLoginDto&gt; Insert(UserLoginDto userDto)
+        {
+            if (_userAccountService == null) throw new NullReferenceException(&quot;User Account Service hasn&#39;t been defined&quot;);
+
+            User user = Mapper.Map&lt;UserLoginDto, User&gt;(userDto);
+            if (user == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            _userAccountService.Insert(user);
+            user = _userAccountService.GetByExpression(x =&gt; x.Username == userDto.Username &amp;&amp; x.Password == userDto.Password);
+            userDto = Mapper.Map&lt;User, UserLoginDto&gt;(user);
+            if (user == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            return new FarfetchMessage&lt;UserLoginDto&gt;
+            {
+                Result = userDto,
+            };
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;UserLoginDto&gt; Update(UserLoginDto userDto)
+        {
+            if (_userAccountService == null) throw new NullReferenceException(&quot;User Account Service hasn&#39;t been defined&quot;);
+
+            User user = Mapper.Map&lt;UserLoginDto, User&gt;(userDto);
+            if (user == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            if (user.Id == Guid.Empty)
+            {
+                user = _userAccountService.GetByExpression(x =&gt; x.Username == userDto.Username &amp;&amp; x.Password == userDto.Password);
+                user.Profile = userDto.Profile;
+            }
+            _userAccountService.Update(user);
+            user = _userAccountService.GetByExpression(x =&gt; x.Username == userDto.Username &amp;&amp; x.Password == userDto.Password);
+
+            userDto = Mapper.Map&lt;User, UserLoginDto&gt;(user);
+            if (user == null) throw new AutoMapperMappingException(&quot;Error mapping types&quot;);
+            return new FarfetchMessage&lt;UserLoginDto&gt;
+            {
+                Result = userDto,
+            };
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;bool&gt; Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public FarfetchMessage&lt;bool&gt; Delete(string username)
+        {
+            if (_userAccountService == null) throw new NullReferenceException(&quot;User Account Service hasn&#39;t been defined&quot;);
+            User user = _userAccountService.GetByExpression(x =&gt; x.Username == username);
+            if (user == null)
+            {
+                return new FarfetchMessage&lt;bool&gt;
+                {
+                    Result = false
+                };
+            }
+            try
+            {
+                _userAccountService.Delete(user.Id);
+                return new FarfetchMessage&lt;bool&gt;
+                {
+                    Result = true
+                };
+            }
+            catch (Exception)
+            {
+                return new FarfetchMessage&lt;bool&gt;
+                {
+                    Result = false
+                };
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,59,1],[24,9,24,10,1],[25,13,25,61,1],[26,13,26,110,1],[27,9,27,10,1],[31,9,31,10,1],[32,13,32,45,1],[32,46,32,123,0],[33,13,33,71,1],[34,13,34,78,1],[35,13,35,59,1],[36,13,36,14,1],[37,17,37,98,1],[38,17,38,41,1],[38,42,38,102,0],[39,13,39,14,1],[40,13,43,15,1],[45,9,45,10,1],[49,9,49,10,0],[50,13,50,49,0],[55,9,55,10,1],[56,13,56,45,1],[56,46,56,123,0],[58,13,58,65,1],[59,13,59,30,1],[59,31,59,91,0],[60,13,60,46,1],[61,13,61,127,1],[62,13,62,60,1],[63,13,63,30,1],[63,31,63,91,0],[64,13,67,15,1],[68,9,68,10,1],[72,9,72,10,1],[73,13,73,45,1],[73,46,73,123,0],[75,13,75,65,1],[76,13,76,30,1],[76,31,76,91,0],[77,13,77,39,1],[78,13,78,14,1],[79,17,79,131,1],[80,17,80,48,1],[81,13,81,14,1],[82,13,82,46,1],[83,13,83,127,1],[85,13,85,60,1],[86,13,86,30,1],[86,31,86,91,0],[87,13,90,15,1],[91,9,91,10,1],[95,9,95,10,0],[96,13,96,49,0],[101,9,101,10,1],[102,13,102,45,1],[102,46,102,123,0],[103,13,103,90,1],[104,13,104,30,1],[105,13,105,14,0],[106,17,109,19,0],[112,13,112,14,1],[113,17,113,53,1],[114,17,117,19,1],[119,13,119,30,0],[120,13,120,14,0],[121,17,124,19,0],[126,9,126,10,1]]);
+    </script>
+  </body>
+</html>

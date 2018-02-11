@@ -26,6 +26,13 @@ namespace Farfetch.APIHandler.Common
     /// </summary>
     public class Factory
     {
+        private string _fileSettingsPath;
+
+        public Factory(string fileSettingsPath)
+        {
+            _fileSettingsPath = fileSettingsPath;
+        }
+
         /// <summary>
         /// Given a type of APi returns the instanciated IApi
         /// </summary>
@@ -33,14 +40,21 @@ namespace Farfetch.APIHandler.Common
         /// <returns>An IApi</returns>
         public IApi GetService(AvailableApis api)
         {
-            switch (api)
+            try
             {
-                case AvailableApis.UserAuthorization: return new UserAuthorizationPublic();
-                case AvailableApis.UserAccounts: return new UserAccountsPublic();
-                case AvailableApis.Toggler: return new TogglerApiPublic();
-                case AvailableApis.TogglerInternal: return new TogglerApiInternal();
-                case AvailableApis.Service: return new ServiceApiPublic();
-                default: return null;
+                switch (api)
+                {
+                    case AvailableApis.UserAuthorization: return new UserAuthorizationPublic(_fileSettingsPath);
+                    case AvailableApis.UserAccounts: return new UserAccountsPublic(_fileSettingsPath);
+                    case AvailableApis.Toggler: return new TogglerApiPublic(_fileSettingsPath);
+                    case AvailableApis.TogglerInternal: return new TogglerApiInternal();
+                    case AvailableApis.Service: return new ServiceApiPublic(_fileSettingsPath);
+                    default: return null;
+                }
+            }
+            catch (System.Exception e)
+            {
+                return null;
             }
         }
     }

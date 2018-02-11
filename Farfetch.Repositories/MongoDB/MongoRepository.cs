@@ -87,12 +87,5 @@ namespace Farfetch.Repositories.MongoDB
             if (_collection == null) throw new NullReferenceException("Failed to initialize the collection");
             _collection.DeleteOne(expression);
         }
-
-        /// <inheritdoc />
-        public void DeleteMany(Expression<Func<T, bool>> expression)
-        {
-            if (_collection == null) throw new NullReferenceException("Failed to initialize the collection");
-            _collection.DeleteMany(expression);
-        }
     }
 }

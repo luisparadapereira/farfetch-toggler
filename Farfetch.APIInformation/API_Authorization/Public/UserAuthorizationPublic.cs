@@ -22,9 +22,9 @@ namespace Farfetch.APIHandler.API_Authorization.Public
         /// <summary>
         /// Default constructor defines the service
         /// </summary>
-        public UserAuthorizationPublic()
+        public UserAuthorizationPublic(string settingsFilePath)
         {
-            Factory factory = new Factory();
+            Factory factory = new Factory(settingsFilePath);
             _userAccountService = factory.GetDbService(AvailableServices.UserAccounts) as UserAccountService;
         }
 

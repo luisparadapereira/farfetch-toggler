@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI\Controllers\BaseAuthenticationController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Farfetch.APIHandler.Common;
+using Farfetch.APIHandler.Common.Contract;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Farfetch.RestAPI.Controllers
+{
+    /// &lt;summary&gt;
+    /// The base for the authorization controllers
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
+    public class BaseAuthenticationController&lt;T&gt;: BaseController&lt;T&gt; where T: IApi
+    {
+        /// &lt;summary&gt;
+        /// Constructor with DI of configuration
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;config&quot;&gt;The configuration&lt;/param&gt;
+        public BaseAuthenticationController(IConfiguration config) : base(config)
+        {
+        }
+
+        /// &lt;summary&gt;
+        /// Generates the token
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;timeUntilExpiration&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;claims&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public string BuildToken(DateTime timeUntilExpiration, Claim[] claims)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config[&quot;Jwt:Key&quot;]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                _config[&quot;Jwt:Issuer&quot;],
+                _config[&quot;Jwt:Issuer&quot;],
+                claims,
+                expires: timeUntilExpiration,
+                signingCredentials: creds);
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            var clientToken = tokenHandler.WriteToken(token); return clientToken;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[22,70,22,82,0],[23,9,23,10,0],[24,9,24,10,0],[33,9,33,10,0],[34,13,34,92,0],[35,13,35,84,0],[37,13,42,44,0],[44,13,44,82,0],[45,13,45,62,0],[45,63,45,82,0],[46,9,46,10,0]]);
+    </script>
+  </body>
+</html>

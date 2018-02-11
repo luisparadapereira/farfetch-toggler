@@ -10,6 +10,10 @@ namespace Farfetch.ServiceManager
 {
     public class DbCrudService<T>: DbService<T>, ICrudService<T> where T: DbT
     {
+        public DbCrudService(string settingsFilePath): base(settingsFilePath)
+        {
+        }
+
         /// <inheritdoc />
         public IEnumerable<T> GetAll()
         {
@@ -82,17 +86,6 @@ namespace Farfetch.ServiceManager
             if (CoreUnit.Repository == null) throw new NullReferenceException("Repository wasn't initialized");
 
             CoreUnit.Repository.Delete(x => x.Id == id);
-        }
-
-        /// <inheritdoc />
-        public void Delete(IEnumerable<Guid> idsToDelete)
-        {
-            if (idsToDelete == null) throw new ArgumentNullException(nameof(idsToDelete));
-            if (!idsToDelete.Any()) return;
-            if (CoreUnit == null) throw new NullReferenceException("CoreUnit wasn't initialized");
-            if (CoreUnit.Repository == null) throw new NullReferenceException("Repository wasn't initialized");
-
-            CoreUnit.Repository.DeleteMany(x => idsToDelete.Contains(x.Id));
         }
     }
 }

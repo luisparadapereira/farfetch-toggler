@@ -9,9 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Farfetch.Messaging\Farfetch.Messaging.csproj" />
     <ProjectReference Include="..\Farfetch.Models\Farfetch.Models.csproj" />
     <ProjectReference Include="..\Farfetch.Service.Interface\Farfetch.ServiceManager.csproj" />
-    <ProjectReference Include="..\Ferfetch.Messaging\Ferfetch.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

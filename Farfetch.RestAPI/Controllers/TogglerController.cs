@@ -6,6 +6,7 @@ using Farfetch.APIHandler.Common.DTO;
 using Farfetch.APIHandler.TogglerAPI.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Farfetch.RestAPI.Controllers
 {
@@ -16,12 +17,15 @@ namespace Farfetch.RestAPI.Controllers
         /// <summary>
         /// Initializes the Controller
         /// </summary>
-        public TogglerController()
+        public TogglerController(IConfiguration config) : base(config)
         {
             GetService(AvailableApis.Toggler);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PUBLIC. Gets all the toggles available
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public FarfetchMessage<IEnumerable<ToggleListDto>> GetAll()
@@ -29,7 +33,11 @@ namespace Farfetch.RestAPI.Controllers
             return Service?.GetAll();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PUBLIC. Gets a single toggle information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize]
         public FarfetchMessage<ToggleDto> Get(Guid id)
@@ -37,7 +45,14 @@ namespace Farfetch.RestAPI.Controllers
            return Service?.Get(id);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// AUTHORIZED SERVICES ONLY. Checks if a toggle should be or not executed for a given service
+        /// </summary>
+        /// <param name="toggleName">The name of the toggle</param>
+        /// <param name="toggleValue">The value of the toggle</param>
+        /// <param name="serviceName">The name of the service</param>
+        /// <param name="serviceVersion">The version fo the service</param>
+        /// <returns></returns>
         [HttpGet("{toggleName}/{toggleValue}/{serviceName}/{serviceVersion}")]
         [Authorize]
         public FarfetchMessage<bool> GetForService(string toggleName, bool toggleValue, string serviceName, string serviceVersion)
@@ -49,31 +64,50 @@ namespace Farfetch.RestAPI.Controllers
             return Service?.GetForService(toggleName, toggleValue, serviceName, serviceVersion);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH. Inserts a new toggle
+        /// </summary>
+        /// <param name="toggleDto"></param>
+        /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Developer")]
         public FarfetchMessage<ToggleDto> Insert([FromBody] ToggleDto toggleDto)
         {
             return Service?.Insert(toggleDto);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH. Updates a toggle
+        /// </summary>
+        /// <param name="toggleDto"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// A toggle can only have the following fields updated:
+        /// - Value
+        /// - Override
+        /// - ServiceList
+        /// </remarks>
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Developer")]
         public FarfetchMessage<ToggleDto> Update([FromBody] ToggleDto toggleDto)
         {
             return Service?.Update(toggleDto);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH. Deletes a toggle
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Developer")]
         public FarfetchMessage<bool> Delete(Guid id)
         {
             return Service?.Delete(id);
         }
 
         /// <inheritdoc />
+        [NonAction]
         FarfetchMessage<IEnumerable<ToggleDto>> ICrudApi<ToggleDto>.GetAll()
         {
             throw new NotImplementedException();

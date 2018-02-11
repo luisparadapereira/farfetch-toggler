@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI\Controllers\BaseController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Farfetch.APIHandler.Common;
+using Farfetch.APIHandler.Common.Contract;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
+namespace Farfetch.RestAPI.Controllers
+{
+    /// &lt;summary&gt;
+    /// The base controller
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name=&quot;T&quot;&gt;&lt;/typeparam&gt;
+    public class BaseController&lt;T&gt;: Controller where T: IApi
+    {
+
+        /// &lt;summary&gt;
+        /// The config file holding JWT information
+        /// &lt;/summary&gt;
+        protected readonly IConfiguration _config;
+
+        public BaseController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        /// &lt;summary&gt;
+        /// Gets a service
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;api&quot;&gt;The choice of API&lt;/param&gt;
+        protected void GetService(AvailableApis api)
+        {
+            string settingsFilePath = _config.GetSection(&quot;DatabaseSettings&quot;).Value;
+            if (string.IsNullOrEmpty(settingsFilePath)) throw new NullReferenceException(&quot;Couldn&#39;t read settings file&quot;);
+            Factory factory = new Factory(settingsFilePath);
+            Service = (T) factory.GetService(api);
+        }
+
+        /// &lt;summary&gt;
+        /// The service
+        /// &lt;/summary&gt;
+        protected T Service { get; private set; }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,9,21,53,1],[22,9,22,10,1],[23,13,23,30,1],[24,9,24,10,1],[31,9,31,10,1],[32,13,32,84,1],[33,13,33,56,1],[33,57,33,121,0],[34,13,34,61,1],[35,13,35,51,1],[36,9,36,10,1],[41,31,41,35,1],[41,36,41,48,1]]);
+    </script>
+  </body>
+</html>

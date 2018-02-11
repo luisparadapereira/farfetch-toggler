@@ -1,4 +1,5 @@
-﻿using Farfetch.CoreUnitOfWork;
+﻿using System;
+using Farfetch.CoreUnitOfWork;
 using Farfetch.Models;
 
 namespace Farfetch.ServiceManager.BaseServices
@@ -18,17 +19,20 @@ namespace Farfetch.ServiceManager.BaseServices
         /// <summary>
         /// Default constructor initializes the core unit
         /// </summary>
-        protected DbService()
+        /// <param name="fileSettingsPath">Settings file path</param>
+        protected DbService(string fileSettingsPath)
         {
-            InitCoreUnit();
+            InitCoreUnit(fileSettingsPath);
         }
 
         /// <summary>
         /// Initializes the core unit of work
         /// </summary>
-        private void InitCoreUnit()
+        /// <param name="fileSettingsPath">Settings file path</param>
+        private void InitCoreUnit(string fileSettingsPath)
         {
-            CoreUnit = new CoreUnit<T>();
+            if (fileSettingsPath == null) throw new ArgumentNullException(nameof(fileSettingsPath));
+            CoreUnit = new CoreUnit<T>(fileSettingsPath);
         }
     }
 }

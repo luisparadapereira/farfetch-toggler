@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.APIInformation\Common\Factory.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Farfetch.APIHandler.API_Authorization.Contract;
+using Farfetch.APIHandler.API_Authorization.Public;
+using Farfetch.APIHandler.API_Toggler.Contract;
+using Farfetch.APIHandler.API_Toggler.Internal;
+using Farfetch.APIHandler.API_Toggler.Public;
+using Farfetch.APIHandler.API_UserAccounts.Contract;
+using Farfetch.APIHandler.API_UserAccounts.Public;
+using Farfetch.APIHandler.Common.Contract;
+
+namespace Farfetch.APIHandler.Common
+{
+    /// &lt;summary&gt;
+    /// The available apis
+    /// &lt;/summary&gt;
+    public enum AvailableApis
+    {
+        UserAuthorization,
+        UserAccounts,
+        Toggler,
+        TogglerInternal,
+        Service
+    }
+
+    /// &lt;summary&gt;
+    /// Factory that provides apis to clients
+    /// &lt;/summary&gt;
+    public class Factory
+    {
+        private string _fileSettingsPath;
+
+        public Factory(string fileSettingsPath)
+        {
+            _fileSettingsPath = fileSettingsPath;
+        }
+
+        /// &lt;summary&gt;
+        /// Given a type of APi returns the instanciated IApi
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;api&quot;&gt;The type of API to query&lt;/param&gt;
+        /// &lt;returns&gt;An IApi&lt;/returns&gt;
+        public IApi GetService(AvailableApis api)
+        {
+            try
+            {
+                switch (api)
+                {
+                    case AvailableApis.UserAuthorization: return new UserAuthorizationPublic(_fileSettingsPath);
+                    case AvailableApis.UserAccounts: return new UserAccountsPublic(_fileSettingsPath);
+                    case AvailableApis.Toggler: return new TogglerApiPublic(_fileSettingsPath);
+                    case AvailableApis.TogglerInternal: return new TogglerApiInternal();
+                    case AvailableApis.Service: return new ServiceApiPublic(_fileSettingsPath);
+                    default: return null;
+                }
+            }
+            catch (System.Exception e)
+            {
+                return null;
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[31,9,31,48,1],[32,9,32,10,1],[33,13,33,50,1],[34,9,34,10,1],[42,9,42,10,1],[44,13,44,14,1],[45,17,45,29,1],[47,59,47,113,0],[48,54,48,103,1],[49,49,49,96,1],[50,57,50,89,0],[51,49,51,96,1],[52,30,52,42,0],[55,13,55,39,0],[56,13,56,14,0],[57,17,57,29,0],[59,9,59,10,1]]);
+    </script>
+  </body>
+</html>

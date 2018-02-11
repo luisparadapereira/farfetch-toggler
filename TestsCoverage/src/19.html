@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.UserAccounts\Service\UserAccountService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using Farfetch.Models;
+using Farfetch.ServiceManager;
+using Farfetch.ServiceManager.Interfaces;
+
+namespace Farfetch.UserAccounts.Service
+{
+    public class UserAccountService : DbCrudService&lt;User&gt;, IService
+    {
+        public UserAccountService(string fileSettingsPath) : base(fileSettingsPath)
+        {}
+
+        /// &lt;summary&gt;
+        /// Overrides the parent class so we can check when inserting
+        /// if the item already exists. If it does then updates it.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;user&quot;&gt;The user to insert&lt;/param&gt;
+        public new void Insert(User user)
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (string.IsNullOrEmpty(user.Username)) throw new NullReferenceException(&quot;Username was not defined&quot;);
+            User existingUser = GetByExpression(x =&gt; x.Username == user.Username);
+            if (existingUser != null) return;
+            base.Insert(user);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,62,10,84,1],[11,9,11,10,1],[11,10,11,11,1],[19,9,19,10,1],[20,13,20,30,1],[20,31,20,77,0],[21,13,21,53,1],[21,54,21,115,0],[22,13,22,83,1],[23,13,23,38,1],[23,39,23,46,1],[24,13,24,31,1],[25,9,25,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Repositories\MongoDB\MongoRepository.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Farfetch.DB;
+using Farfetch.Models;
+using MongoDB.Driver;
+
+namespace Farfetch.Repositories.MongoDB
+{
+    /// &lt;inheritdoc /&gt;
+    /// &lt;summary&gt;
+    /// Defines a MongoDatabase
+    /// &lt;/summary&gt;
+    public class MongoRepository&lt;T&gt; : IRepository&lt;T&gt; where T: DbT
+    {
+        /// &lt;summary&gt;
+        /// The collection matching T
+        /// &lt;/summary&gt;
+        private readonly IMongoCollection&lt;T&gt; _collection;
+
+        /// &lt;summary&gt;
+        /// Default construtor that initializes the database
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;database&quot;&gt;The database information&lt;/param&gt;
+        public MongoRepository(IDatabase&lt;IMongoDatabase&gt; database)
+        {
+            if (database == null) throw new ArgumentNullException(nameof(database));
+            IMongoDatabase db = database.GetDatabase();
+            if (db == null) throw new NullReferenceException(&quot;Failed to get the database&quot;);
+
+            _collection = db.GetCollection&lt;T&gt;(typeof(T).FullName);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public List&lt;T&gt; GetAll()
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            return _collection.AsQueryable()?.ToList();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public List&lt;T&gt; GetAllFiltered(Expression&lt;Func&lt;T, bool&gt;&gt; expression)
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            return _collection.Find(expression).ToList();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public T GetSingle(Expression&lt;Func&lt;T, bool&gt;&gt; expression)
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            try
+            {
+                return _collection.Find(expression)?.ToList()?.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void Insert(T value)
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            _collection.InsertOne(value);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void Update(T value)
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            _collection.ReplaceOne(x =&gt; x.Id == value.Id, value);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void Update(Expression&lt;Func&lt;T, bool&gt;&gt; expression, T value)
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            _collection.ReplaceOne(expression, value);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void Delete(Expression&lt;Func&lt;T, bool&gt;&gt; expression)
+        {
+            if (_collection == null) throw new NullReferenceException(&quot;Failed to initialize the collection&quot;);
+            _collection.DeleteOne(expression);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[26,9,26,67,1],[27,9,27,10,1],[28,13,28,34,1],[28,35,28,85,0],[29,13,29,56,1],[30,13,30,28,1],[30,29,30,92,0],[32,13,32,67,1],[33,9,33,10,1],[37,9,37,10,1],[38,13,38,37,1],[38,38,38,110,0],[39,13,39,56,1],[40,9,40,10,1],[44,9,44,10,1],[45,13,45,37,1],[45,38,45,110,0],[46,13,46,58,1],[47,9,47,10,1],[51,9,51,10,1],[52,13,52,37,1],[52,38,52,110,0],[54,13,54,14,1],[55,17,55,81,1],[57,13,57,30,0],[58,13,58,14,0],[59,17,59,29,0],[61,9,61,10,1],[65,9,65,10,1],[66,13,66,37,1],[66,38,66,110,0],[67,13,67,42,1],[68,9,68,10,1],[72,9,72,10,1],[73,13,73,37,1],[73,38,73,110,0],[74,13,74,66,1],[75,9,75,10,1],[79,9,79,10,1],[80,13,80,37,1],[80,38,80,110,0],[81,13,81,55,1],[82,9,82,10,1],[86,9,86,10,1],[87,13,87,37,1],[87,38,87,110,0],[88,13,88,47,1],[89,9,89,10,1]]);
+    </script>
+  </body>
+</html>

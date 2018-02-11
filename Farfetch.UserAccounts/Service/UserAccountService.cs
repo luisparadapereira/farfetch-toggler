@@ -7,6 +7,9 @@ namespace Farfetch.UserAccounts.Service
 {
     public class UserAccountService : DbCrudService<User>, IService
     {
+        public UserAccountService(string fileSettingsPath) : base(fileSettingsPath)
+        {}
+
         /// <summary>
         /// Overrides the parent class so we can check when inserting
         /// if the item already exists. If it does then updates it.

@@ -22,22 +22,32 @@ namespace Farfetch.RestAPI.Controllers
         {
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// PRIVATE TO FARFETCH. Creates a new API Key for a service.
+        /// </summary>
+        /// <param name="serviceDto">The service to generate the API Key</param>
+        /// <returns></returns>
+        /// <remarks>
+        /// API Key for a service is valid for 12 months.
+        /// Required fields:
+        /// - Name 
+        /// - Version
+        /// </remarks>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult CreateToken([FromBody] ServiceDto serviceLogin)
+        public IActionResult CreateToken([FromBody] ServiceDto serviceDto)
         {
-            if (serviceLogin == null) throw new ArgumentNullException(nameof(serviceLogin));
-            if (string.IsNullOrEmpty(serviceLogin.Name)) throw new NullReferenceException("Service Name hasn't been defined");
-            if (string.IsNullOrEmpty(serviceLogin.Version)) throw new NullReferenceException("Service Password hasn't been defined");
+            if (serviceDto == null) throw new ArgumentNullException(nameof(serviceDto));
+            if (string.IsNullOrEmpty(serviceDto.Name)) throw new NullReferenceException("Service Name hasn't been defined");
+            if (string.IsNullOrEmpty(serviceDto.Version)) throw new NullReferenceException("Service Password hasn't been defined");
 
             IActionResult response = Unauthorized();
             // 1 year
             var claims = new[]
             {
                 new Claim(ClaimTypes.Role, "Service"),
-                new Claim("ServiceName", serviceLogin.Name),
-                new Claim("ServiceVersion", serviceLogin.Version)
+                new Claim("ServiceName", serviceDto.Name),
+                new Claim("ServiceVersion", serviceDto.Version)
             };
             string tokenString = BuildToken(DateTime.Now.AddMonths(12), claims);
             response = Ok(new { token = tokenString });

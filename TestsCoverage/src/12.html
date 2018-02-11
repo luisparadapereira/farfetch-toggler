@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI.Test\TogglerControllerTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.RestAPI.Controllers;
+using Farfetch.Tests;
+using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
+
+namespace Farfetch.RestAPI.Test
+{
+    [TestFixture]
+    public class TogglerControllerTests: TestBase
+    {
+        [Test]
+        public void Should_GetAll()
+        {
+            IConfiguration config = InitConfiguration();
+            TogglerController togglerController = new TogglerController(config);
+
+            var farfetchMessage = togglerController.GetAll();
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;IEnumerable&lt;ToggleListDto&gt;&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.IsNotEmpty(farfetchMessage.Result);
+            Assert.AreEqual(typeof(ToggleListDto), farfetchMessage.Result.FirstOrDefault().GetType());
+        }
+
+        [Test]
+        public void Should_Insert()
+        {
+            IConfiguration config = InitConfiguration();
+            TogglerController togglerController = new TogglerController(config);
+
+            ToggleDto toggle = new ToggleDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ToggleNameTestInsert&quot;,
+                ServiceList = new List&lt;ServiceDto&gt;(),
+                Value = true,
+                Overrides = false
+            };
+
+            var farfetchMessage = togglerController.Insert(toggle);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(toggle.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(toggle.Value, farfetchMessage.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage.Result.Overrides);
+            Assert.NotNull(farfetchMessage.Result.ServiceList);
+            Assert.IsEmpty(farfetchMessage.Result.ServiceList);
+        }
+
+        [Test]
+        public void Should_Get()
+        {
+            IConfiguration config = InitConfiguration();
+            TogglerController togglerController = new TogglerController(config);
+
+            ToggleDto toggle = new ToggleDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ToggleNameTestGet&quot;,
+                ServiceList = new List&lt;ServiceDto&gt;(),
+                Value = true,
+                Overrides = false
+            };
+
+            var farfetchMessage = togglerController.Insert(toggle);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(toggle.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(toggle.Value, farfetchMessage.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage.Result.Overrides);
+            Assert.NotNull(farfetchMessage.Result.ServiceList);
+            Assert.IsEmpty(farfetchMessage.Result.ServiceList);
+
+            var farfetchMessage2 = togglerController.Get(farfetchMessage.Result.Id);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(farfetchMessage.Result.Id, farfetchMessage2.Result.Id);
+            Assert.AreEqual(toggle.Name, farfetchMessage2.Result.Name);
+            Assert.AreEqual(toggle.Value, farfetchMessage2.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage2.Result.Overrides);
+            Assert.NotNull(farfetchMessage2.Result.ServiceList);
+            Assert.IsEmpty(farfetchMessage2.Result.ServiceList);
+        }
+
+        [Test]
+        public void Should_Update()
+        {
+            IConfiguration config = InitConfiguration();
+            TogglerController togglerController = new TogglerController(config);
+
+            ToggleDto toggle = new ToggleDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ToggleNameTestUpdate&quot;,
+                ServiceList = new List&lt;ServiceDto&gt;(),
+                Value = true,
+                Overrides = false
+            };
+
+            var farfetchMessage = togglerController.Insert(toggle);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(toggle.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(toggle.Value, farfetchMessage.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage.Result.Overrides);
+            Assert.NotNull(farfetchMessage.Result.ServiceList);
+            Assert.IsEmpty(farfetchMessage.Result.ServiceList);
+
+            farfetchMessage.Result.Value = false;
+
+            var farfetchMessage2 = togglerController.Update(farfetchMessage.Result);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(farfetchMessage.Result.Id, farfetchMessage2.Result.Id);
+            Assert.AreEqual(toggle.Name, farfetchMessage2.Result.Name);
+            Assert.AreEqual(false, farfetchMessage2.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage2.Result.Overrides);
+            Assert.NotNull(farfetchMessage2.Result.ServiceList);
+            Assert.IsEmpty(farfetchMessage2.Result.ServiceList);
+
+            togglerController.Delete(farfetchMessage2.Result.Id);
+        }
+
+        [Test]
+        public void Should_GetForService()
+        {
+            IConfiguration config = InitConfiguration();
+            TogglerController togglerController = new TogglerController(config);
+
+            ToggleDto toggle = new ToggleDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ToggleNameTestUpdate&quot;,
+                ServiceList = new List&lt;ServiceDto&gt;()
+                {
+                    new ServiceDto
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = &quot;ServiceTestIntegration&quot;,
+                        Version = &quot;1.0&quot;,
+                        ApiKey = &quot;apiKey&quot;
+                    }
+                },
+                Value = true,
+                Overrides = false
+            };
+
+            var farfetchMessage = togglerController.Insert(toggle);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(toggle.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(toggle.Value, farfetchMessage.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage.Result.Overrides);
+            Assert.NotNull(farfetchMessage.Result.ServiceList);
+            Assert.IsNotEmpty(farfetchMessage.Result.ServiceList);
+
+            farfetchMessage.Result.Value = false;
+
+            var farfetchMessage2 = togglerController.GetForService(toggle.Name, toggle.Value, toggle.ServiceList.FirstOrDefault().Name,
+                toggle.ServiceList.FirstOrDefault().Version);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;bool&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(true, farfetchMessage2.Result);
+        }
+
+        [Test]
+        public void Should_Delete()
+        {
+            IConfiguration config = InitConfiguration();
+            TogglerController togglerController = new TogglerController(config);
+
+            ToggleDto toggle = new ToggleDto
+            {
+                Id = Guid.Empty,
+                Name = &quot;ToggleNameTestDelete&quot;,
+                ServiceList = new List&lt;ServiceDto&gt;(),
+                Value = true,
+                Overrides = false
+            };
+
+            var farfetchMessage = togglerController.Insert(toggle);
+            Assert.NotNull(farfetchMessage);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage.GetType());
+            Assert.NotNull(farfetchMessage.Result);
+            Assert.AreEqual(toggle.Name, farfetchMessage.Result.Name);
+            Assert.AreEqual(toggle.Value, farfetchMessage.Result.Value);
+            Assert.AreEqual(toggle.Overrides, farfetchMessage.Result.Overrides);
+            Assert.NotNull(farfetchMessage.Result.ServiceList);
+            Assert.IsEmpty(farfetchMessage.Result.ServiceList);
+
+            farfetchMessage.Result.Value = false;
+
+            var farfetchMessage2 = togglerController.Delete(farfetchMessage.Result.Id);
+            Assert.NotNull(farfetchMessage2);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;bool&gt;), farfetchMessage2.GetType());
+            Assert.NotNull(farfetchMessage2.Result);
+            Assert.AreEqual(true, farfetchMessage2.Result);
+
+            var farfetchMessage3 = togglerController.Get(farfetchMessage.Result.Id);
+            Assert.NotNull(farfetchMessage3);
+            Assert.AreEqual(typeof(FarfetchMessage&lt;ToggleDto&gt;), farfetchMessage.GetType());
+            Assert.IsNull(farfetchMessage3.Result);
+        }
+
+        public static IConfiguration InitConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(&quot;appsettings_test.json&quot;);
+
+            return builder.Build();
+            
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,10,1],[20,13,20,57,1],[21,13,21,81,1],[23,13,23,62,1],[24,13,24,45,1],[25,13,25,109,1],[26,13,26,52,1],[27,13,27,55,1],[28,13,28,103,1],[29,9,29,10,1],[33,9,33,10,1],[34,13,34,57,1],[35,13,35,81,1],[37,13,44,15,1],[46,13,46,68,1],[47,13,47,45,1],[48,13,48,92,1],[49,13,49,52,1],[50,13,50,71,1],[51,13,51,73,1],[52,13,52,81,1],[53,13,53,64,1],[54,13,54,64,1],[55,9,55,10,1],[59,9,59,10,1],[60,13,60,57,1],[61,13,61,81,1],[63,13,70,15,1],[72,13,72,68,1],[73,13,73,45,1],[74,13,74,92,1],[75,13,75,52,1],[76,13,76,71,1],[77,13,77,73,1],[78,13,78,81,1],[79,13,79,64,1],[80,13,80,64,1],[82,13,82,85,1],[83,13,83,46,1],[84,13,84,93,1],[85,13,85,53,1],[86,13,86,84,1],[87,13,87,72,1],[88,13,88,74,1],[89,13,89,82,1],[90,13,90,65,1],[91,13,91,65,1],[92,9,92,10,1],[96,9,96,10,1],[97,13,97,57,1],[98,13,98,81,1],[100,13,107,15,1],[109,13,109,68,1],[110,13,110,45,1],[111,13,111,92,1],[112,13,112,52,1],[113,13,113,71,1],[114,13,114,73,1],[115,13,115,81,1],[116,13,116,64,1],[117,13,117,64,1],[119,13,119,50,1],[121,13,121,85,1],[122,13,122,46,1],[123,13,123,93,1],[124,13,124,53,1],[125,13,125,84,1],[126,13,126,72,1],[127,13,127,67,1],[128,13,128,82,1],[129,13,129,65,1],[130,13,130,65,1],[132,13,132,66,1],[133,9,133,10,1],[137,9,137,10,1],[138,13,138,57,1],[139,13,139,81,1],[141,13,157,15,1],[159,13,159,68,1],[160,13,160,45,1],[161,13,161,92,1],[162,13,162,52,1],[163,13,163,71,1],[164,13,164,73,1],[165,13,165,81,1],[166,13,166,64,1],[167,13,167,67,1],[169,13,169,50,1],[171,13,172,62,1],[173,13,173,46,1],[174,13,174,88,1],[175,13,175,53,1],[176,13,176,60,1],[177,9,177,10,1],[181,9,181,10,1],[182,13,182,57,1],[183,13,183,81,1],[185,13,192,15,1],[194,13,194,68,1],[195,13,195,45,1],[196,13,196,92,1],[197,13,197,52,1],[198,13,198,71,1],[199,13,199,73,1],[200,13,200,81,1],[201,13,201,64,1],[202,13,202,64,1],[204,13,204,50,1],[206,13,206,88,1],[207,13,207,46,1],[208,13,208,88,1],[209,13,209,53,1],[210,13,210,60,1],[212,13,212,85,1],[213,13,213,46,1],[214,13,214,92,1],[215,13,215,52,1],[216,9,216,10,1],[219,9,219,10,1],[220,13,222,55,1],[224,13,224,36,1],[226,9,226,10,1]]);
+    </script>
+  </body>
+</html>

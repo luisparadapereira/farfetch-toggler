@@ -20,6 +20,13 @@ namespace Farfetch.ServiceFactory
     /// </summary>
     public class Factory
     {
+        private string _fileSettingsPath;
+
+        public Factory(string fileSettingsPath)
+        {
+            _fileSettingsPath = fileSettingsPath;
+        }
+
         /// <summary>
         /// Factory returns the service associated to the FactoryService enum
         /// </summary>
@@ -30,11 +37,11 @@ namespace Farfetch.ServiceFactory
             switch (service)
             {
                 case AvailableServices.Toggler:
-                    return new TogglerService();
+                    return new TogglerService(_fileSettingsPath);
                 case AvailableServices.UserAccounts:
-                    return new UserAccountService();
+                    return new UserAccountService(_fileSettingsPath);
                 case AvailableServices.TogglerApplication:
-                    return new ApplicationService();
+                    return new ApplicationService(_fileSettingsPath);
                 default:
                     throw new OperationCanceledException("Service name not found.");
             }

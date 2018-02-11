@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.RestAPI\Controllers\ServiceAuthenticationController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Security.Claims;
+using Farfetch.APIHandler.Common.Contract;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
+namespace Farfetch.RestAPI.Controllers
+{
+    /// &lt;summary&gt;
+    /// Service Authentication
+    /// &lt;/summary&gt;
+    [Route(&quot;[controller]&quot;)]
+    public class ServiceAuthenticationController  : BaseAuthenticationController&lt;IApi&gt;, IAuthentication&lt;ServiceDto&gt;
+    {
+        /// &lt;summary&gt;
+        /// Default constructor with DI of config
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;config&quot;&gt;The config file&lt;/param&gt;
+        public ServiceAuthenticationController(IConfiguration config): base(config)
+        {
+        }
+
+        /// &lt;inheritdoc /&gt;
+        [Authorize(Roles = &quot;Admin&quot;)]
+        [HttpPost]
+        public IActionResult CreateToken([FromBody] ServiceDto serviceLogin)
+        {
+            if (serviceLogin == null) throw new ArgumentNullException(nameof(serviceLogin));
+            if (string.IsNullOrEmpty(serviceLogin.Name)) throw new NullReferenceException(&quot;Service Name hasn&#39;t been defined&quot;);
+            if (string.IsNullOrEmpty(serviceLogin.Version)) throw new NullReferenceException(&quot;Service Password hasn&#39;t been defined&quot;);
+
+            IActionResult response = Unauthorized();
+            // 1 year
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Role, &quot;Service&quot;),
+                new Claim(&quot;ServiceName&quot;, serviceLogin.Name),
+                new Claim(&quot;ServiceVersion&quot;, serviceLogin.Version)
+            };
+            string tokenString = BuildToken(DateTime.Now.AddMonths(12), claims);
+            response = Ok(new { token = tokenString });
+
+            return response;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,72,21,84,0],[22,9,22,10,0],[23,9,23,10,0],[29,9,29,10,0],[30,13,30,38,0],[30,39,30,93,0],[31,13,31,57,0],[31,58,31,127,0],[32,13,32,60,0],[32,61,32,134,0],[34,13,34,53,0],[36,13,41,15,0],[42,13,42,81,0],[43,13,43,56,0],[45,13,45,29,0],[46,9,46,10,0]]);
+    </script>
+  </body>
+</html>

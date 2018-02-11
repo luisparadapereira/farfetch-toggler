@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
 
-namespace Ferfetch.Messaging
+namespace Farfetch.Messaging
 {
     public class RabbitSetup
     {

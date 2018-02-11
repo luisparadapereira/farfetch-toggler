@@ -16,9 +16,10 @@ namespace Farfetch.Common
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
 
             T settings;
-            if(!File.Exists(filePath)) throw new FileNotFoundException();
+            string localFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+            if (!File.Exists(localFilePath)) throw new FileNotFoundException();
 
-            using (StreamReader file = File.OpenText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath)))
+            using (StreamReader file = File.OpenText(localFilePath))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 settings = (T)serializer.Deserialize(file, typeof(T));

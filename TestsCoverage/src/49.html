@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Common\SettingsReader.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.IO;
+using Newtonsoft.Json;
+
+namespace Farfetch.Common
+{
+    public class SettingsReader&lt;T&gt;
+    {
+        /// &lt;summary&gt;
+        /// Reads a file and serializes the information into type T
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;filePath&quot;&gt;The path of the settings file&lt;/param&gt;
+        /// &lt;returns&gt;The serialized settings&lt;/returns&gt;
+        public T Read(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException(nameof(filePath));
+
+            T settings;
+            string localFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+            if (!File.Exists(localFilePath)) throw new FileNotFoundException();
+
+            using (StreamReader file = File.OpenText(localFilePath))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                settings = (T)serializer.Deserialize(file, typeof(T));
+            }
+
+            return settings;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,1],[16,13,16,48,1],[16,49,16,99,1],[19,13,19,98,1],[20,13,20,45,1],[20,46,20,80,1],[22,20,22,68,1],[23,13,23,14,1],[24,17,24,66,1],[25,17,25,71,1],[26,13,26,14,1],[28,13,28,29,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

@@ -22,9 +22,9 @@ namespace Farfetch.APIHandler.API_Toggler.Public
         /// <summary>
         /// Default constructor defines the service
         /// </summary>
-        public ServiceApiPublic()
+        public ServiceApiPublic(string settingsFilePath)
         {
-            Factory factory = new Factory();
+            Factory factory = new Factory(settingsFilePath);
             _applicationService = factory.GetDbService(AvailableServices.TogglerApplication) as ApplicationService;
 
         }
@@ -51,7 +51,14 @@ namespace Farfetch.APIHandler.API_Toggler.Public
         public FarfetchMessage<ServiceDto> Get(Guid id)
         {
             if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
-            Models.Service service = _applicationService.GetById(id);
+            Service service = _applicationService.GetById(id);
+            if (service == null)
+            {
+                return new FarfetchMessage<ServiceDto>
+                {
+                    Result = null
+                };
+            }
             ServiceDto serviceDto = Mapper.Map<Models.Service, ServiceDto>(service);
             if (serviceDto == null) throw new AutoMapperMappingException("Error mapping types");
 
@@ -69,7 +76,15 @@ namespace Farfetch.APIHandler.API_Toggler.Public
             Service service = Mapper.Map<ServiceDto, Service>(serviceDto);
             if (service == null) throw new AutoMapperMappingException("Error mapping types");
             _applicationService.Insert(service);
-            return new FarfetchMessage<ServiceDto>();
+
+            service = _applicationService.GetByExpression(x => x.Name == serviceDto.Name && x.Version == serviceDto.Version && x.ApiKey == serviceDto.ApiKey);
+
+            serviceDto = Mapper.Map<Service, ServiceDto>(service);
+            if (service == null) throw new AutoMapperMappingException("Error mapping types");
+            return new FarfetchMessage<ServiceDto>
+            {
+                Result = serviceDto,
+            };
         }
 
         /// <inheritdoc />
@@ -80,7 +95,15 @@ namespace Farfetch.APIHandler.API_Toggler.Public
             Service service = Mapper.Map<ServiceDto, Service>(serviceDto);
             if (service == null) throw new AutoMapperMappingException("Error mapping types");
             _applicationService.Update(service);
-            return new FarfetchMessage<ServiceDto>();
+
+            service = _applicationService.GetByExpression(x => x.Name == serviceDto.Name && x.Version == serviceDto.Version && x.ApiKey == serviceDto.ApiKey);
+
+            serviceDto = Mapper.Map<Service, ServiceDto>(service);
+            if (service == null) throw new AutoMapperMappingException("Error mapping types");
+            return new FarfetchMessage<ServiceDto>
+            {
+                Result = serviceDto,
+            };
         }
 
         /// <inheritdoc />
@@ -88,8 +111,21 @@ namespace Farfetch.APIHandler.API_Toggler.Public
         {
             if (_applicationService == null) throw new NullReferenceException("Application Service hasn't been defined");
 
-            _applicationService.Delete(id);
-            return new FarfetchMessage<bool>();
+            try
+            {
+                _applicationService.Delete(id);
+                return new FarfetchMessage<bool>
+                {
+                    Result = true
+                };
+            }
+            catch (Exception)
+            {
+                return new FarfetchMessage<bool>
+                {
+                    Result = false
+                };
+            }
         }
     }
 }

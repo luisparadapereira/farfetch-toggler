@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Automapper\Profiles\TogglerAPI\ToggleAMProfile.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AutoMapper;
+using Farfetch.APIHandler.TogglerAPI.DTO;
+using Farfetch.Models;
+
+namespace Farfetch.Automapper.Profiles.TogglerAPI
+{
+    /// &lt;summary&gt;
+    /// Defines the profiles for type Toggle
+    /// &lt;/summary&gt;
+    public class ToggleAMProfile: Profile
+    {
+        public ToggleAMProfile()
+        {
+            CreateMap&lt;Toggle, ToggleDto&gt;()?.ReverseMap();
+            CreateMap&lt;Toggle, ToggleListDto&gt;()?.ReverseMap()
+                .ForMember(x =&gt; x.Value, y =&gt; y.Ignore())
+                .ForMember(x =&gt; x.Overrides, y =&gt; y.Ignore())
+                .ForMember(x =&gt; x.ServiceList, y =&gt; y.Ignore());
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,33,1],[13,9,13,10,1],[14,13,14,58,1],[15,13,16,47,1],[16,47,16,57,1],[16,57,17,51,1],[17,51,17,61,1],[17,61,18,53,1],[18,53,18,63,1],[18,63,18,65,1],[15,13,18,65,1],[19,9,19,10,1]]);
+    </script>
+  </body>
+</html>

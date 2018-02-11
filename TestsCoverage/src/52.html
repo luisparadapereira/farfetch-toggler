@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>c:\users\luisp\development\farfetch\codingassignment\farfetch\farfetch.messaging\subscriber.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+
+namespace Farfetch.Messaging
+{
+    /// &lt;summary&gt;
+    /// Subscribes to a message via RabbitMQ
+    /// &lt;/summary&gt;
+    public class Subscriber: RabbitSetup
+    {
+        /// &lt;summary&gt;
+        /// Receives a message via a specific channel
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;msgChannel&quot;&gt;The channel to listen to&lt;/param&gt;
+        /// &lt;param name=&quot;delegateHandler&quot;&gt;The eventHandler to execute when the message is received&lt;/param&gt;
+        public void ReceiveMessage(string msgChannel, FarfetchDelegate delegateHandler)
+        {
+            var queueName = Channel?.QueueDeclare()?.QueueName;
+
+            Channel.QueueBind( queueName, &quot;direct_logs&quot;, msgChannel);
+
+            var consumer = new EventingBasicConsumer(Channel);
+            consumer.Received += (model, ea) =&gt;
+            {
+                var body = ea.Body;
+
+                var message = Encoding.UTF8.GetString(body);
+
+                delegateHandler.Invoke(message);
+
+            };
+            Channel.BasicConsume(queueName, true, consumer);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,9,18,10,0],[19,13,19,64,0],[21,13,21,70,0],[23,13,23,63,0],[24,13,25,13,0],[25,13,25,14,0],[25,14,26,17,0],[26,17,26,36,0],[26,36,28,17,0],[28,17,28,61,0],[28,61,30,17,0],[30,17,30,49,0],[30,49,32,13,0],[32,13,32,14,0],[32,14,32,15,0],[24,13,32,15,0],[33,13,33,61,0],[34,9,34,10,0]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.Automapper\Initializer.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using AutoMapper;
+using Farfetch.Automapper.Profiles.Authentication;
+using Farfetch.Automapper.Profiles.TogglerAPI;
+
+namespace Farfetch.Automapper
+{
+    /// &lt;summary&gt;
+    /// Initialization of the AutoMapper
+    /// &lt;/summary&gt;
+    public class Initializer
+    {
+        public void RegisterMappings()
+        {
+            Mapper.Reset();
+
+            Mapper.Initialize(
+                cfg =&gt;
+                {
+                   cfg?.AddProfile&lt;ToggleAMProfile&gt;();
+                   cfg?.AddProfile&lt;ServiceAMProfile&gt;();
+                   cfg?.AddProfile&lt;UserAMProfile&gt;();
+                }
+            );
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,28,1],[16,13,18,17,1],[18,17,18,18,1],[18,18,19,20,1],[19,20,19,55,1],[19,55,20,20,1],[20,20,20,56,1],[20,56,21,20,1],[21,20,21,53,1],[21,53,22,17,1],[22,17,22,18,1],[22,18,23,15,1],[16,13,23,15,1],[24,9,24,10,1]]);
+    </script>
+  </body>
+</html>

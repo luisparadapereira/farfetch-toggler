@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.APIInformation\API_Authorization\Public\UserAuthorizationPublic.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using AutoMapper;
+using Farfetch.APIHandler.API_Authorization.Contract;
+using Farfetch.APIHandler.Common.DTO;
+using Farfetch.Models;
+using Farfetch.ServiceFactory;
+using Farfetch.UserAccounts.Service;
+
+namespace Farfetch.APIHandler.API_Authorization.Public
+{
+    /// &lt;inheritdoc /&gt;
+    /// &lt;summary&gt;
+    /// Handles authorization requests from the Rest API checking against values in the database
+    /// &lt;/summary&gt;
+    public class UserAuthorizationPublic: IUserAuthenticationApi
+    {
+        /// &lt;summary&gt;
+        /// The user service
+        /// &lt;/summary&gt;
+        private readonly UserAccountService _userAccountService;
+
+        /// &lt;summary&gt;
+        /// Default constructor defines the service
+        /// &lt;/summary&gt;
+        public UserAuthorizationPublic(string settingsFilePath)
+        {
+            Factory factory = new Factory(settingsFilePath);
+            _userAccountService = factory.GetDbService(AvailableServices.UserAccounts) as UserAccountService;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public UserLoginDto AuthenticateUser(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username)) throw new ArgumentNullException(nameof(username));
+            if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(password));
+            if (_userAccountService == null) throw new NullReferenceException(&quot;UserAccountService hasn&#39;t been initialized yet&quot;);
+
+            User user = _userAccountService.GetByExpression(x =&gt; x.Username == username &amp;&amp; x.Password == password);
+            UserLoginDto userLogin = Mapper.Map&lt;User, UserLoginDto&gt;(user);
+
+            return userLogin;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[25,9,25,64,0],[26,9,26,10,0],[27,13,27,61,0],[28,13,28,110,0],[29,9,29,10,0],[33,9,33,10,0],[34,13,34,48,0],[34,49,34,99,0],[35,13,35,48,0],[35,49,35,99,0],[36,13,36,45,0],[36,46,36,129,0],[38,13,38,116,0],[39,13,39,75,0],[41,13,41,30,0],[42,9,42,10,0]]);
+    </script>
+  </body>
+</html>

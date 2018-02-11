@@ -1,4 +1,4 @@
-﻿namespace Ferfetch.Messaging
+﻿namespace Farfetch.Messaging
 {
     /// <summary>
     /// Base Event Delegate type

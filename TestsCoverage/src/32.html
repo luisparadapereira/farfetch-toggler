@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\luisp\Development\Farfetch\CodingAssignment\Farfetch\Farfetch.DB\MongoDB\MongoDatabase.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using MongoDB.Driver;
+
+namespace Farfetch.DB.MongoDB
+{
+    public class MongoDatabase&lt;T&gt;: IDatabase&lt;T&gt;
+    {
+        private MongoClient _client;
+        private DbSettings _settings;
+        private string _connectionString;
+
+        /// &lt;inheritdoc /&gt;
+        public void Init(DbSettings settings)
+        {
+            _settings = settings;
+            BuildConnectionString();
+            _client = new MongoClient(_connectionString);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public T GetDatabase()
+        {
+            if (_client == null) throw new NullReferenceException(&quot;Mongo client hasn&#39;t been defined&quot;);
+            if (_settings == null) throw new NullReferenceException(&quot;Mongo settings haven&#39;t been defined&quot;);
+            return (T) _client.GetDatabase(_settings.DatabaseName);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        /// &lt;remarks&gt;
+        /// Mongo Specific Connection String: mongodb://[username:password@]hostname[:port][/[database][?options]]
+        /// &lt;/remarks&gt;
+        public void BuildConnectionString()
+        {
+            if (_settings == null) throw new NullReferenceException(&quot;Settings are not defined&quot;);
+            if (string.IsNullOrEmpty(_settings.Database)) throw new NullReferenceException(&quot;Database not defined&quot;);
+            if (string.IsNullOrEmpty(_settings.Server)) throw new NullReferenceException(&quot;Server not defined&quot;);
+            if (string.IsNullOrEmpty(_settings.Port)) throw new NullReferenceException(&quot;Port not defined&quot;);
+
+            _connectionString = _settings.Server + &quot;:&quot; + _settings.Port;
+            if (!string.IsNullOrEmpty(_settings.Username) &amp;&amp; !string.IsNullOrEmpty(_settings.Password))
+            {
+                _connectionString = _settings.Username + &quot;:&quot; + _settings.Password + &quot;@&quot;;
+            }
+
+            _connectionString = &quot;mongodb://&quot; + _connectionString;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,34,1],[16,13,16,37,1],[17,13,17,58,1],[18,9,18,10,1],[22,9,22,10,1],[23,13,23,33,1],[23,34,23,103,0],[24,13,24,35,1],[24,36,24,108,0],[25,13,25,68,1],[26,9,26,10,1],[33,9,33,10,1],[34,13,34,35,1],[34,36,34,97,0],[35,13,35,58,1],[35,59,35,116,0],[36,13,36,56,1],[36,57,36,112,0],[37,13,37,54,1],[37,55,37,108,0],[39,13,39,73,1],[40,13,40,104,1],[41,13,41,14,0],[42,17,42,89,0],[43,13,43,14,0],[45,13,45,66,1],[46,9,46,10,1]]);
+    </script>
+  </body>
+</html>

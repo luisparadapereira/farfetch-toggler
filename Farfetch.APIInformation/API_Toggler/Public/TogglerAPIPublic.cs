@@ -23,9 +23,9 @@ namespace Farfetch.APIHandler.API_Toggler.Public
         /// <summary>
         /// Default constructor defines the service
         /// </summary>
-        public TogglerApiPublic()
+        public TogglerApiPublic(string settingsFilePath)
         {
-            Factory factory = new Factory();
+            Factory factory = new Factory(settingsFilePath);
             _togglerService = factory.GetDbService(AvailableServices.Toggler) as TogglerService;
         }
 
@@ -58,6 +58,13 @@ namespace Farfetch.APIHandler.API_Toggler.Public
         {
             if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
             Toggle toggle = _togglerService.GetById(id);
+            if (toggle == null)
+            {
+                return new FarfetchMessage<ToggleDto>
+                {
+                    Result = null
+                };
+            }
             ToggleDto toggleDto = Mapper.Map<Toggle, ToggleDto>(toggle);
             if (toggleDto == null) throw new AutoMapperMappingException("Error mapping types");
 
@@ -138,8 +145,21 @@ namespace Farfetch.APIHandler.API_Toggler.Public
         {
             if (_togglerService == null) throw new NullReferenceException("Toggler Service hasn't been defined");
 
-            _togglerService.Delete(id);
-            return new FarfetchMessage<bool>();
+            try
+            {
+                _togglerService.Delete(id);
+                return new FarfetchMessage<bool>
+                {
+                    Result = true
+                };
+            }
+            catch (Exception)
+            {
+                return new FarfetchMessage<bool>
+                {
+                    Result = false
+                };
+            }
         }
     }
 }

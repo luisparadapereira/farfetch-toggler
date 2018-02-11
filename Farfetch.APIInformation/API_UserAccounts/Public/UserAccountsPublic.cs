@@ -10,7 +10,7 @@ using Farfetch.UserAccounts.Service;
 
 namespace Farfetch.APIHandler.API_UserAccounts.Public
 {
-    public class UserAccountsPublic: IUserAccountsApi
+    public class UserAccountsPublic : IUserAccountsApi
     {
         /// <summary>
         /// The user service
@@ -20,9 +20,9 @@ namespace Farfetch.APIHandler.API_UserAccounts.Public
         /// <summary>
         /// Default constructor defines the service
         /// </summary>
-        public UserAccountsPublic()
+        public UserAccountsPublic(string settingsFilePath)
         {
-            Factory factory = new Factory();
+            Factory factory = new Factory(settingsFilePath);
             _userAccountService = factory.GetDbService(AvailableServices.UserAccounts) as UserAccountService;
         }
 
@@ -100,11 +100,29 @@ namespace Farfetch.APIHandler.API_UserAccounts.Public
         public FarfetchMessage<bool> Delete(string username)
         {
             if (_userAccountService == null) throw new NullReferenceException("User Account Service hasn't been defined");
-
             User user = _userAccountService.GetByExpression(x => x.Username == username);
-            if (user == null) return new FarfetchMessage<bool>();
-            _userAccountService.Delete(user.Id);
-            return new FarfetchMessage<bool>();
+            if (user == null)
+            {
+                return new FarfetchMessage<bool>
+                {
+                    Result = false
+                };
+            }
+            try
+            {
+                _userAccountService.Delete(user.Id);
+                return new FarfetchMessage<bool>
+                {
+                    Result = true
+                };
+            }
+            catch (Exception)
+            {
+                return new FarfetchMessage<bool>
+                {
+                    Result = false
+                };
+            }
         }
     }
 }
