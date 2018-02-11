@@ -85,6 +85,7 @@ Two main functions
 * *Mult* - Multiplies the input number by 2
 
 Example behaviours
+
 | Input| Action | Toggle Name | Toggle Value | Output |
 |--|-- | -- | -- | -- | -- |
 |  4| Plus | toggle1 | true |  6 |
