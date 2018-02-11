@@ -88,6 +88,14 @@ Run the Data Insertion application first. This will create the admin account, ne
 * You will  be able to manage user profiles, create toggles and services
 * When a user registers he will automatically be assigned the Public profile
 
+#### Register a new Service
+* Log in with a developer or admin account
+* Go into Manage Services 
+* Click on Register a new service
+* Input service name and version (needs to be the same as the assembly)
+* Click on generate token
+* Copy the token and paste it into the APIKEYS file located in the root of the project
+
 #### Farfetch.PlusApp
 Two main functions
 * *Plus* - Adds 2 to the input number
@@ -103,6 +111,35 @@ Example behaviours
 |  4| Mult | toggle2 | false|  4 |
 
 Note that if you have two toggle1 with different values, the one with Overrides set to true with be the default value.
+
+#### Implement your own service 
+Follow Farfetch.PlusApp for reference but in a nutshell: 
+* Extend ApiAssembly and implement IApplication
+	* ***IApplication*** - Generic Application interface. All applications should implement this interface. Common methods should go here
+	*  ***ApiAssembly*** -  Will define how the application reads its assembly information and how to get the API key. If you're going to interact with an API you should inherit from this class and always keep track of your API keys in the same place.
+* If you just want to check a toggle information:
+```
+TogglerApiInternal _togglerApiInternal = new TogglerApiInternal(); // INITIALIZE THE BASE CLASS
+if ( 
+	_togglerApiInternal != null && 
+	_togglerApiInternal.CheckToggle(
+		toggleName,	 	// THE NAME OF THE TOGGLE 
+		true,			// THE VALUE OF THE TOGGLE
+		CallingAssemblyName, 	// THE NAME OF THE ASSEMBLY
+		CallingAssemblyVersion, // THE VERSION OF THE ASSEMBLY
+		Key.Key			// THE API KEY
+	)
+)
+{
+	// WHAT TO DO IF THE TOGGLE IS ACTIVE
+}
+else 
+{
+	// WHAT TO DO IF THE TOGGLE IS NOT ACTIVE
+}
+```
+	* 
+
 
 ### Known Bugs
 **Problem:** Windows Powershell isn't ouputting any information when I change the toggles associated with Farfetch.PlusApp
