@@ -52,6 +52,7 @@
 * Farfetch.ServiceFactory - Factory that serves applications/services
 * Farfetch.Toggler - Toggler Application
 * Farfetch.UserAccounts - User Accounts Application
+* Test - Projects ending with tests are integrations tests
 
 ### Build & Settings
 - Frontend
