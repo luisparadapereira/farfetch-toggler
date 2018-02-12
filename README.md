@@ -1,4 +1,5 @@
 
+
 # farfetch-toggler
 
 
@@ -33,6 +34,24 @@
 	- RabbitMQ 
 	  - [Erlang](http://www.erlang.org/downloads)
 	  - [RabbitMQ](http://www.rabbitmq.com/install-windows.html)
+
+### Projects
+* Farfetch.APIHandler - Library responsible for interactions between the services/applications and the public API
+* Farfetch.Automapper - Automapper configuration for model/dto serialization
+* Farfetch.Client - Front end client
+* Farfetch.Common - Modules that are common to the framework
+* Farfetch.CoreUnitOfWork - Standalone core unit of work that uses repositories to read/write into the database
+* Farfetch.DataInsertion - Project to insert default data
+* Farfetch.DB - DB Specific configurations
+* Farfetch.Messaging - RabbitMQ Messaging library
+* Farfetch.Models - Data models
+* Farfetch.PlusApp - Test Service to display messaging functionalities
+* Farfetch.Repositories - DB Repositories
+* Farfetch.RestAPI - Public RestAPI
+* Farfetch.Service.Interface - Library holding several application contracts
+* Farfetch.ServiceFactory - Factory that serves applications/services
+* Farfetch.Toggler - Toggler Application
+* Farfetch.UserAccounts - User Accounts Application
 
 ### Build & Settings
 - Frontend
@@ -88,6 +107,14 @@ Run the Data Insertion application first. This will create the admin account, ne
 * You will  be able to manage user profiles, create toggles and services
 * When a user registers he will automatically be assigned the Public profile
 
+#### Register a new Service
+* Log in with a developer or admin account
+* Go into Manage Services 
+* Click on Register a new service
+* Input service name and version (needs to be the same as the assembly)
+* Click on generate token
+* Copy the token and paste it into the APIKEYS file located in the root of the project
+
 #### Farfetch.PlusApp
 Two main functions
 * *Plus* - Adds 2 to the input number
@@ -104,11 +131,56 @@ Example behaviours
 
 Note that if you have two toggle1 with different values, the one with Overrides set to true with be the default value.
 
+#### Implement your own service 
+Follow Farfetch.PlusApp for reference but in a nutshell: 
+* Extend ApiAssembly and implement IApplication
+	* ***IApplication*** - Generic Application interface. All applications should implement this interface. Common methods should go here
+	*  ***ApiAssembly*** -  Will define how the application reads its assembly information and how to get the API key. If you're going to interact with an API you should inherit from this class and always keep track of your API keys in the same place.
+* If you just want to check a toggle information (Note that you should adjust to following code to your code best practices such as readonly variables, events, etc):
+```
+using Farfetch.APIHandler.API_Toggler.Internal;
+using Farfetch.APIHandler.Common;
+
+TogglerApiInternal _togglerApiInternal = new TogglerApiInternal(); // INITIALIZE THE BASE CLASS
+if ( 
+	_togglerApiInternal != null && 
+	_togglerApiInternal.CheckToggle(
+		toggleName,	 	// THE NAME OF THE TOGGLE 
+		true,			// THE VALUE OF THE TOGGLE
+		CallingAssemblyName, 	// THE NAME OF THE ASSEMBLY
+		CallingAssemblyVersion, // THE VERSION OF THE ASSEMBLY
+		Key.Key			// THE API KEY
+	)
+)
+{
+	// WHAT TO DO IF THE TOGGLE IS ACTIVE
+}
+else 
+{
+	// WHAT TO DO IF THE TOGGLE IS NOT ACTIVE
+}
+```
+
+* If you want to add message subscription on toggle updates (Note that you should adjust to following code to your code best practices such as readonly variables, events, etc)
+```
+using Farfetch.Messaging;
+
+Subscriber _subscriber = new Subscriber(); // Initialize the Rabbit subscriber
+
+FarfetchDelegate ToggleChangedEvent; // Create the event the is thrown when a new message arrives 
+
+ToggleChangedEvent += WhatToDoWhenToggleChanges; // Add a method that will be called when the event is fired 
+
+_subscriber.ReceiveMessage(toggleName, ToggleChangedEvent); // Subscribe to new messages for the toggle with toggleName
+
+```
+
+
 ### Known Bugs
 **Problem:** Windows Powershell isn't ouputting any information when I change the toggles associated with Farfetch.PlusApp
 **Solution:** As weird as it sounds, click on the console and press enter a few times. It should do the trick since this has to do with some focus issue and the quick edit mode that is turned on by default.
 
-### Technical Specifications
+### Technical Specifications & Documentation
 #### Api Documentation
 Run the Farfetch.RestAPI and go to: 
 http://localhost:5000/swagger
