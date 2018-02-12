@@ -1,4 +1,5 @@
 
+
 # farfetch-toggler
 
 
@@ -33,6 +34,24 @@
 	- RabbitMQ 
 	  - [Erlang](http://www.erlang.org/downloads)
 	  - [RabbitMQ](http://www.rabbitmq.com/install-windows.html)
+
+### Projects
+* Farfetch.APIHandler - Library responsible for interactions between the services/applications and the public API
+* Farfetch.Automapper - Automapper configuration for model/dto serialization
+* Farfetch.Client - Front end client
+* Farfetch.Common - Modules that are common to the framework
+* Farfetch.CoreUnitOfWork - Standalone core unit of work that uses repositories to read/write into the database
+* Farfetch.DataInsertion - Project to insert default data
+* Farfetch.DB - DB Specific configurations
+* Farfetch.Messaging - RabbitMQ Messaging library
+* Farfetch.Models - Data models
+* Farfetch.PlusApp - Test Service to display messaging functionalities
+* Farfetch.Repositories - DB Repositories
+* Farfetch.RestAPI - Public RestAPI
+* Farfetch.Service.Interface - Library holding several application contracts
+* Farfetch.ServiceFactory - Factory that serves applications/services
+* Farfetch.Toggler - Toggler Application
+* Farfetch.UserAccounts - User Accounts Application
 
 ### Build & Settings
 - Frontend
@@ -161,7 +180,7 @@ _subscriber.ReceiveMessage(toggleName, ToggleChangedEvent); // Subscribe to new 
 **Problem:** Windows Powershell isn't ouputting any information when I change the toggles associated with Farfetch.PlusApp
 **Solution:** As weird as it sounds, click on the console and press enter a few times. It should do the trick since this has to do with some focus issue and the quick edit mode that is turned on by default.
 
-### Technical Specifications
+### Technical Specifications & Documentation
 #### Api Documentation
 Run the Farfetch.RestAPI and go to: 
 http://localhost:5000/swagger
